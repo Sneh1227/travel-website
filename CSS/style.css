@@ -417,6 +417,7 @@ select option{
     height: 356px;
     display: flex;
     justify-content: space-between;
+    gap: 180px;
 }
 .testimonials .left .dots{
     margin-top: 80px;
