@@ -21,6 +21,8 @@ body{
     --black: #212832;
     --lightgrey: #5E6282;
     --skin: #FFF1DA;
+    --blue: #3745ab;
+    --lightblue: #86cff9;
 }
 body .bgdecor{
     position: absolute;
@@ -92,8 +94,8 @@ select option{
 }
 .hero .row .column.desc img{
     position: absolute;
-    top: 376px;
-    margin-left: 250px;
+    top: 336px;
+    margin-left: 240px;
     z-index: -1;
 }
 .hero .row .column.desc .p2{
@@ -159,6 +161,7 @@ select option{
     justify-content: center;
     align-items: center;
     padding: 80px 0;
+    /* background-color: var(--white); */
 }
 .services .category .column{
     padding: 0 40px;
@@ -167,9 +170,20 @@ select option{
     justify-content: center;
     width: auto;
 }
-.category.row .column:hover{
-    box-shadow: 10px 0px 80px var(--black);
-    border-radius: 20px;
+.services .category .column{
+    position: relative;
+}
+.services .category .column.cat-2 .bg-plain{
+    position: absolute;
+    display: block;
+    width: 100px;
+    height: 100px;
+    bottom: -50px;
+    left: 10px;
+    z-index: -1;
+    background-color: var(--red);
+    border-top-left-radius: 30px;
+    border-bottom-right-radius: 10px;
 }
 .category.row .column h4{
     font-family: Open Sans;
@@ -182,6 +196,8 @@ select option{
     font-size: 16px;
     color: var(--lightgrey);
     width: 200px;
+    border-radius: 10px;
+    background-color: var(--white);
 }
 .category .column img{
     width: 80px;
@@ -211,6 +227,9 @@ select option{
     margin-left: 50px;
     margin-top: 10px;
 }
+.services .category .column .img-layout img{
+    z-index: 10;
+}
 
 /* destination */
 .destination .head{
@@ -228,28 +247,148 @@ select option{
     font-size: 50px;
     color: var(--darkblue);
 }
-.destination .desti img{
-    position: relative;
-    width: 300px;
-    height: 457px;
-    margin-top: 80px;
-    z-index: -1;
-}
 .destination .desti{
     display: flex;
-    justify-content: center;
+    align-items: center;
+    width: 315px;
+    height: 475px;
     text-align: center;
-    padding: 0 10px;
+    /* padding: 0 0px; */
+    margin-top: 80px;
 }
+.destination .desti img{
+    position: relative;
+    z-index: -1;
+}
+
 .destination .desti .col{
-    display: flex;
-    flex-direction: column;
-    margin-top: -220px;
+    margin-top: -300px;
     background: var(--white);
-    width: 200px;
-    height: 100px;
-    box-shadow: 0 2px 50px var(--black);
-    margin-left: 50px;
+    width: 315px;
+    height: 120px;
+    box-shadow: 0 5px 30px -20px var(--black);
+    margin-left: 80px;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
 }   
+.destination .desti .opt .col .row{
+    display: flex;
+    justify-content: space-between;
+    padding:10px 20px;
+    font-family: 'Poppins';
+    color: var(--lightgrey);
+}
+
+/* book a trip */
+.bookatrip{
+    margin-top: 120px;
+    margin-left: 90px;
+    padding: 20px 0;
+}
+.bookatrip .head p{
+    font-family: 'Poppins';
+    font-size: 18px;
+    color: var(--lightgrey);
+}
+.bookatrip .head h2{
+    font-family: 'Volkhov';
+    font-size: 50px;
+    color: var(--darkblue);
+}
+.bookatrip .values .value{
+    display: flex;
+}
+.bookatrip .values .steps{
+    display: flex;
+    flex-direction: column;
+    width: 395px;
+    height: 64px;
+}
+.bookatrip .values .steps .ss{
+    display: flex;
+    padding: 20px 0;
+    font-family: 'Poppins';
+    color: var(--lightgrey);
+}
+.bookatrip .values .steps .ss .col-2{
+    padding: 0 20px;
+}
+.bookatrip .values .side-section{
+    width: 370px;
+    height: 400px;
+    margin-left: 300px;
+    background-color: var(--white);
+    box-shadow: 20px -20px 80px -10px var(--lightblue);
+}
+.bookatrip .values .side-section .img-section{
+    text-align: center;
+    margin-top: 20px;
+}
+.bookatrip .values .side-section .info{
+    padding: 20px 25px;
+}
+.bookatrip .values .side-section .info h4{
+    font-family: 'Poppins';
+    font-size: 18px;
+}
+.bookatrip .values .side-section .info p{
+    font-family: 'Poppins';
+    font-size: 16px;
+    padding: 10px 0;
+    color: var(--lightgrey);
+}
+.bookatrip .values .side-section .info .icons{
+    display: flex;
+    gap: 30px;
+    margin: 10px 20px;
+    padding-top: 20px;
+    color: var(--lightgrey);
+}
+.bookatrip .values .side-section .info .people{
+    display: flex;
+    gap: 10px;
+    font-family: 'Poppins';
+    font-size: 16px;
+    padding: 20px 0;
+    color: var(--lightgrey);
+}
+.bookatrip .values .side-section .info .people .heart{
+    color: var(--blue);
+    margin-left: 100px;
+}
+.bookatrip .values .side-side{
+    display: flex;
+    gap: 20px;
+    width: 263px;
+    height: 129px;
+    margin-top: 230px;
+    margin-left: -155px;
+    background-color: var(--white);
+    justify-content: center;
+    border-radius: 10px;
+    box-shadow: -10px 20px 20px -20px var(--black);
+}
+.bookatrip .value .side-side img{
+    border-radius: 50px;
+}
+.bookatrip .value .side-side .info{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.bookatrip .value .side-side .info .ongo{
+    font-family: 'Poppins';
+    font-size: 14px;
+    color: var(--lightgrey);
+}
+.bookatrip .value .side-side .info .head{
+    font-family: 'Poppins';
+    font-size: 18px;
+}
+.bookatrip .value .side-side .info .pro .per-40{
+    color: var(--blue);
+}
+.bookatrip .value .side-side .info .pro{
+    font-family: 'Poppins';
+    font-size: 14px;
+}
