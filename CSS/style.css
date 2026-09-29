@@ -24,6 +24,8 @@ body{
     --blue: #3745ab;
     --lightblue: #86cff9;
     --lightcolor: #DFD7F9;
+    --line1: #747DEF;
+    --line2: #5E3BE1;
 }
 body .bgdecor{
     position: absolute;
@@ -412,7 +414,8 @@ select option{
 
 /* testimonials */
 .testimonials{
-    margin: 150px 100px;
+    margin: 100px 100px;
+    margin-top: 150px;
     width: 1165px;
     height: 356px;
     display: flex;
@@ -439,16 +442,31 @@ select option{
 .testimonials .right{
     width: 541px;
     height: 279px;
+    box-shadow: 1px 1px 5px -2px var(--black);
+    background-color: var(--white);
+    border-radius: 20px;
 }
 .testimonials .right .para{
     width: 402px;
     height: 96px;
-    
 }
 .testimonials .right .info{
     padding: 5px 50px;
     color: var(--lightgrey);
     font-family: 'Poppins';
+}
+.testimonials .right .info2{
+    position: relative;
+    width: 541px;
+    height: 279px;
+    padding: 80px 70px;
+    top: -100px;
+    left: 40px;
+    color: var(--lightgrey);
+    font-family: 'Poppins';
+    z-index: -1;
+    box-shadow: 1px 1px 5px -2px var(--black);
+    border-radius: 20px;
 }
 .testimonials .arrows{
     display: flex;
@@ -459,9 +477,9 @@ select option{
 
 /* logos */
 .logos{
-    width: 1073px;
-    height: 162px;
-    margin: 20px 120px;
+    width: 1200px;
+    height: 180px;
+    margin: 20px 140px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -490,59 +508,191 @@ select option{
 
 /* subscription */
 .subscription{
-    /* position:absolute; */
-    width: 1170px;
-    height: 407px;
-    background-color: var(--lightcolor);
-    margin: 100px 150px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 129px;
-    border-bottom-right-radius: 20px;
-    border-bottom-left-radius: 20px;
-}
-.subscription .bg-decor{
-    /* display: block; */
     position: relative;
-    bottom: -130px;
-    left: 10px;
-    opacity: 0.2;
-    z-index: 0;
 }
-.subscription .bg-decor-1{
-    opacity: 0.2;
+.subscription .background{
     position: relative;
-    right: -880px;
-    top: -220px;
-    z-index: 1;
-}
-.subscription .info{
+    margin: 100px 100px;
     align-items: center;
     justify-content: center;
-    padding: 0 40px;
-    z-index: 2;
+    text-align: center;
+    width: 1250px;
+    height: 430px;
+    background-color: var(--lightcolor);
+    border-top-left-radius: 129px;
+    border-top-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    overflow: hidden;
 }
-.subscription .info h2{
+.subscription .bg-decor{
+    position: absolute;
+    right: 0%;
+    bottom: -20%;
+    z-index: -1;
+}
+.subscription .bg-decor img{
+    transform: rotate(90deg);
+} 
+.subscription .background .r1{
+    position: relative;
+    left: -230px;
+    bottom: -155px;
+    opacity: 0.3;
+    z-index: 0;
+}
+.subscription .background .r2{
+    transform: rotate(270deg);
+    position: relative;
+    right: -300px;
+    opacity: 0.3;
+    
+}
+.subscription .arrow-back{
+    position: absolute;
+    background-color: var(--blue);
+    width: 70px;
+    height: 70px;
+    border-radius: 50px;
+    top: -5%;
+    right: 4%;
+}
+.subscription .arrow-back .fa-solid{
+    position: relative;
+    font-size: 40px;
+    top: 25%;
+    left: 12%;
+    color: var(--white);
+}
+.subscription .background .details{
+    position: relative;
+    text-align: center;
+    top: -45%;
+}
+.subscription .details p{
+    position: relative;
     font-family: 'Poppins';
     font-size: 33px;
-    margin: 0px 80px;
+    width: 880px;
+    height: 108px;
     color: var(--lightgrey);
+    left: 15%;
+    margin-bottom: 40px;
 }
-.subscription .info h2{
-    margin-top: -400px;
-}
-.subscription .info input{
+.subscription .details input{
     width: 421px;
     height: 68px;
     border: none;
+    margin: 40px 0;
     font-family: 'Montserrat';
-    border-radius: 10px;
-    z-index: 2;
+    font-size: 14px;
 }
-.subscription .info button{
+.subscription .details button{
     width: 180px;
     height: 68px;
-    background-color: var(--red);
     color: var(--white);
-    font-size: 17px;
-    border-radius: 20px;
+    background-color: var(--red);
+    border-radius: 10px;
+}
+
+/* footer */
+footer .above{
+    display: flex;
+    justify-content: space-evenly;
+    margin: 150px 10px;
+}
+footer .companydesc{
+    width: 207px;
+    height: 133px;
+    font-family: 'Poppins';
+}
+footer .companydesc h2{
+    font-size: 44px;
+    color: var(--darkblue);
+}
+footer .companydesc p{
+    font-size: 13px;
+}
+footer .navbar{
+    display: flex;
+}
+footer .navbar .col{
+    display: flex;
+    flex-direction: column;
+    margin: 0 50px;
+}
+footer .navbar .col .fch{
+    font-size: 21px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+footer .navbar .col .fci{
+    font-size: 18px;
+    margin: 10px 0;
+}
+footer .outbound{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+footer .discover h4{
+    font-family: 'Poppins';
+    color: var(--lightgrey);
+    margin: 20px 0;
+    font-size: 20px;
+}
+footer .outbound .social{
+    display: flex;
+    justify-content: space-around;
+    
+}
+footer .outbound .social .fa-brands.fa-facebook-f,
+footer .outbound .social .fa-brands.fa-instagram,
+footer .outbound .social .fa-brands.fa-twitter{
+    display: flex;
+    background-color: var(--white);
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 1px 1px 5px -2px var(--black);
+}
+footer .outbound .discover .downplace{
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+}
+footer .outbound .discover .downplace .info{
+    font-family: 'Poppins';
+    font-size: 10px;
+}
+footer .outbound .discover .downplace .play,
+footer .outbound .discover .downplace .apple{
+    display: flex;
+    width: 107px;
+    height: 35px;
+    color: var(--white);
+    background-color: var(--black);
+    border-radius: 10px;
+    padding: 10px 10px;
+    justify-content: center;
+    align-items: center;
+}
+footer .outbound .discover .downplace .apple .info .app-2{
+    font-size: 8px;
+}
+footer .outbound .discover .downplace .play .img img,
+footer .outbound .discover .downplace .apple .img img{
+    width: 20px;
+    height: 20px;
+    margin-top: 5px;
+}
+footer .copyright{
+    margin-bottom: 100px;
+    justify-content: center;
+    text-align: center;
+    font-family: 'Poppins';
+    color: var(--lightgrey);
 }
