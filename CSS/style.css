@@ -550,7 +550,7 @@ select option{
 }
 .subscription .arrow-back{
     position: absolute;
-    background-color: var(--blue);
+    background: linear-gradient(201.65deg, #747DEF 10.27%, #5E3BE1 100%);
     width: 70px;
     height: 70px;
     border-radius: 50px;
@@ -591,7 +591,7 @@ select option{
     width: 180px;
     height: 68px;
     color: var(--white);
-    background-color: var(--red);
+    background: linear-gradient(180deg, #FF946D 0%, #FF7D68 100%);
     border-radius: 10px;
 }
 
@@ -657,6 +657,10 @@ footer .outbound .social .fa-brands.fa-twitter{
     justify-content: center;
     align-items: center;
     box-shadow: 1px 1px 5px -2px var(--black);
+}
+footer .outbound .social .fa-brands.fa-instagram{
+    color: var(--white);
+    background: conic-gradient(from 180deg at 50% 50%, #B8D2F1 0deg, #F289AA 60deg, #C68BF0 106.09deg, #D164DA 153.75deg, #C963E8 221.25deg, #BFC2E8 258.75deg, #FFC999 288.75deg, #D0D8C9 315deg, #BAD0F1 334.13deg, #CED8CB 358.97deg, rgba(255, 255, 255, 0) 360deg);
 }
 footer .outbound .discover .downplace{
     display: flex;
