@@ -1,0 +1,73 @@
+@media(max-width:426px){
+    .bgdecor{
+        position: absolute;
+        top: 0%;
+        right: 0%;
+        width: 100%;
+    }
+    .head .topnav{
+        position: relative;
+        flex-direction: column;
+    }
+    .head ul{
+        position: relative;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 3%
+    }
+    /* hero */
+    .hero .row{
+        flex-direction: column;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    .hero .row .column.desc{
+        margin-top: 50%;
+        justify-content: center;
+    }
+    .hero .row .column.img img{
+        display: block;
+        width: 40%;
+        height: 60%;
+        margin-top: 50px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .hero .row .column.desc h2{
+        font-size: 50px;
+    }
+    .hero .row .redline{
+        display: none;
+    }
+    .hero .row .column.desc .buttons{
+        flex-direction: column;
+        gap: 20px;
+    }
+    /* services */
+    .services .cat-head{
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 80px 0;
+        margin-top: 20%;
+    }
+    .services .category{
+        flex-direction: column;
+        flex-wrap: wrap;
+        display: flex;
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        
+    }
+    .services .category .column{
+        padding: 0 40px;
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+        width: auto;
+    }
+    .services .bg-decor{
+        display: none;
+    }
+}
