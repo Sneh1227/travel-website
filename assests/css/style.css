@@ -5,14 +5,13 @@
     box-sizing: border-box;
 }
 .container{
-    position: relative;
+    /* position: relative;
     max-width: 1440px;
-    margin: auto;
+    margin: auto; */
 }
 body{
     position: relative;
     max-width: 1440px;
-    /* min-width: 1025px; */
     margin: 0 auto;
 }
 :root{
@@ -193,6 +192,9 @@ body .bgdecor{
     border-top-left-radius: 30px;
     border-bottom-right-radius: 10px;
 }
+.services .category .column:hover{
+    scale: 1.1;
+}
 .category.row .column h4{
     font-family: Open Sans;
     padding: 30px;
@@ -271,6 +273,9 @@ body .bgdecor{
     height: 475px;
     text-align: center;
     margin-top: 80px;
+}
+.destination .desti .opt:hover{
+    scale: 1.1;
 }
 .destination .desti img{
     position: relative;
@@ -411,19 +416,26 @@ body .bgdecor{
 
 /* testimonials */
 .testimonials{
-    margin: 10%;
+    margin: 10% 6%;
     margin-top: 150px;
     width: 1165px;
     height: 356px;
     display: flex;
-    justify-content: space-between;
     gap: 180px;
 }
-.testimonials .left .dots{
-    margin-top: 80px;
+.testimonials .left button{
+    height: 1%;
+    width: 1%;
+    padding: 2%;
+    border-radius: 50%;
+    background-color: var(--black);
+    border: none;
+    cursor: pointer;
+    margin: 5% 0;
+    opacity: 0.4;
 }
-.testimonials .left .dots .d2{
-    opacity: 0.2;
+.testimonials .left button:hover{
+    opacity: 1;
 }
 .testimonials .left p{
     font-family: 'Poppins';
@@ -448,7 +460,9 @@ body .bgdecor{
     height: 96px;
 }
 .testimonials .right .info{
-    font-size: 20px;
+    padding: 5px 50px;
+    color: var(--lightgrey);
+    font-family: 'Poppins';
 }
 .testimonials .right .info2{
     position: relative;
@@ -629,7 +643,8 @@ footer .navbar .col .fci{
 footer .outbound{
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content:space-evenly;
+    align-items: flex-start;
 }
 footer .discover h4{
     font-family: 'Poppins';
@@ -639,7 +654,8 @@ footer .discover h4{
 }
 footer .outbound .social{
     display: flex;
-    justify-content: space-around;
+    /* justify-content: space-evenly; */
+    width: 100%;
     
 }
 footer .outbound .social .fa-brands.fa-facebook-f,

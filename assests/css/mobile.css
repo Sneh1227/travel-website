@@ -49,6 +49,8 @@
         width: 90%;
         flex-direction: column;
         justify-content: center;
+        padding: 10px 10px;
+        align-items: center;
     }
     .hero .row .column.desc{
         margin-top: 20%;
@@ -87,20 +89,26 @@
         gap: 20px;
     }
     .hero .row .column.desc .buttons .btn{
-        width: 100%;
-        height: 80%;
+        width: 60%;
+        height: 40%;
         font-size: 10px;
         padding: 10%;
     }
     .hero .row .column.desc .buttons .playbtn{
-        width: 50%;
-        height: 50%;
+        width: 10%;
+        height: 4%;
         margin-left: auto;
         margin-right: auto;
-        padding: 10%;
+        padding: 8%;
+    }
+    .hero .row .column.desc .buttons .playbtn .playicon{
+        width: 10%;
+        height: 10%;
+        font-size: small;
     }
     .hero .row .column.desc .buttons p{
         font-size: 15px;
+        justify-content: center;
     }
     /* services */
     .services{
@@ -183,6 +191,7 @@
     }
     .bookatrip .head h2{
         font-size: 30px;
+        text-align: center;
     }
     .bookatrip .values .steps{
         width: 90%;
