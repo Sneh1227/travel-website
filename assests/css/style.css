@@ -52,10 +52,19 @@ body .bgdecor{
     list-style: none;
     height: 20px;
 }
+.head ul li:hover{
+    scale: 1.2;
+    color: var(--red); 
+}
 .head ul li{
     padding: 0 40px;
     font-size: 17px;
     padding-left: 40px;
+}
+a{
+    color: var(--black);
+    text-decoration: none;
+    
 }
 .head ul li .btn-signup{
     background: transparent;
@@ -193,7 +202,7 @@ body .bgdecor{
     border-bottom-right-radius: 10px;
 }
 .services .category .column:hover{
-    scale: 1.1;
+    scale: 1.2;
 }
 .category.row .column h4{
     font-family: Open Sans;
@@ -483,6 +492,10 @@ body .bgdecor{
     flex-direction: column;
     justify-content: center;
 }
+.testimonials .arrows button{
+    background: transparent;
+    border: none;
+}
 
 /* logos */
 .logos{
@@ -597,6 +610,9 @@ body .bgdecor{
     font-family: 'Montserrat';
     font-size: 14px;
 }
+.subscription .details input::placeholder{
+    padding: 10%;
+}
 .subscription .details button{
     width: 180px;
     height: 68px;
@@ -654,9 +670,10 @@ footer .discover h4{
 }
 footer .outbound .social{
     display: flex;
-    /* justify-content: space-evenly; */
     width: 100%;
-    
+}
+footer .outbound .social .fa-brands{
+    margin-right: 10%;
 }
 footer .outbound .social .fa-brands.fa-facebook-f,
 footer .outbound .social .fa-brands.fa-instagram,
@@ -682,7 +699,7 @@ footer .outbound .discover .downplace{
 }
 footer .outbound .discover .downplace .info{
     font-family: 'Poppins';
-    font-size: 10px;
+    font-size: 8px;
 }
 footer .outbound .discover .downplace .play,
 footer .outbound .discover .downplace .apple{
@@ -703,7 +720,8 @@ footer .outbound .discover .downplace .play .img img,
 footer .outbound .discover .downplace .apple .img img{
     width: 20px;
     height: 20px;
-    margin-top: 5px;
+    margin-top: 1px;
+    margin-right: 1px;
 }
 footer .copyright{
     margin-bottom: 100px;
