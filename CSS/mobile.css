@@ -1,5 +1,9 @@
-@media(max-width:426px){
-    .container{
+@media(max-width:767px) and (min-width:320px){
+    html, body {
+        overflow-x: hidden;
+        width: 100%;
+    }
+    .container {
         max-width: 100%;
         width: 100%;
         box-sizing: border-box;
@@ -7,48 +11,96 @@
         border: saddlebrown 2px solid;
     }
     .bgdecor{
-        position: absolute;
+        position: flex;
         top: 0%;
         right: 0%;
         width: 100%;
     }
     .head .topnav{
-        position: relative;
+        position: flex;
         flex-direction: column;
     }
     .head ul{
-        position: relative;
+        position: flex;
         flex-wrap: wrap;
         gap: 10px;
-        margin-top: 3%
+        margin-bottom: 10%;
+        margin-top: 10%
+    }
+    .head ul li{
+        padding: 0 10px;
+        font-size: 80%;
+        /* padding-left: 0px; */
+    }
+    .head ul li .btn-signup{
+        height: 100%;
+        width: 100%;
+        font-size: 80%;
+        margin-top: 0px;
+    }
+    .head ul li #languages{
+        font-size: 80%;
     }
     /* hero */
+    .hero{
+    }
     .hero .row{
+        position: relative;
+        width: 90%;
         flex-direction: column;
         justify-content: center;
-        flex-wrap: wrap;
     }
     .hero .row .column.desc{
-        margin-top: 50%;
-        justify-content: center;
+        margin-top: 20%;
+        width: 90%;
+        height: 80%;
+        font-size: 80%;
     }
     .hero .row .column.img img{
-        display: block;
-        width: 40%;
-        height: 60%;
+        display: flex;
+        width: 100%;
+        height: 100%;
         margin-top: 50px;
         margin-left: auto;
         margin-right: auto;
     }
+    .hero .row .column.desc p{
+        display: flex;
+        width: 100%;
+        height: 100%;
+        font-size: 90%;
+    }
+    .hero .row .column.desc .p1{
+        width: 100%;
+        height: 100%;
+    }
     .hero .row .column.desc h2{
-        font-size: 50px;
+        font-size: 30px;
     }
     .hero .row .redline{
         display: none;
     }
     .hero .row .column.desc .buttons{
         flex-direction: column;
+        width: 70%;
+        height: 50%;
         gap: 20px;
+    }
+    .hero .row .column.desc .buttons .btn{
+        width: 100%;
+        height: 80%;
+        font-size: 10px;
+        padding: 10%;
+    }
+    .hero .row .column.desc .buttons .playbtn{
+        width: 50%;
+        height: 50%;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 10%;
+    }
+    .hero .row .column.desc .buttons p{
+        font-size: 15px;
     }
     /* services */
     .services{
@@ -56,7 +108,7 @@
         width: 100%;
         height: 100%;
         flex-direction: column;
-        margin-top: 30%;
+        margin-top: 10%;
         margin-left: auto;
         margin-right: auto;
     }
@@ -71,6 +123,9 @@
     .services .bg-decor{
         display: none;
     }
+    .services .cat-head h2{
+        font-size: 30px;
+    }
     /* destination */
     .destination{
         position: relative;
@@ -83,7 +138,7 @@
     .destination .desti{
         flex-wrap: wrap;
         height: 100%;
-        width: 50%;
+        width: 100%;
         margin-left: auto;
         margin-right: auto;
     }
@@ -107,33 +162,69 @@
         margin-top: 15px;
     }
     .destination .desti .opt img{
-        width: 150%;
+        width: 100%;
         height: 100%;
     }
     .destination .desti .opt .col{
-        height: 100%;
-        width: 100%;
+        height: 80%;
+        width: 80%;
+    }
+    .destination .head h2{
+        font-size: 30px;
     }
 
     /* book a trip */
     .bookatrip{
         margin-top: 10%;
+        width: 90%;
+        height: 80%;
+        justify-content: center;
+        margin-left: 0;
+    }
+    .bookatrip .head h2{
+        font-size: 30px;
+    }
+    .bookatrip .values .steps{
+        width: 90%;
+        height: 80%;
+    }
+    .bookatrip .values .steps .ss{
+        font-size: 12px;
     }
     .bookatrip .values .value{
         position: relative;
         flex-direction: column;
-    }
-    .bookatrip .values .value .side-section{
-        position: relative;
-        flex-direction: column;
-        margin-top: 120%;
+        width: 80%;
         margin-left: auto;
         margin-right: auto;
     }
-    .bookatrip .values .value .side-side{
+    .bookatrip .values .value .side-section{
         position: relative;
-        margin-left: 60%;
-        margin-top: -70%;
+        /* flex-direction: column; */
+        margin-top: 80%;
+        width: 90%;
+        height: 70%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .bookatrip .values .side-side{
+        position: relative;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 20%;
+    }
+    .bookatrip .values .side-section .info p{
+        font-size: 10px;
+    }
+    .bookatrip .values .side-section .info .icons{
+        font-size: 10px;
+    }
+    .bookatrip .value .side-section img{
+        width: 80%;
+        height: 80%;
+    }
+    .bookatrip .values .side-section .info .people .heart{
+        margin-left: 40%;
     }
 
     /* testimonials */
@@ -145,18 +236,127 @@
         width: 80%;
         height: 100%;
     }
+    .testimonials .left p{
+        font-size: 15px;
+    }
+    .testimonials .left h2{
+        font-size: 20px;
+        width: 80%;
+        height: 80%;
+    }
+    .testimonials .left .dots{
+        margin-top: 10%;
+        font-size: 10px;
+    }
+    .testimonials .right{
+        width: 90%;
+        height: max-content;
+    }
+    .testimonials .right .para{
+        width: 100%;
+        height: 10%;
+        font-size: small;
+    }
+    .testimonials .right img{
+        width: 20%;
+    }
+    .testimonials .right .info{
+        padding: 5px 10px;
+        font-size: 15px;
+    }
+    .testimonials .right .info2{
+        display: none;
+    }
     .testimonials .arrows{
         display: none;
     }
 
     /* logos */
     .logos{
-        /* flex-direction: column; */
+        flex-direction: column;
         position: relative;
         margin-top: 20%;
+        width: 90%;
+        height: 80%;
+        justify-content: center;
+    }
+
+    /* subscribe */
+    .subscription{
         width: 100%;
         height: 80%;
+    }
+    .subscription .bg-decor,
+    .subscription .arrow-back{
+        display: none;
+    }
+    .subscription .background{
+        position: flex;
+        margin: 20% 1%;
+        width: 100%;
+        height: 100%;
+    }
+    .subscription .background .details{
+        width: fit-content;
+        height: fit-content;
+    }
+    .subscription .details p{
+        position: relative;
+        font-size: 15px;
+        width: 80%;
+        height: 100%;
         align-items: center;
+        margin-top: 10%;
+    }
+    .subscription .details input{
+        width: 90%;
+        height: 100%;
+        padding: 10px 0;
+        margin: 10px 0;
+        font-size: 10px;
+    }
+    .subscription .details button{
+        width: 50%;
+        height: 80%;
+        padding: 10px 0;
+        margin-bottom: 10px;
+    }
+    .subscription .background .r1{
+        position: absolute;
+        width: 30%;
+        height: 80%;
+        left: -10%;
+        bottom: -15%;
+        opacity: 0.3;
+        z-index: 0;
+    }
+    .subscription .background .r2{
+        transform: rotate(270deg);
+        position: absolute;
+        width: 30%;
+        height: 80%;
+        right: 0%;
+        top: -20%;
+        opacity: 0.3;
+        
+    }
+
+    /* footer */
+    footer .above{
+        position: relative;
+        flex-direction: column;
+        gap: 40px;
         justify-content: center;
+        text-align: center;
+        align-items: center;
+        margin: 10px;
+    }
+    footer .copyright{
+        margin-bottom: 0%;
+        justify-content: center;
+        text-align: center;
+    }
+    footer .navbar .col{
+        margin: 0 2%;
     }
 }

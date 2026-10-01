@@ -1,4 +1,8 @@
 @media(min-width:768px) and (max-width:1024px){
+    html, body {
+        overflow-x: hidden;
+        width: 100%;
+    }
     .bgdecor{
         position: absolute;
         top: 0%;
@@ -26,10 +30,11 @@
         font-size: 50px;
     }
     .hero .row .redline{
-        position: relative;
+        /* position: relative;
         width: 30%;
         right: 38%;
-        margin-top: -6%;
+        margin-top: -6%; */
+        display: none;
     }
     .hero .row .column.desc .buttons{
         flex-direction: column;
@@ -89,6 +94,7 @@
     }
     .destination .desti .opt img{
         width: 80%;
+        height: 10%;
     }
 
     /* book a trip */
@@ -114,6 +120,7 @@
         height: 30px;
     }
     .bookatrip .values .value .side-section{
+        display: flex;
         position: relative;
         flex-direction: column;
         margin-top: 50%;
@@ -182,6 +189,8 @@
     .subscription .background .details{
         text-align: center;
         top: 10%;
+        margin-left: auto;
+        margin-right: auto;
     }
     .subscription .background .r1,
     .subscription .background .r2{

@@ -5,13 +5,14 @@
     box-sizing: border-box;
 }
 .container{
-    /* position: relative;
+    position: relative;
     max-width: 1440px;
-    margin: auto; */
+    margin: auto;
 }
 body{
     position: relative;
     max-width: 1440px;
+    /* min-width: 1025px; */
     margin: 0 auto;
 }
 :root{
@@ -447,9 +448,7 @@ body .bgdecor{
     height: 96px;
 }
 .testimonials .right .info{
-    padding: 5px 50px;
-    color: var(--lightgrey);
-    font-family: 'Poppins';
+    font-size: 20px;
 }
 .testimonials .right .info2{
     position: relative;
