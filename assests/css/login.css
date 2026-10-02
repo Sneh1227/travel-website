@@ -1,16 +1,17 @@
 :root{
     --white: #fff;
-    --maron: #790D16;
+    --maron: #F1A501;
     --red: #DF6951;
     --text: #AEC4D4;
-    --darkskin: #E5D3AF;
-    --offwhite: #F5EFE1;
+    --darkskin: #14183e;
+    --offwhite: #006199;
+    --pink: #FF62BB;
 }
 body{
     margin: 0;
     padding: 0;
     min-height: 100vh;
-    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-family:monospace;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -18,6 +19,7 @@ body{
 .card-container{
     width: 100%;
     max-width: 30%;
+    animation: slideup 0.8s ease-out both;
 }
 .card-container img{
     display: flex;
@@ -28,6 +30,7 @@ body{
 }
 header{
     text-align: center;
+    color: var(--darkskin);
 }
 .login-card .backarrow{
     background: var(--maron);
@@ -40,14 +43,12 @@ header{
     padding: 5%;
     align-items: center;
     background-color: var(--maron);
-    border: var(--darkskin) 2px solid;
+    border: var(--darkskin) 5px solid;
+    border-radius: 10%;
 }
 .login-card .top{
     display: flex;
     flex-direction: column;
-}
-header{
-    color: var(--darkskin);
 }
 .input-group{
     display: flex;
@@ -61,6 +62,9 @@ header{
 .input-group input{
     font-size: clamp(0.5rem,1.5vw,1.5rem);
     padding: 2%;
+    background-color: var(--darkskin);
+    color: var(--maron);
+    border: none;
 }
 .btnlogin{
     display: flex;
@@ -70,8 +74,10 @@ header{
     width: 40%;
     font-size: clamp(0.5rem,1.5vw,1.5rem);
     background-color: var(--darkskin);
-    color: var(--maron);
+    color: var(--white);
     justify-content: center;
+    
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 .btnlogin:hover{
     
@@ -83,4 +89,16 @@ footer{
 footer a{
     text-decoration: none;
     color: var(--darkskin);
+}
+
+/* animations */
+@keyframes slideup{
+    from{
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to{
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
