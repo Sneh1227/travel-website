@@ -19,7 +19,7 @@
     }
     /* hero */
     .hero .row{
-        flex-direction: column;
+        flex-direction: column-reverse;
         justify-content: center;
     }
     .hero .row .column.desc{
@@ -171,6 +171,9 @@
         align-items: center;
         justify-content: center;
     }
+    .logos img{
+        margin: 0 0;
+    }
 
     /* subscription */
     .subscription{
@@ -237,5 +240,8 @@
         margin-bottom: 0%;
         justify-content: center;
         text-align: center;
+    }
+    footer .outbound .social{
+        justify-content: space-evenly;
     }
 }
