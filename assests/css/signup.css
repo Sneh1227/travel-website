@@ -37,6 +37,14 @@ header{
     align-items: center;
     text-align: center;
 }
+header a{
+    display: flex;
+    text-align: start;
+}
+header button{
+    background-color: var(--darkskin);
+    border: none;
+}
 .input-group{
     display: flex;
     flex-direction: column;

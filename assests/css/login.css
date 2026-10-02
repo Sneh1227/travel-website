@@ -29,6 +29,11 @@ body{
 header{
     text-align: center;
 }
+.login-card .backarrow{
+    background: var(--maron);
+    color: var(--darkskin);
+    border: none;
+}
 .login-card{
     height: 80%;
     width: 90%;
@@ -36,6 +41,10 @@ header{
     align-items: center;
     background-color: var(--maron);
     border: var(--darkskin) 2px solid;
+}
+.login-card .top{
+    display: flex;
+    flex-direction: column;
 }
 header{
     color: var(--darkskin);

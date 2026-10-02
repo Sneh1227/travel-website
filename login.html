@@ -5,25 +5,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
     <link rel="stylesheet" href="assests/css/login.css">
 </head>
 
 <body>
     <div class="card-container">
-        <img src="assests/images/header/Logo.png" alt="logo"/>
+        <img src="assests/images/header/Logo.png" alt="logo" />
         <div class="login-card">
-            <header>
-                <h1>LOGIN</h1>
-                <p>Welcome back traveler</p>
-            </header>
+            <div class="top">
+                <a href="index.html"><button class="backarrow"><i class="fa-solid fa-arrow-left"></i></button></a>
+                <header>
+                    <h1>LOGIN</h1>
+                    <p>Welcome back traveler</p>
+                </header>
+            </div>
             <form action="" method="post">
                 <div class="input-group">
                     <label for="email">E-mail</label>
-                    <input type="email" class="email" required/>
+                    <input type="email" class="email" required />
                 </div>
                 <div class="input-group">
                     <label for="pass">Password</label>
-                    <input type="password" class="password" required/>
+                    <input type="password" class="password" required />
                 </div>
                 <button type="submit" class="btnlogin">LOGIN</button>
             </form>
