@@ -1,0 +1,77 @@
+:root{
+    --white: #fff;
+    --maron: #790D16;
+    --red: #DF6951;
+    --text: #AEC4D4;
+    --darkskin: #E5D3AF;
+    --offwhite: #F5EFE1;
+}
+body{
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.card-container{
+    width: 100%;
+    max-width: 30%;
+}
+.card-container img{
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 2%;
+    
+}
+header{
+    text-align: center;
+}
+.login-card{
+    height: 80%;
+    width: 90%;
+    padding: 5%;
+    align-items: center;
+    background-color: var(--maron);
+    border: var(--darkskin) 2px solid;
+}
+header{
+    color: var(--darkskin);
+}
+.input-group{
+    display: flex;
+    flex-direction: column;
+    margin: 2% 0;
+    color: var(--darkskin);
+}
+.input-group label{
+    font-size: clamp(0.5rem,1.5vw,1.5rem);
+}
+.input-group input{
+    font-size: clamp(0.5rem,1.5vw,1.5rem);
+    padding: 2%;
+}
+.btnlogin{
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    height: 100%;
+    width: 40%;
+    font-size: clamp(0.5rem,1.5vw,1.5rem);
+    background-color: var(--darkskin);
+    color: var(--maron);
+    justify-content: center;
+}
+.btnlogin:hover{
+    
+}
+footer{
+    color: var(--darkskin);
+    text-align: center;
+}
+footer a{
+    text-decoration: none;
+    color: var(--darkskin);
+}
