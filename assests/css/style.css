@@ -504,29 +504,31 @@ a{
     margin-left: auto;
     margin-right: auto;
     display: flex;
-    justify-content: space-between;
     align-items: center;
 }
+.logos img{
+    margin: 0 2%;
+}
 .logos .img1{
-    width: 130px;
-    height: 130px;
+    width: 20%;
+    height: 90%;
 }
 .logos .img2{
-    width: 173px;
-    height: 110px;
+    width: 20%;
+    height: 90%;
 }
 .logos .img3{
-    width: 241px;
-    height: 162px;
+    width: 40%;
+    height: 90%;
     margin-top: 70px;
 }
 .logos .img4{
-    width: 162px;
-    height: 32px;
+    width: 15%;
+    height: 90%;
 }
 .logos .img5{
-    width: 94px;
-    height: 21px;
+    width: 10%;
+    height: 90%;
 }
 
 /* subscription */

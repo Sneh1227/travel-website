@@ -47,7 +47,7 @@
     .hero .row{
         position: relative;
         width: 90%;
-        flex-direction: column;
+        flex-direction: column-reverse;
         justify-content: center;
         padding: 10px 10px;
         align-items: center;
@@ -365,7 +365,17 @@
         justify-content: center;
         text-align: center;
     }
+    footer .navbar{
+        display: flex;
+        flex-direction: column;
+    }
     footer .navbar .col{
-        margin: 0 2%;
+        margin: 2% 2%;
+    }
+    footer .navbar .col .fch{
+        margin-bottom: 2%;
+    }
+    footer .outbound .social{
+        justify-content: space-evenly;
     }
 }
