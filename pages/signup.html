@@ -21,27 +21,37 @@
             <form method="post" id="formsignup">
                 <div class="input-group">
                     <label for="firstname">First Name</label>
-                    <input type="text" id="firstname" class="firstname" />
+                    <input type="text" id="firstname" class="firstname" value="sneh" />
                     <span id="nameError"></span>
                 </div>
                 <div class="input-group">
                     <label for="lastname">Last Name</label>
-                    <input type="text" id="lastname" class="lastname" />
+                    <input type="text" id="lastname" class="lastname" value="prajapati" />
                     <span id="lastError"></span>
                 </div>
                 <div class="input-group">
                     <label for="email">E-mail</label>
-                    <input type="email" id="email" class="email" />
+                    <input type="email" id="email" class="email" value="sneh.propelius@gmail.com" />
                     <span id="emailError"></span>
                 </div>
                 <div class="input-group">
                     <label for="pass">Password</label>
                     <input type="password" id="pass" class="pass" />
+                    <div class="pass-box">
+                        <button type="button" id="togglepass">
+                            <i class="fa-regular fa-eye-slash" style="color: rgb(255, 212, 59);"></i>
+                        </button>
+                    </div>
                     <span id="passError"></span>
                 </div>
                 <div class="input-group">
                     <label for="confirmpass">Confirm Password</label>
                     <input type="password" id="confirmpassword" class="confirmpassword" />
+                    <div class="pass-box">
+                        <button type="button" id="toggleconfirmpass">
+                            <i class="fa-regular fa-eye-slash" style="color: rgb(255, 212, 59);"></i>
+                        </button>
+                    </div>
                     <span id="confPassError"></span>
                 </div>
                 <button type="submit" id="btnsignup" class="btnsignup">SIGN UP</button>

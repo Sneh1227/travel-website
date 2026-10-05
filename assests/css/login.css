@@ -66,6 +66,34 @@ header{
     color: var(--maron);
     border: none;
 }
+.input-group span{
+    color: red;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.input-group input:-webkit-autofill{
+    -webkit-box-shadow:0 0 0px 1000px var(--darkskin) inset;
+    -webkit-text-fill-color: var(--maron);
+}
+.pass-box {
+    position: relative;
+    width: 100%;
+}
+.pass-box input {
+    width: 100%;
+    box-sizing: border-box;
+    padding-right: 45px;
+}
+.pass-box button{
+    position: absolute;
+    right: -20px;
+    transform: translateY(-1500%);
+    height: 30%;
+    width: 20%;
+
+    background: none;
+    border: none;
+    cursor: pointer;
+}
 .btnlogin{
     display: flex;
     margin-left: auto;

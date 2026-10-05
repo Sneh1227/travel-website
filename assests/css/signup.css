@@ -78,6 +78,24 @@ header button{
     color: var(--darkskin);
     background-color: var(--maron);
 }
+.input-group input:-webkit-autofill{
+    -webkit-box-shadow:0 0 0px 1000px var(--maron) inset;
+    -webkit-text-fill-color: var(--darkskin);
+}
+.pass-box{
+    position: relative;
+    width: 100%;
+}
+.pass-box button{
+    position: absolute;
+    right: -10%;
+    transform: translateY(-1000%);
+    height: 30%;
+    width: 30%;
+
+    background: none;
+    border: none;
+}
 .btnsignup{
     background-color: var(--maron);
     color: var(--offwhite);

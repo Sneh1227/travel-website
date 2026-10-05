@@ -20,14 +20,21 @@
                     <p>Welcome back traveler</p>
                 </header>
             </div>
-            <form action="" method="post">
+            <form id="loginForm" method="post">
                 <div class="input-group">
                     <label for="email">E-mail</label>
-                    <input type="email" class="email" required />
+                    <input type="email" id="email" class="email" />
+                    <span id="emailError"></span>
                 </div>
                 <div class="input-group">
                     <label for="pass">Password</label>
-                    <input type="password" class="password" required />
+                        <input type="password" id="pass" class="password" />
+                        <div class="pass-box">
+                        <button type="button" class="btn" id="togglepass">
+                            <i class="fa-regular fa-eye-slash" style="color: rgb(255, 212, 59);"></i>
+                        </button>
+                    </div>
+                    <span id="passError"></span>
                 </div>
                 <button type="submit" class="btnlogin">LOGIN</button>
             </form>
@@ -36,6 +43,7 @@
             </footer>
         </div>
     </div>
+    <script src="/js/login.js"></script>
 </body>
 
 </html>
