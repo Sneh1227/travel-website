@@ -18,32 +18,41 @@
     }
     .head .topnav{
         position: flex;
-        flex-direction: column;
+        /* flex-direction: column; */
     }
-    .head ul{
+    /* .head ul{
         position: flex;
         flex-wrap: wrap;
         gap: 10px;
         margin-bottom: 10%;
         margin-top: 10%
-    }
-    .head ul li{
+    } */
+    /* .head ul li{
         padding: 0 10px;
         font-size: 80%;
-        /* padding-left: 0px; */
-    }
-    .head ul li .btn-signup{
+        padding-left: 0px;
+    } */
+    /* .head ul li .btn-signup{
         height: 100%;
         width: 100%;
         font-size: 80%;
         margin-top: 0px;
-    }
-    .head ul li #languages{
+    } */
+    /* .head ul li #languages{
         font-size: 80%;
+    } */
+    /* hamburger */
+    .mobile-menu{
+        font-size: small;
+        height: fit-content;
+        width: fit-content;
+        z-index: 1;
+    }
+    .mobile-menu a:hover{
+        scale: 1.2;
+        border: 2px solid red;
     }
     /* hero */
-    .hero{
-    }
     .hero .row{
         position: relative;
         width: 90%;
@@ -65,6 +74,7 @@
         margin-top: 50px;
         margin-left: auto;
         margin-right: auto;
+        z-index: -1;
     }
     .hero .row .column.desc p{
         display: flex;
@@ -82,34 +92,7 @@
     .hero .row .redline{
         display: none;
     }
-    .hero .row .column.desc .buttons{
-        flex-direction: column;
-        width: 70%;
-        height: 50%;
-        gap: 20px;
-    }
-    .hero .row .column.desc .buttons .btn{
-        width: 60%;
-        height: 40%;
-        font-size: 10px;
-        padding: 10%;
-    }
-    .hero .row .column.desc .buttons .playbtn{
-        width: 10%;
-        height: 4%;
-        margin-left: auto;
-        margin-right: auto;
-        padding: 8%;
-    }
-    .hero .row .column.desc .buttons .playbtn .playicon{
-        width: 10%;
-        height: 10%;
-        font-size: small;
-    }
-    .hero .row .column.desc .buttons p{
-        font-size: 15px;
-        justify-content: center;
-    }
+    
     /* services */
     .services{
         display: flex;
@@ -379,3 +362,4 @@
         justify-content: space-evenly;
     }
 }
+

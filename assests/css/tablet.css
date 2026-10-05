@@ -268,13 +268,17 @@
         right: 0%;
         background-color: white;
         border: 5px solid wheat;
-        border-radius: 20%;
+        border-radius: 10%;
     }
     .mobile-menu.active{
         display: flex;
     }
     .mobile-menu a{
-        border: 1px solid wheat;
+        border: 2px solid wheat;
         font-family: 'Poppins';
+    }
+    .mobile-menu a:hover{
+        scale: 1.2;
+        border: 2px solid red;
     }
 }
