@@ -1,3 +1,4 @@
+// validation
 const loginForm = document.getElementById("loginForm");
 
 loginForm.addEventListener("submit",function(event){
@@ -30,6 +31,8 @@ loginForm.addEventListener("submit",function(event){
     
 });
 
+
+// password eye button
 const togglepass = document.getElementById("togglepass");
 togglepass.addEventListener("click",function(){
     if(pass.type==="password"){

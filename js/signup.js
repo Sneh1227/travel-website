@@ -1,3 +1,4 @@
+// validation
 const signupForm = document.getElementById("formsignup")
 
 signupForm.addEventListener("submit",function(event){
@@ -71,6 +72,7 @@ signupForm.addEventListener("submit",function(event){
     }
 });
 
+// password eye button
 function eyepass(input, button){
     if(input.type==="password"){
         input.type="text";
