@@ -68,7 +68,19 @@ signupForm.addEventListener("submit",function(event){
     
 
     if(isvalid){
-        console.log("Congratulations "+firstname+" "+lastname+" you have my permission to travel")
+        const user={
+            name:firstname+lastname,
+            email:email,
+            pass:pass
+        };
+
+        if(localStorage.setItem("user",JSON.stringify(user))){
+            alert("WOHOO Registered Successfully");
+            window.location.href="/index.html";
+        }else{
+            alert("Something went wrong!!");
+        }
+
     }
 });
 
