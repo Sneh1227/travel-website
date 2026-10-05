@@ -20,33 +20,38 @@
         position: flex;
         /* flex-direction: column; */
     }
-    /* .head ul{
-        position: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin-bottom: 10%;
-        margin-top: 10%
-    } */
-    /* .head ul li{
-        padding: 0 10px;
-        font-size: 80%;
-        padding-left: 0px;
-    } */
-    /* .head ul li .btn-signup{
-        height: 100%;
-        width: 100%;
-        font-size: 80%;
-        margin-top: 0px;
-    } */
-    /* .head ul li #languages{
-        font-size: 80%;
-    } */
     /* hamburger */
-    .mobile-menu{
-        font-size: small;
-        height: fit-content;
+    .nav{
+        display: none;
+    }
+    .hamburger{
+        display: block;
+        position: relative;
+        left: 0%;
+        height: 100%;
         width: fit-content;
-        z-index: 1;
+    }
+    .mobile-menu.active{
+        display: flex;
+    }
+    .mobile-menu{
+        display: none;
+        position: absolute;
+        flex-direction: column;
+        gap: 20px;
+        padding: 2% 5%;
+        height: fit-content;
+        width: 30%;
+        right: 0%;
+        background-color: white;
+        border: 5px solid wheat;
+        border-radius: 10%;
+        z-index: 2;
+    }
+    .mobile-menu a{
+        border: 2px solid wheat;
+        font-family: 'Poppins';
+        font-size: 60%;
     }
     .mobile-menu a:hover{
         scale: 1.2;
