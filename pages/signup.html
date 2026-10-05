@@ -6,46 +6,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign up page</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
-    <link rel="stylesheet" href="assests/css/signup.css">
+    <link rel="stylesheet" href="/assests/css/signup.css">
 </head>
 
 <body>
     <div class="card-container">
-        <img src="assests/images/header/Logo.png" alt="logo" />
+        <img src="/assests/images/header/Logo.png" alt="logo" />
         <div class="signup-card">
             <header>
-                <a href="index.html"><button><i class="fa-solid fa-arrow-left"></i></button></a>
+                <a href="/index.html"><button><i class="fa-solid fa-arrow-left"></i></button></a>
                 <h1>SIGN UP</h1>
                 <p>Please fill all the details properly</p>
             </header>
-            <form action="submit" method="post" autocomplete="on">
+            <form method="post" id="formsignup">
                 <div class="input-group">
                     <label for="firstname">First Name</label>
-                    <input type="text" class="firstname" required />
+                    <input type="text" id="firstname" class="firstname" />
+                    <span id="nameError"></span>
                 </div>
                 <div class="input-group">
                     <label for="lastname">Last Name</label>
-                    <input type="text" class="lastname" required />
+                    <input type="text" id="lastname" class="lastname" />
+                    <span id="lastError"></span>
                 </div>
                 <div class="input-group">
                     <label for="email">E-mail</label>
-                    <input type="email" class="email" required />
+                    <input type="email" id="email" class="email" />
+                    <span id="emailError"></span>
                 </div>
                 <div class="input-group">
                     <label for="pass">Password</label>
-                    <input type="password" class="pass" required />
+                    <input type="password" id="pass" class="pass" />
+                    <span id="passError"></span>
                 </div>
                 <div class="input-group">
                     <label for="confirmpass">Confirm Password</label>
-                    <input type="password" class="confirmpassword" required />
+                    <input type="password" id="confirmpassword" class="confirmpassword" />
+                    <span id="confPassError"></span>
                 </div>
-                <button type="submit" class="btnsignup">SIGN UP</button>
+                <button type="submit" id="btnsignup" class="btnsignup">SIGN UP</button>
             </form>
             <div class="footer">
                 <p>already registered? <a href="login.html">LOGIN</a></p>
             </div>
         </div>
     </div>
+    <script src="/js/signup.js"></script>
 </body>
 
 </html>
