@@ -546,6 +546,7 @@ a {
 
 .testimonials .right {
     position: relative;
+    margin-top: 5%;
     width: 60%;
     height: 70%;
     box-shadow: 1px 1px 5px -2px var(--black);
@@ -605,7 +606,12 @@ a {
 .testimonials .arrows button {
     background: transparent;
     border: none;
+    opacity: 0.5;
 }
+.testimonial .arrows button:hover{
+    opacity: 1;
+}
+
 
 /* logos */
 .logo-slider {

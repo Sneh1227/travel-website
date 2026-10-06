@@ -38,10 +38,6 @@
     }
 
     .hero .row .redline {
-        /* position: relative;
-        width: 30%;
-        right: 38%;
-        margin-top: -6%; */
         display: none;
     }
 
@@ -194,8 +190,6 @@
 
     /* logos */
     .logos {
-        /* flex-direction: column; */
-        flex-wrap: wrap;
         position: relative;
         margin-top: 20%;
         width: 100%;
@@ -203,14 +197,11 @@
         align-items: center;
         justify-content: center;
     }
-    /* .logos .img3{
-        margin-top: 13%;
-    } */
 
     .logos img {
         margin: 0 0;
-        width: 30% !important;
-        height: 20% !important;
+        width: 15% !important;
+        height: 10% !important;
         object-fit: cover;
     }
 
