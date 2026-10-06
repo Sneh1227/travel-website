@@ -457,6 +457,9 @@ a{
 .testimonials .left button:hover{
     opacity: 1;
 }
+.testimonials .left .dots .bt.active{
+    opacity: 1;
+}
 .testimonials .left p{
     font-family: 'Poppins';
     font-size: 18px;
@@ -469,39 +472,56 @@ a{
     height: 130px;
 }
 .testimonials .right{
-    width: 541px;
-    height: 279px;
+    position: relative;
+    width: 60%;
+    height: 70%;
     box-shadow: 1px 1px 5px -2px var(--black);
     background-color: var(--white);
     border-radius: 20px;
 }
-.testimonials .right .para{
-    width: 402px;
-    height: 96px;
+.testimonial{
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transform: translateY(20px);
+
+    transition: 
+        opacity 0.4s ease,
+        transform 0.4s ease;
+}
+.testimonial.active {
+    opacity: 1;
+    visibility: visible;
+
+    transform: translateY(0);
+}
+.testimonial img{
+    /* height: 20%; */
+    width: 15%;
+    border-radius: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+}
+.testimonial .para{
+    padding-bottom: 5%;
 }
 .testimonials .right .info{
-    padding: 5px 50px;
+    padding: 2% 10%;
     color: var(--lightgrey);
     font-family: 'Poppins';
-}
-.testimonials .right .info2{
-    position: relative;
-    width: 541px;
-    height: 279px;
-    padding: 80px 70px;
-    top: -100px;
-    left: 40px;
-    color: var(--lightgrey);
-    font-family: 'Poppins';
-    z-index: -1;
-    box-shadow: 1px 1px 5px -2px var(--black);
-    border-radius: 20px;
 }
 .testimonials .arrows{
     display: flex;
-    gap: 50px;
+    gap: 10%;
     flex-direction: column;
     justify-content: center;
+    opacity: 1;
 }
 .testimonials .arrows button{
     background: transparent;
