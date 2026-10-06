@@ -443,7 +443,7 @@ a{
     display: flex;
     gap: 180px;
 }
-.testimonials .left button{
+.testimonials .left .dots button{
     height: 1%;
     width: 1%;
     padding: 2%;
@@ -502,7 +502,6 @@ a{
     transform: translateY(0);
 }
 .testimonial img{
-    /* height: 20%; */
     width: 15%;
     border-radius: 100%;
     aspect-ratio: 1/1;

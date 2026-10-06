@@ -247,7 +247,7 @@
     }
     .testimonials .right{
         width: 90%;
-        height: max-content;
+        height: 40vh;
     }
     .testimonials .right .para{
         width: 100%;
@@ -270,12 +270,16 @@
 
     /* logos */
     .logos{
-        flex-direction: column;
-        position: relative;
-        margin-top: 20%;
         width: 90%;
         height: 80%;
+        display: flex;
         justify-content: center;
+    }
+    .logos img{
+        margin: 0 0;
+        height: 20%;
+        width: 20%;
+        object-fit: cover;
     }
 
     /* subscribe */
