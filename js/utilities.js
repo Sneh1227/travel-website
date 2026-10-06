@@ -9,11 +9,13 @@ hamburger.addEventListener("click", function () {
 // function to change navbar option
 const login = document.getElementById("login");
 const logout = document.getElementById("logout");
-const signup = document.getElementById("signup");
 
 const loginm = document.getElementById("loginm");
 const logoutm = document.getElementById("logoutm");
 const signupm = document.getElementById("signupm");
+
+const signup = document.querySelectorAll(".signup");
+const signalt = document.querySelectorAll(".signalt");
 
 function updateUI() {
     const isloggedIn = localStorage.getItem("isloggedin") === "true";
@@ -23,13 +25,28 @@ function updateUI() {
 
         loginm.classList.add("hidden");
         logoutm.classList.remove("hidden");
-        // signup.textContent = "Hello";
+
+        const user = localStorage.getItem("user");
+        const fetcheduser = JSON.parse(user);
+        signup.forEach((signlist)=>{
+            signlist.classList.add("hidden");
+        });
+        signalt.forEach((signalt)=>{
+            signalt.classList.remove("hidden");
+            signalt.textContent = fetcheduser.name;
+        });
     } else {
         login.classList.remove("hidden");
         logout.classList.add("hidden");
 
         loginm.classList.remove("hidden");
         logoutm.classList.add("hidden");
+        signup.forEach((signlist)=>{
+            signlist.classList.remove("hidden");
+        });
+        signalt.forEach((signalt)=>{
+            signalt.classList.add("hidden");
+        });
     }
 }
 document.addEventListener("DOMContentLoaded", updateUI);
