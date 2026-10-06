@@ -65,8 +65,6 @@ signupForm.addEventListener("submit", function (event) {
             isvalid = false;
         }
     }
-
-
     if (isvalid) {
         const user = {
             name: firstname + lastname,
@@ -75,6 +73,7 @@ signupForm.addEventListener("submit", function (event) {
         };
 
         localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("isloggedin", "true");
         alert("WOHOO Registered Successfully");
         window.location.href = "/index.html";
         updateUI();
