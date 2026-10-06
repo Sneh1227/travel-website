@@ -36,10 +36,12 @@ document.addEventListener("DOMContentLoaded", updateUI);
 
 // logout
 
-const logoutt = document.getElementById("logout");
+const logoutt = document.querySelectorAll(".logout");
 
-logoutt.addEventListener("click", function () {
-    localStorage.removeItem("isloggedin");
-    alert("Log out successfully");
-    updateUI();
-});
+logoutt.forEach(btn => {
+    btn.addEventListener("click", function () {
+        localStorage.removeItem("isloggedin");
+        alert("Log out successfully");
+        updateUI();
+    });
+})
