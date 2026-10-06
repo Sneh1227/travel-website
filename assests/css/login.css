@@ -85,7 +85,7 @@ header{
 }
 .pass-box button{
     position: absolute;
-    right: -20px;
+    right: -5%;
     transform: translateY(-1500%);
     height: 30%;
     width: 20%;

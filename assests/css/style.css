@@ -608,7 +608,8 @@ a {
     border: none;
     opacity: 0.5;
 }
-.testimonial .arrows button:hover{
+
+.testimonial .arrows button:hover {
     opacity: 1;
 }
 
@@ -624,7 +625,7 @@ a {
     align-items: center;
     width: 80%;
     gap: 10%;
-    animation: logoMove 15s linear infinite;
+    animation: logoMove 10s linear infinite;
 }
 
 .logos img {
