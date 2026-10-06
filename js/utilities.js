@@ -28,10 +28,10 @@ function updateUI() {
 
         const user = localStorage.getItem("user");
         const fetcheduser = JSON.parse(user);
-        signup.forEach((signlist)=>{
+        signup.forEach((signlist) => {
             signlist.classList.add("hidden");
         });
-        signalt.forEach((signalt)=>{
+        signalt.forEach((signalt) => {
             signalt.classList.remove("hidden");
             signalt.textContent = fetcheduser.name;
         });
@@ -41,10 +41,10 @@ function updateUI() {
 
         loginm.classList.remove("hidden");
         logoutm.classList.add("hidden");
-        signup.forEach((signlist)=>{
+        signup.forEach((signlist) => {
             signlist.classList.remove("hidden");
         });
-        signalt.forEach((signalt)=>{
+        signalt.forEach((signalt) => {
             signalt.classList.add("hidden");
         });
     }
@@ -62,6 +62,7 @@ logoutt.forEach(btn => {
         updateUI();
     });
 })
+
 
 // testimonials changer
 
