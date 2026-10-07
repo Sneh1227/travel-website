@@ -406,6 +406,9 @@ a {
 .bookatrip .values .steps .ss .col-2 {
     padding: 0 20px;
 }
+.bookatrip .value .steps .ss:hover{
+    scale: 1.1;
+}
 
 .bookatrip .values .side-section {
     width: 370px;
@@ -755,10 +758,11 @@ a {
     margin: 40px 0;
     font-family: 'Montserrat';
     font-size: 14px;
+    padding: 0 2%;
 }
 
 .subscription .details input::placeholder {
-    padding: 10%;
+    padding: 2%;
 }
 
 .subscription .details button {
@@ -811,6 +815,10 @@ footer .navbar .col .fci {
     font-size: 18px;
     margin: 10px 0;
 }
+footer .navbar .col .fci:hover{
+    color: var(--red);
+    scale: 1.2;
+}
 
 footer .outbound {
     display: flex;
@@ -829,6 +837,10 @@ footer .discover h4 {
 footer .outbound .social {
     display: flex;
     width: 100%;
+}
+footer .outbound .social i:hover{
+    scale: 1.4;
+    border:var(--blue) 2px solid;
 }
 
 footer .outbound .social .fa-brands {
