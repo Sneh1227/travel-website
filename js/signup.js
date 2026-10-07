@@ -44,26 +44,27 @@ signupForm.addEventListener("submit", function (event) {
         confPassError.innerText = "password is mismatched";
         isvalid = false;
     } else {
-        if (pass.length < 8) {
-            passError.innerText = "minimum 8 character required";
+        if ((pass.length < 8) || (!/[A-Z]/.test(pass)) || (!/[a-z]/.test(pass)) ||
+            (!/[0-9]/.test(pass)) || (!/[!@#$%^&*]/.test(pass))) {
+            passError.innerText = "Password must contain 8+ characters, including uppercase, lowercase, a number, and a special character.";
             isvalid = false;
         }
-        if (!/[A-Z]/.test(pass)) {
-            passError.innerText = "must contain atleat 1 uppercase";
-            isvalid = false;
-        }
-        if (!/[a-z]/.test(pass)) {
-            passError.innerText = "must contain atleat 1 lowercase";
-            isvalid = false;
-        }
-        if (!/[0-9]/.test(pass)) {
-            passError.innerText = "must contain atleast 1 number";
-            isvalid = false;
-        }
-        if (!/[!@#$%^&*]/.test(pass)) {
-            passError.innerText = "must contain atleast 1 special charcter";
-            isvalid = false;
-        }
+        // if () {
+        //     passError.innerText = "must contain atleat 1 uppercase";
+        //     isvalid = false;
+        // }
+        // if () {
+        //     passError.innerText = "must contain atleat 1 lowercase";
+        //     isvalid = false;
+        // }
+        // if () {
+        //     passError.innerText = "must contain atleast 1 number";
+        //     isvalid = false;
+        // }
+        // if () {
+        //     passError.innerText = "must contain atleast 1 special charcter";
+        //     isvalid = false;
+        // }
     }
     if (isvalid) {
         const user = {
