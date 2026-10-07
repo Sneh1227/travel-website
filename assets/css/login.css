@@ -1,4 +1,4 @@
-:root{
+:root {
     --white: #fff;
     --maron: #F1A501;
     --red: #DF6951;
@@ -7,125 +7,166 @@
     --offwhite: #006199;
     --pink: #FF62BB;
 }
-body{
+
+body {
     margin: 0;
     padding: 0;
     min-height: 100vh;
-    font-family:monospace;
+    font-family: monospace;
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.card-container{
+
+.card-container {
     width: 100%;
     max-width: 30%;
     animation: slideup 0.8s ease-out both;
 }
-.card-container img{
+
+.card-container img {
     display: flex;
     margin-left: auto;
     margin-right: auto;
     padding-bottom: 2%;
-    
+
 }
-header{
+
+header {
     text-align: center;
     color: var(--darkskin);
+    width: 100%;
 }
-.login-card .backarrow{
-    background: var(--maron);
+
+header .head-main {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+header .head-main h1 {
+    width: 100%;
+}
+
+.login-card .backarrow {
+    position: absolute;
+    background: transparent;
     color: var(--darkskin);
     border: none;
+    top: 40%;
 }
-.login-card{
+
+.login-card {
     height: 80%;
     width: 90%;
     padding: 5%;
     align-items: center;
-    background-color: var(--maron);
     border: var(--darkskin) 5px solid;
     border-radius: 10%;
 }
-.login-card .top{
+
+.login-card .top {
     display: flex;
     flex-direction: column;
 }
-.input-group{
+
+.input-group {
     display: flex;
     flex-direction: column;
     margin: 2% 0;
     color: var(--darkskin);
 }
-.input-group label{
-    font-size: clamp(0.5rem,1.5vw,1.5rem);
+
+.input-group label {
+    font-size: clamp(0.5rem, 1.5vw, 1.5rem);
 }
-.input-group input{
-    font-size: clamp(0.5rem,1.5vw,1.5rem);
+
+.input-group input {
+    font-size: clamp(0.5rem, 1.5vw, 1.5rem);
     padding: 2%;
     background-color: var(--darkskin);
-    color: var(--maron);
+    color: var(--white);
     border: none;
 }
-.input-group span{
+
+.input-group span {
     color: red;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-.input-group input:-webkit-autofill{
-    -webkit-box-shadow:0 0 0px 1000px var(--darkskin) inset;
-    -webkit-text-fill-color: var(--maron);
+
+.input-group input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px var(--darkskin) inset;
+    -webkit-text-fill-color: var(--white);
 }
+
 .pass-box {
     position: relative;
     width: 100%;
+    height: 100%;
 }
+
 .pass-box input {
     width: 100%;
+    padding-right: 0%;
     box-sizing: border-box;
-    padding-right: 45px;
 }
-.pass-box button{
-    position: absolute;
-    right: -5%;
-    transform: translateY(-1500%);
-    height: 30%;
-    width: 20%;
 
+.pass-box button {
+    position: absolute;
+    right: 0px;
+    bottom: 0%;
+    transform: translateY(-500%);
+    align-items: center;
+    width: 10%;
+    height: 10%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
     background: none;
     border: none;
     cursor: pointer;
 }
-.btnlogin{
+
+.btnlogin {
     display: flex;
     margin-left: auto;
     margin-right: auto;
     height: 100%;
     width: 40%;
-    font-size: clamp(0.5rem,1.5vw,1.5rem);
+    font-size: clamp(0.5rem, 1.5vw, 1.5rem);
     background-color: var(--darkskin);
     color: var(--white);
     justify-content: center;
-    
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
-.btnlogin:hover{
+
+.btnlogin:hover {
     /* */
 }
-footer{
+
+footer {
     color: var(--darkskin);
     text-align: center;
 }
-footer a{
+
+footer a {
     text-decoration: none;
     color: var(--darkskin);
 }
 
 /* animations */
-@keyframes slideup{
-    from{
+@keyframes slideup {
+    from {
         opacity: 0;
         transform: translateY(30px);
     }
-    to{
+
+    to {
         opacity: 1;
         transform: translateY(0);
     }
