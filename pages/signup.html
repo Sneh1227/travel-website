@@ -6,16 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign up page</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
-    <link rel="stylesheet" href="/assests/css/signup.css">
+    <link rel="stylesheet" href="/assets/css/signup.css">
 </head>
 
 <body>
     <div class="card-container">
-        <img src="/assests/images/header/Logo.png" alt="logo" />
+        <img src="/assets/images/header/Logo.png" alt="logo" />
         <div class="signup-card">
             <header>
-                <a href="/index.html"><button><i class="fa-solid fa-arrow-left"></i></button></a>
-                <h1>SIGN UP</h1>
+                <div class="main-head">
+                    <a href="/index.html"><button><i class="fa-solid fa-arrow-left"></i></button></a>
+                    <h1>SIGN UP</h1>
+                </div>
                 <p>Please fill all the details properly</p>
             </header>
             <form id="formsignup">
@@ -36,20 +38,20 @@
                 </div>
                 <div class="input-group">
                     <label for="pass">Password</label>
-                    <input type="password" id="pass" class="pass" value="Sneh&1227" />
                     <div class="pass-box">
+                        <input type="password" id="pass" class="pass" value="Sneh&1227" />
                         <button type="button" id="togglepass">
-                            <i class="fa-regular fa-eye-slash" style="color: rgb(255, 212, 59);"></i>
+                            <i class="fa-regular fa-eye-slash" style="color: rgb(246, 246, 245);"></i>
                         </button>
                     </div>
                     <span id="passError"></span>
                 </div>
                 <div class="input-group">
                     <label for="confirmpass">Confirm Password</label>
-                    <input type="password" id="confirmpassword" class="confirmpassword" value="Sneh&1227" />
                     <div class="pass-box">
+                        <input type="password" id="confirmpassword" class="confirmpassword" value="Sneh&1227" />
                         <button type="button" id="toggleconfirmpass">
-                            <i class="fa-regular fa-eye-slash" style="color: rgb(255, 212, 59);"></i>
+                            <i class="fa-regular fa-eye-slash" style="color: rgb(248, 247, 246);"></i>
                         </button>
                     </div>
                     <span id="confPassError"></span>
