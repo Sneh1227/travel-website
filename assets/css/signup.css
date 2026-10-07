@@ -1,4 +1,4 @@
-:root{
+:root {
     --white: #fff;
     --maron: #14183e;
     --red: #DF6951;
@@ -7,96 +7,135 @@
     --offwhite: #f5e1e1;
     --lightyellow: #ebe410;
 }
-body{
+
+body {
     margin: 0;
     padding: 0;
-    font-family:monospace;
+    font-family: monospace;
     display: flex;
     min-height: 100vh;
     justify-content: center;
     align-items: center;
     width: 100%;
 }
-h1{
+
+h1 {
+    color: var(--maron);
+    width: 100%;
+    border-radius: inherit;
+}
+
+p {
     color: var(--maron);
 }
-p{
-    color: var(--maron);
-}
-.card-container{
+
+.card-container {
     width: 100%;
     max-width: 30%;
     justify-content: center;
     animation: slideup 0.8s ease-out both;
 }
-.card-container img{
+
+.card-container img {
     display: flex;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 2%;
 }
-.signup-card{
+
+.signup-card {
     height: 80%;
     width: 100%;
     align-items: center;
-    background-color: var(--darkskin);
     border: 5px solid var(--maron);
     border-radius: 10%;
 }
-header{
+
+header {
     align-items: center;
     text-align: center;
     width: 100%;
 }
-header a{
+
+header a {
     display: flex;
-    text-align: start;
-    width: 20%;
-    height: 50%;
-    padding-top: 2%;
+    width: 20px;
+    padding: 5px;
+    position: absolute;
+    aspect-ratio: 1 / 1;
 }
-header button{
+
+header .main-head {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    border-radius: inherit;
+}
+
+header button {
     border: none;
     background: transparent;
-    margin-left: auto;
-    margin-right: auto;
+    height: 100%;
+    width: 100%;
 }
-.input-group{
+
+.input-group {
     display: flex;
     flex-direction: column;
     margin: 2% 10%;
 }
-.input-group label{
+
+.input-group label {
     color: var(--maron);
-    font-size: clamp(1.2rem,1vw,1.5rem);
+    font-size: clamp(1.2rem, 1vw, 1.5rem);
 }
-.input-group input{
+
+.input-group input {
     border: none;
     height: 100%;
     padding: 1%;
     font-size: clamp(0.5rem, 1vw, 1.5rem);
-    color: var(--darkskin);
+    color: var(--white);
     background-color: var(--maron);
 }
-.input-group input:-webkit-autofill{
-    -webkit-box-shadow:0 0 0px 1000px var(--maron) inset;
-    -webkit-text-fill-color: var(--darkskin);
+
+.input-group input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px var(--maron) inset;
+    -webkit-text-fill-color: var(--white);
 }
-.pass-box{
+
+.pass-box {
     position: relative;
     width: 100%;
+    height: 100%;
 }
-.pass-box button{
-    position: absolute;
-    right: -10%;
-    transform: translateY(-1000%);
-    height: 30%;
-    width: 30%;
 
+.pass-box input {
+    width: 100%;
+    padding-right: 0%;
+    box-sizing: border-box;
+}
+
+.pass-box button {
+    position: absolute;
+    right: 0px;
+    bottom: 0%;
+    transform: translateY(-500%);
+    align-items: center;
+    width: 10%;
+    height: 10%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
     background: none;
     border: none;
+    cursor: pointer;
 }
-.btnsignup{
+
+.btnsignup {
     background-color: var(--maron);
     color: var(--offwhite);
     width: 40%;
@@ -109,30 +148,32 @@ header button{
     margin-top: 10%;
     padding: 2% 0;
 }
+
 /* spans */
-.input-group span{
-    background-color: red;
-    color:black;
+.input-group span {
+    color: red;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-.footer{
+
+.footer {
     text-align: center;
 }
-.footer a{
+
+.footer a {
     text-decoration: none;
     color: var(--maron);
 }
-a:hover{
-    
-}
+
+a:hover {}
 
 /* animation */
-@keyframes slideup{
-    from{
+@keyframes slideup {
+    from {
         opacity: 0;
         transform: translateY(30px);
     }
-    to{
+
+    to {
         opacity: 1;
         transform: translateY(0);
     }

@@ -44,24 +44,21 @@ signupForm.addEventListener("submit", function (event) {
         confPassError.innerText = "password is mismatched";
         isvalid = false;
     } else {
-        if (pass.length < 8) {
-            passError.innerText = "minimum 8 character required";
+        if ((pass.length < 8) || (!/[A-Z]/.test(pass)) || (!/[a-z]/.test(pass)) ||
+            (!/[0-9]/.test(pass)) || (!/[!@#$%^&*]/.test(pass))) {
+            passError.innerText = "Password must contain 8+ characters, including uppercase, lowercase, a number, and a special character.";
             isvalid = false;
         }
-        if (!/[A-Z]/.test(pass)) {
-            passError.innerText = "must contain atleat 1 uppercase";
+        if ((/[0-9]/.test(firstname))) {
+            nameError.innerText = "*Name cannot have a numeric value";
             isvalid = false;
         }
-        if (!/[a-z]/.test(pass)) {
-            passError.innerText = "must contain atleat 1 lowercase";
+        if ((/[0-9]/.test(lastname))) {
+            lastError.innerText = "*Name cannot have a numeric value";
             isvalid = false;
         }
-        if (!/[0-9]/.test(pass)) {
-            passError.innerText = "must contain atleast 1 number";
-            isvalid = false;
-        }
-        if (!/[!@#$%^&*]/.test(pass)) {
-            passError.innerText = "must contain atleast 1 special charcter";
+        if ((!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))) {
+            emailError.innerHTML = "*Please enter a valid email address";
             isvalid = false;
         }
     }
@@ -84,10 +81,10 @@ signupForm.addEventListener("submit", function (event) {
 function eyepass(input, button) {
     if (input.type === "password") {
         input.type = "text";
-        button.innerHTML = '<i class="fa-regular fa-eye" style="color: rgb(255, 212, 59);"></i>';
+        button.innerHTML = '<i class="fa-regular fa-eye" style="color: rgb(247, 247, 245);"></i>';
     } else {
         input.type = "password";
-        button.innerHTML = '<i class="fa-regular fa-eye-slash" style="color: rgb(255, 212, 59);"></i>';
+        button.innerHTML = '<i class="fa-regular fa-eye-slash" style="color: rgb(251, 251, 250);"></i>';
     }
 }
 const togglepass = document.getElementById("togglepass")
