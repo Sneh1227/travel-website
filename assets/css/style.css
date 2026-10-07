@@ -44,7 +44,7 @@ body .bgdecor {
     padding: 20px 60px;
     font-family: sans-serif;
     justify-content: space-between;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     align-items: center;
     margin-top: 20px;
 }

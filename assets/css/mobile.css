@@ -18,7 +18,8 @@
     }
     .head .topnav{
         position: flex;
-        /* flex-direction: column; */
+        flex-direction: row-reverse;
+        padding: 20px 10px;
     }
     /* hamburger */
     .nav{
@@ -38,18 +39,17 @@
         display: none;
         position: absolute;
         flex-direction: column;
-        gap: 20px;
+        gap: 10px;
         padding: 2% 5%;
         height: fit-content;
         width: 30%;
-        right: 0%;
+        left: 0%;
         background-color: white;
         border: 5px solid wheat;
         border-radius: 10%;
         z-index: 2;
     }
     .mobile-menu a{
-        border: 2px solid wheat;
         font-family: 'Poppins';
         font-size: 60%;
     }
