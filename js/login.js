@@ -29,20 +29,21 @@ loginForm.addEventListener("submit", function (event) {
             isvalid = false;
         }
     }
+    if (isvalid) {
+        const storedUser = localStorage.getItem("user");
 
-    const storedUser = localStorage.getItem("user");
-
-    if (!storedUser) {
-        alert("No account found! Please sign up first");
-    } else {
-        const fetcheduser = JSON.parse(storedUser);
-
-        if (email == fetcheduser.email && pass == fetcheduser.pass) {
-            alert("Let's gooooo");
-            localStorage.setItem("isloggedin", "true");
-            window.location.href = "/index.html";
+        if (!storedUser) {
+            alert("No account found! Please sign up first");
         } else {
-            alert("Invalid pass or mail");
+            const fetcheduser = JSON.parse(storedUser);
+
+            if (email == fetcheduser.email && pass == fetcheduser.pass) {
+                alert("Let's gooooo");
+                localStorage.setItem("isloggedin", "true");
+                window.location.href = "/index.html";
+            } else {
+                alert("Invalid pass or mail");
+            }
         }
     }
 });
