@@ -23,45 +23,29 @@ signupForm.addEventListener("submit", function (event) {
     passError.innerText = "";
     confPassError.innerText = "";
 
-    if (!firstname) {
-        nameError.innerText = "Firstname is required *";
-        isvalid = false;
-    }
-    if (!lastname) {
-        lastError.innerText = "Last name is required";
-        isvalid = false;
-    }
-    if (!email) {
-        emailError.innerText = "Email is required";
-        isvalid = false;
-    }
-    if (!pass || !confirmpassword) {
-        passError.innerText = "Password is required";
-        isvalid = false;
-    }
     if (pass != confirmpassword) {
         passError.innerText = "";
         confPassError.innerText = "password is mismatched";
         isvalid = false;
-    } else {
-        if ((pass.length < 8) || (!/[A-Z]/.test(pass)) || (!/[a-z]/.test(pass)) ||
-            (!/[0-9]/.test(pass)) || (!/[!@#$%^&*]/.test(pass))) {
-            passError.innerText = "Password must contain 8+ characters, including uppercase, lowercase, a number, and a special character.";
-            isvalid = false;
-        }
-        if ((!(/^[A-Za-z]+$/).test(firstname))) {
-            nameError.innerText = "*Name should contain alphabates only";
-            isvalid = false;
-        }
-        if ((!(/^[A-Za-z]+$/).test(lastname))) {
-            lastError.innerText = "*Last Name should contain alphabates only";
-            isvalid = false;
-        }
-        if ((!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))) {
-            emailError.innerHTML = "*Please enter a valid email address";
-            isvalid = false;
-        }
     }
+    if ((pass.length < 8) || (!/[A-Z]/.test(pass)) || (!/[a-z]/.test(pass)) ||
+        (!/[0-9]/.test(pass)) || (!/[!@#$%^&*]/.test(pass))) {
+        passError.innerText = "Password must contain 8+ characters, including uppercase, lowercase, a number, and a special character.";
+        isvalid = false;
+    }
+    if ((!(/^[A-Za-z]+$/).test(firstname))) {
+        nameError.innerText = "*Name should contain alphabates only";
+        isvalid = false;
+    }
+    if ((!(/^[A-Za-z]+$/).test(lastname))) {
+        lastError.innerText = "*Last Name should contain alphabates only";
+        isvalid = false;
+    }
+    if ((!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))) {
+        emailError.innerHTML = "*Please enter a valid email address";
+        isvalid = false;
+    }
+
     if (isvalid) {
         const user = {
             firstname: firstname,
