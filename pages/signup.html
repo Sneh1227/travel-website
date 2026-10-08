@@ -23,17 +23,17 @@
             <form id="formsignup">
                 <div class="input-group">
                     <label for="firstname">First Name</label>
-                    <input type="text" id="firstname" class="firstname" required />
+                    <input type="text" id="firstname" class="firstname" minlength="2" maxlength="15" required />
                     <span id="nameError"></span>
                 </div>
                 <div class="input-group">
                     <label for="lastname">Last Name</label>
-                    <input type="text" id="lastname" class="lastname" required />
+                    <input type="text" id="lastname" class="lastname" required minlength="2" maxlength="15"/>
                     <span id="lastError"></span>
                 </div>
                 <div class="input-group">
                     <label for="email">E-mail</label>
-                    <input type="email" id="email" class="email" required />
+                    <input type="email" id="email" class="email" required maxlength="25"/>
                     <span id="emailError"></span>
                 </div>
                 <div class="input-group">
