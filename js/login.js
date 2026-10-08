@@ -24,6 +24,10 @@ loginForm.addEventListener("submit", function (event) {
         passError.innerText = "Password is required";
         isvalid = false;
     } else {
+        if((!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))){
+            emailError.innerText = "*Please enter a valid email address";
+            isvalid = false;
+        }
         if (pass.length < 8) {
             passError.innerText = "minimum 8 character";
             isvalid = false;
@@ -54,9 +58,9 @@ const togglepass = document.getElementById("togglepass");
 togglepass.addEventListener("click", function () {
     if (pass.type === "password") {
         pass.type = "text";
-        togglepass.innerHTML = '<i class="fa-regular fa-eye" style="color: rgb(255, 212, 59);"></i>';
+        togglepass.innerHTML = '<i class="fa-regular fa-eye" style="color: rgb(251, 251, 251);"></i>';
     } else {
         pass.type = "password";
-        togglepass.innerHTML = '<i class="fa-regular fa-eye-slash" style="color: rgb(255, 212, 59);"></i>'
+        togglepass.innerHTML = '<i class="fa-regular fa-eye-slash" style="color: rgb(253, 252, 249);"></i>'
     }
 });
