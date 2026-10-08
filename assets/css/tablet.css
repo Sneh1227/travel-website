@@ -132,44 +132,62 @@
     }
 
     /* book a trip */
+    .bookatrip,
     .destination+.bookatrip {
         position: relative;
-        margin-top: 10%;
+        width: 95%;
+        margin-top: 80px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 0;
     }
 
     .bookatrip .head {
-        width: auto;
-        font-size: 0px;
+        width: 100%;
+    }
+
+    .bookatrip .head p {
+        font-size: 16px;
+    }
+
+    .bookatrip .head h2 {
+        font-size: 38px;
     }
 
     .bookatrip .values .value {
         position: relative;
+        display: flex;
         flex-direction: column;
+        align-items: center;
+        gap: 60px;
+        margin-top: 30px;
     }
 
+    .bookatrip .values .steps,
     .bookatrip .values .value .steps {
         width: 100%;
-        display: flex;
-        flex-direction: column;
-        gap: 0px;
-        justify-content: space-between;
-        padding: 0px 0;
-        height: 30px;
+        max-width: 600px;
+        height: auto;
+        gap: 24px;
+        padding: 0;
     }
 
+    .bookatrip .values .side-section,
     .bookatrip .values .value .side-section {
-        display: flex;
         position: relative;
-        flex-direction: column;
-        margin-top: 50%;
-        margin-left: auto;
-        margin-right: auto;
+        width: 340px;
+        margin-right: 0;
+        margin-left: 0;
+        margin-top: 0;
     }
 
+    .bookatrip .values .side-side,
     .bookatrip .values .value .side-side {
-        position: relative;
-        margin-left: 40%;
-        margin-top: -30%;
+        position: absolute;
+        right: 5%;
+        bottom: -20px;
+        margin-left: 0;
+        margin-top: 0;
     }
 
     /* testimonials */
