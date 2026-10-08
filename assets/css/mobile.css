@@ -540,6 +540,7 @@
     }
     footer .navbar .col{
         margin: 2% 2%;
+        text-align: justify;
     }
     footer .navbar .col .fch{
         margin-bottom: 2%;
