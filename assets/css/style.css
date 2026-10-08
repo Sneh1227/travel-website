@@ -907,114 +907,141 @@ a {
 .subscription {
     position: relative;
     width: 90%;
-    height: 100%;
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    margin: 5%;
+    max-width: 1170px;
+    margin: 120px auto 0 auto;
 }
 
 .subscription .background {
-    display: flex;
     position: relative;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
     width: 100%;
-    height: 60vh;
     background-color: var(--lightcolor);
+    background: rgba(223, 215, 249, 0.2);
     border-top-left-radius: 129px;
     border-top-right-radius: 20px;
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
+    padding: 80px 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
     overflow: hidden;
+    box-sizing: border-box;
 }
 
-.subscription .bg-decor {
+.subscription .bg-round-decor .r1 {
     position: absolute;
-    right: 0%;
-    bottom: -20%;
-    z-index: -1;
-}
-
-.subscription .bg-decor img {
-    transform: rotate(90deg);
-}
-
-.subscription .background .r1 {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    opacity: 0.3;
+    left: -20px;
+    bottom: -40px;
+    width: 320px;
+    opacity: 0.15;
     z-index: 0;
+    pointer-events: none;
 }
 
-.subscription .background .r2 {
-    transform: rotate(270deg);
+.subscription .bg-round-decor .r2 {
     position: absolute;
-    right: -10%;
-    top: 0;
-    opacity: 0.3;
-
+    right: -40px;
+    top: -40px;
+    width: 320px;
+    opacity: 0.15;
+    transform: rotate(270deg);
+    z-index: 0;
+    pointer-events: none;
 }
 
 .subscription .arrow-back {
     position: absolute;
+    top: -24px;
+    right: -24px;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
     background: linear-gradient(201.65deg, #747DEF 10.27%, #5E3BE1 100%);
-    width: 5%;
-    height: 15%;
-    border-radius: 50px;
-    top: -5%;
-    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 25px rgba(116, 125, 239, 0.4);
+    z-index: 10;
 }
 
-.subscription .arrow-back .fa-solid {
-    position: relative;
-    font-size: 40px;
-    top: 25%;
-    left: 12%;
+.subscription .arrow-back i {
+    font-size: 26px;
     color: var(--white);
 }
 
 .subscription .background .details {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    position: relative;
     text-align: center;
-    width: 90%;
-    height: 100%;
+    width: 100%;
+    max-width: 880px;
+    z-index: 2;
 }
 
 .subscription .details p {
-    position: relative;
-    font-family: 'Poppins';
+    font-family: 'Poppins', sans-serif;
     font-size: 33px;
+    font-weight: 600;
+    line-height: 1.6;
     color: var(--lightgrey);
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+.subscription .input-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    width: 100%;
+    max-width: 620px;
 }
 
 .subscription .details input {
-    width: 421px;
     height: 68px;
+    flex: 1;
+    min-width: 260px;
+    background: #FFFFFF url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%2339425D' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z'/><polyline points='22,6 12,13 2,6'/></svg>") no-repeat 24px center;
+    border-radius: 10px;
     border: none;
-    margin: 40px 0;
-    font-family: 'Montserrat';
-    font-size: 14px;
-    padding: 0 2%;
+    outline: none;
+    padding: 0 24px 0 60px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    color: var(--black);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.02);
 }
 
 .subscription .details input::placeholder {
-    padding: 2%;
+    color: #39425D;
+    opacity: 0.6;
 }
 
 .subscription .details button {
-    width: 180px;
     height: 68px;
+    width: 180px;
+    flex-shrink: 0;
     color: var(--white);
     background: linear-gradient(180deg, #FF946D 0%, #FF7D68 100%);
+    border: none;
     border-radius: 10px;
+    font-family: 'Open Sans', 'Poppins', sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(255, 125, 104, 0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
+.subscription .details button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 25px rgba(255, 125, 104, 0.4);
+}
+
 
 /* footer */
 footer .above {

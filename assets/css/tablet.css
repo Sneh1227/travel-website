@@ -308,65 +308,55 @@
 
     /* subscription */
     .subscription {
-        width: 80%;
-        margin-left: auto;
-        margin-right: auto;
+        width: 90%;
+        max-width: 700px;
+        margin: 80px auto 0 auto;
     }
 
     .subscription .background {
-        position: relative;
-        width: 100%;
-        height: fit-content;
-    }
-
-    .subscription .bgdecor {
-        position: relative;
-        width: 50%;
-        height: 50%;
-    }
-
-    .subscription .background .details {
-        text-align: center;
-        top: 20%;
-        margin-left: auto;
-        margin-right: auto;
-        padding: 10%;
-    }
-
-    .subscription .background .r1,
-    .subscription .background .r2 {
-        width: 40%;
-        height: 40%;
-    }
-
-    .subscription .details p {
-        position: relative;
-        display: flex;
-        width: 90%;
-        height: 80%;
-        font-size: large;
-        text-align: center;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .subscription .details input {
-        width: 80%;
-        height: 48px;
-    }
-
-    .subscription .details button {
-        width: 100px;
-        height: 48px;
+        padding: 60px 30px;
+        border-top-left-radius: 80px;
     }
 
     .subscription .arrow-back {
-        /* display: none; */
+        width: 56px;
+        height: 56px;
+        top: -18px;
+        right: -18px;
     }
 
-    .subscription .bg-decor {
-        display: none;
+    .subscription .arrow-back i {
+        font-size: 20px;
     }
+
+    .subscription .details p {
+        font-size: 26px;
+        line-height: 1.5;
+        margin-bottom: 36px;
+    }
+
+    .subscription .input-section {
+        gap: 16px;
+        max-width: 520px;
+    }
+
+    .subscription .details input {
+        height: 56px;
+        font-size: 14px;
+        padding-left: 52px;
+    }
+
+    .subscription .details button {
+        height: 56px;
+        width: 150px;
+        font-size: 15px;
+    }
+
+    .subscription .bg-round-decor .r1,
+    .subscription .bg-round-decor .r2 {
+        width: 220px;
+    }
+
 
     /* footer */
     footer .above {
