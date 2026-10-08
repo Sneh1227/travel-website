@@ -23,6 +23,10 @@
         gap: 10px;
     }
 
+    .signalt {
+        padding: 2%;
+    }
+
     /* hero */
     .hero .row {
         flex-direction: column-reverse;
