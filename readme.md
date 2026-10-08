@@ -4,7 +4,7 @@ A responsive travel website built using HTML, CSS, and JavaScript.
 
 The website includes a main travel landing page along with login and signup functionality. User login information is handled on the frontend using LocalStorage, so users can sign up, log in, and log out without needing a backend.
 
-Live Website: https://brilliant-dusk-18da0e.netlify.app/
+Live Website: https://travel-website-sp-propelius.netlify.app/
 
 About the Project
 
@@ -164,7 +164,7 @@ The website is deployed using Netlify.
 
 Live Demo
 
-https://brilliant-dusk-18da0e.netlify.app/
+https://travel-website-sp-propelius.netlify.app/
 
 ---
 
