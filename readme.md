@@ -164,7 +164,7 @@ The website is deployed using Netlify.
 
 Live Demo
 
-https://brilliant-dusk-18da0e.netlify.app/
+[https://brilliant-dusk-18da0e.netlify.app/](https://travel-website-sp-propelius.netlify.app/)
 
 ---
 
