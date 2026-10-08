@@ -28,12 +28,14 @@ function updateUI() {
 
         const user = localStorage.getItem("user");
         const fetcheduser = JSON.parse(user);
+        const initials = fetcheduser.firstname[0] + fetcheduser.lastname[0];
+        const disvalue = initials.toUpperCase();
         signup.forEach((signlist) => {
             signlist.classList.add("hidden");
         });
         signalt.forEach((signalt) => {
             signalt.classList.remove("hidden");
-            signalt.textContent = fetcheduser.name;
+            signalt.textContent = disvalue;
         });
     } else {
         login.classList.remove("hidden");

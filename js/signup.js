@@ -49,12 +49,12 @@ signupForm.addEventListener("submit", function (event) {
             passError.innerText = "Password must contain 8+ characters, including uppercase, lowercase, a number, and a special character.";
             isvalid = false;
         }
-        if ((/[0-9]/.test(firstname))) {
-            nameError.innerText = "*Name cannot have a numeric value";
+        if ((!(/^[A-Za-z]+$/).test(firstname))) {
+            nameError.innerText = "*Name should contain alphabates only";
             isvalid = false;
         }
-        if ((/[0-9]/.test(lastname))) {
-            lastError.innerText = "*Name cannot have a numeric value";
+        if ((!(/^[A-Za-z]+$/).test(lastname))) {
+            lastError.innerText = "*Last Name should contain alphabates only";
             isvalid = false;
         }
         if ((!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))) {
@@ -64,7 +64,8 @@ signupForm.addEventListener("submit", function (event) {
     }
     if (isvalid) {
         const user = {
-            name: firstname + lastname,
+            firstname: firstname,
+            lastname: lastname,
             email: email,
             pass: pass
         };

@@ -1,8 +1,11 @@
-@media(max-width:767px) and (min-width:320px){
-    html, body {
+@media(max-width:767px) and (min-width:320px) {
+
+    html,
+    body {
         overflow-x: hidden;
         width: 100%;
     }
+
     .container {
         max-width: 100%;
         width: 100%;
@@ -10,32 +13,38 @@
         padding: 16px;
         border: saddlebrown 2px solid;
     }
-    .bgdecor{
+
+    .bgdecor {
         position: flex;
         top: 0%;
         right: 0%;
         width: 100%;
     }
-    .head .topnav{
+
+    .head .topnav {
         position: flex;
         flex-direction: row-reverse;
         padding: 20px 10px;
     }
+
     /* hamburger */
-    .nav{
+    .nav {
         display: none;
     }
-    .hamburger{
+
+    .hamburger {
         display: block;
         position: relative;
         left: 0%;
         height: 100%;
         width: fit-content;
     }
-    .mobile-menu.active{
+
+    .mobile-menu.active {
         display: flex;
     }
-    .mobile-menu{
+
+    .mobile-menu {
         display: none;
         position: absolute;
         flex-direction: column;
@@ -49,16 +58,23 @@
         border-radius: 10%;
         z-index: 2;
     }
-    .mobile-menu a{
+
+    .mobile-menu a {
         font-family: 'Poppins';
         font-size: 60%;
     }
-    .mobile-menu a:hover{
+
+    .mobile-menu a:hover {
         scale: 1.2;
         border: 2px solid red;
     }
+
+    .signalt {
+        padding: 2%;
+    }
+
     /* hero */
-    .hero .row{
+    .hero .row {
         position: relative;
         width: 90%;
         flex-direction: column-reverse;
@@ -66,13 +82,15 @@
         padding: 10px 10px;
         align-items: center;
     }
-    .hero .row .column.desc{
+
+    .hero .row .column.desc {
         margin-top: 20%;
         width: 90%;
         height: 80%;
         font-size: 80%;
     }
-    .hero .row .column.img img{
+
+    .hero .row .column.img img {
         display: flex;
         width: 100%;
         height: 100%;
@@ -81,25 +99,29 @@
         margin-right: auto;
         z-index: -1;
     }
-    .hero .row .column.desc p{
+
+    .hero .row .column.desc p {
         display: flex;
         width: 100%;
         height: 100%;
         font-size: 90%;
     }
-    .hero .row .column.desc .p1{
+
+    .hero .row .column.desc .p1 {
         width: 100%;
         height: 100%;
     }
-    .hero .row .column.desc h2{
+
+    .hero .row .column.desc h2 {
         font-size: 30px;
     }
-    .hero .row .redline{
+
+    .hero .row .redline {
         display: none;
     }
-    
+
     /* services */
-    .services{
+    .services {
         display: flex;
         width: 100%;
         height: 100%;
@@ -108,20 +130,24 @@
         margin-left: auto;
         margin-right: auto;
     }
-    .services .category{
+
+    .services .category {
         display: flex;
         justify-content: center;
         flex-direction: column;
         flex-wrap: wrap;
         width: 100%;
-        
+
     }
-    .services .bg-decor{
+
+    .services .bg-decor {
         display: none;
     }
-    .services .cat-head h2{
+
+    .services .cat-head h2 {
         font-size: 30px;
     }
+
     /* destination */
     .destination {
         position: relative;
@@ -425,13 +451,14 @@
 
 
     /* logos */
-    .logos{
+    .logos {
         width: 90%;
         height: 80%;
         display: flex;
         justify-content: center;
     }
-    .logos img{
+
+    .logos img {
         margin: 0 0;
         height: 20%;
         width: 20%;
@@ -520,7 +547,7 @@
 
 
     /* footer */
-    footer .above{
+    footer .above {
         position: relative;
         flex-direction: column;
         gap: 40px;
@@ -529,24 +556,28 @@
         align-items: center;
         margin: 10px;
     }
-    footer .copyright{
+
+    footer .copyright {
         margin-bottom: 0%;
         justify-content: center;
         text-align: center;
     }
-    footer .navbar{
+
+    footer .navbar {
         display: flex;
         flex-direction: column;
     }
-    footer .navbar .col{
+
+    footer .navbar .col {
         margin: 2% 2%;
         text-align: justify;
     }
-    footer .navbar .col .fch{
+
+    footer .navbar .col .fch {
         margin-bottom: 2%;
     }
-    footer .outbound .social{
+
+    footer .outbound .social {
         justify-content: space-evenly;
     }
 }
-
