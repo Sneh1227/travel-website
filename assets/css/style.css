@@ -311,6 +311,7 @@ a {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 100%;
 }
 
 .destination .head {
@@ -320,63 +321,100 @@ a {
 .destination .head p {
     font-size: 18px;
     color: var(--lightgrey);
-    font-family: poppins;
-    padding: 30px 0px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 20px 0px 10px 0px;
     margin-top: 80px;
 }
 
 .destination .head h2 {
-    font-family: volkhov;
+    font-family: 'Volkhov', serif;
     font-size: 50px;
     color: var(--darkblue);
+    font-weight: 700;
 }
 
 .destination .desti {
     position: relative;
     display: flex;
-    align-items: center;
+    align-items: stretch;
+    justify-content: center;
     width: 90%;
-    height: 100%;
-    text-align: center;
-    margin-top: 80px;
-    justify-content: space-between;
+    max-width: 1200px;
+    gap: 36px;
+    margin-top: 60px;
 }
 
 .destination .desti a {
-    width: 30%;
-    height: 100%;
+    display: block;
+    width: 31%;
+    max-width: 380px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.destination .desti .opt {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 22px;
 }
 
 .destination .desti .opt:hover {
-    scale: 1.1;
+    transform: translateY(-10px);
 }
 
-.destination .desti img {
+.destination .desti img,
+.destination .desti .opt img {
     position: relative;
-    z-index: -1;
+    width: 100%;
+    height: auto;
+    display: block;
+    z-index: 1;
 }
 
 .destination .desti .opt .col {
     position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
-    width: 25%;
-    height: 20%;
-    bottom: 30%;
-    margin-left: auto;
-    margin-right: auto;
+    left: 16.99%;
+    right: 16.88%;
+    bottom: 27.5%;
+    z-index: 2;
 
     background: var(--white);
-    box-shadow: 0 5px 30px -20px var(--black);
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+    border-bottom-left-radius: 24px;
+    border-bottom-right-radius: 24px;
+    padding: 18px 20px;
+    box-sizing: border-box;
+    gap: 12px;
 }
 
 .destination .desti .opt .col .row {
     display: flex;
     justify-content: space-between;
-    padding: 10px 20px;
-    font-family: 'Poppins';
+    align-items: center;
+    font-family: 'Poppins', sans-serif;
     color: var(--lightgrey);
+    font-weight: 500;
+}
+
+.destination .desti .opt .col .row p {
+    font-size: 18px;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.destination .desti .opt .col .row p i {
+    margin-right: 10px;
+    color: var(--black);
 }
 
 /* book a trip */
@@ -400,7 +438,7 @@ a {
 
 .bookatrip .values .value {
     display: flex;
-    /* justify-content: space-between; */
+    gap: 30%;
 }
 
 .bookatrip .values .steps {
@@ -477,12 +515,13 @@ a {
 }
 
 .bookatrip .values .side-side {
+    position: relative;
     display: flex;
     gap: 20px;
-    width: 263px;
-    height: 129px;
-    margin-top: 230px;
-    margin-left: -155px;
+    width: 20%;
+    height: 50%;
+    margin-top: 15%;
+    margin-left: -40%;
     background-color: var(--white);
     justify-content: center;
     border-radius: 10px;
@@ -720,8 +759,8 @@ a {
 .subscription .arrow-back {
     position: absolute;
     background: linear-gradient(201.65deg, #747DEF 10.27%, #5E3BE1 100%);
-    width: 70px;
-    height: 70px;
+    width: 5%;
+    height: 15%;
     border-radius: 50px;
     top: -5%;
     right: 0;
