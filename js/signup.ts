@@ -1,5 +1,5 @@
 // validation
-const signupForm = document.getElementById("formsignup") as HTMLInputElement;
+const signupForm = document.getElementById("formsignup") as HTMLFormElement;
 
 signupForm.addEventListener("submit", function (event) {
     event.preventDefault();
@@ -23,7 +23,7 @@ signupForm.addEventListener("submit", function (event) {
     passError.innerText = "";
     confPassError.innerText = "";
 
-    if (pass != confirmpassword) {
+    if (pass !== confirmpassword) {
         passError.innerText = "";
         confPassError.innerText = "password is mismatched";
         isvalid = false;
@@ -62,7 +62,7 @@ signupForm.addEventListener("submit", function (event) {
 });
 
 // password eye button
-function eyepass(input:any, button:any) {
+function eyepass(input:HTMLInputElement, button:HTMLButtonElement):void {
     if (input.type === "password") {
         input.type = "text";
         button.innerHTML = '<i class="fa-regular fa-eye" style="color: rgb(247, 247, 245);"></i>';
@@ -71,10 +71,10 @@ function eyepass(input:any, button:any) {
         button.innerHTML = '<i class="fa-regular fa-eye-slash" style="color: rgb(251, 251, 250);"></i>';
     }
 }
-const togglepass = document.getElementById("togglepass") as HTMLInputElement;
-const toggleconfirmpass = document.getElementById("toggleconfirmpass") as HTMLInputElement;
-const pass: any = document.getElementById("pass") as HTMLInputElement;
-const confirmpassword : any = document.getElementById("confirmpassword") as HTMLInputElement;
+const togglepass = document.getElementById("togglepass") as HTMLButtonElement;
+const toggleconfirmpass = document.getElementById("toggleconfirmpass") as HTMLButtonElement;
+const pass = document.getElementById("pass") as HTMLInputElement;
+const confirmpassword = document.getElementById("confirmpassword") as HTMLInputElement;
 
 togglepass.addEventListener("click", function () {
     eyepass(pass, togglepass);
