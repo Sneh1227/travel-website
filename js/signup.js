@@ -18,7 +18,7 @@ signupForm.addEventListener("submit", function (event) {
     emailError.innerText = "";
     passError.innerText = "";
     confPassError.innerText = "";
-    if (pass != confirmpassword) {
+    if (pass !== confirmpassword) {
         passError.innerText = "";
         confPassError.innerText = "password is mismatched";
         isvalid = false;
