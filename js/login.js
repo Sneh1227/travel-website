@@ -48,7 +48,6 @@ loginForm.addEventListener("submit", function (event) {
 const togglepass = document.getElementById("togglepass");
 const pass = document.getElementById("pass");
 togglepass.addEventListener("click", function () {
-    console.log(pass.type);
     if (pass.type === "password") {
         pass.type = "text";
         togglepass.innerHTML = '<i class="fa-regular fa-eye" style="color: rgb(251, 251, 251);"></i>';

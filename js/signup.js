@@ -1,28 +1,23 @@
 // validation
-const signupForm = document.getElementById("formsignup")
-
+const signupForm = document.getElementById("formsignup");
 signupForm.addEventListener("submit", function (event) {
     event.preventDefault();
-
     const firstname = document.getElementById("firstname").value;
     const lastname = document.getElementById("lastname").value;
     const email = document.getElementById("email").value;
     const pass = document.getElementById("pass").value;
     const confirmpassword = document.getElementById("confirmpassword").value;
-
     const nameError = document.getElementById("nameError");
     const lastError = document.getElementById("lastError");
     const emailError = document.getElementById("emailError");
     const passError = document.getElementById("passError");
     const confPassError = document.getElementById("confPassError");
-
     let isvalid = true;
     nameError.innerText = "";
     lastError.innerText = "";
     emailError.innerText = "";
     passError.innerText = "";
     confPassError.innerText = "";
-
     if (pass != confirmpassword) {
         passError.innerText = "";
         confPassError.innerText = "password is mismatched";
@@ -45,7 +40,6 @@ signupForm.addEventListener("submit", function (event) {
         emailError.innerHTML = "*Please enter a valid email address";
         isvalid = false;
     }
-
     if (isvalid) {
         const user = {
             firstname: firstname,
@@ -53,33 +47,31 @@ signupForm.addEventListener("submit", function (event) {
             email: email,
             pass: pass
         };
-
         localStorage.setItem("user", JSON.stringify(user));
         localStorage.setItem("isloggedin", "true");
         alert("WOHOO Registered Successfully");
         window.location.href = "/index.html";
-        updateUI();
     }
 });
-
 // password eye button
 function eyepass(input, button) {
     if (input.type === "password") {
         input.type = "text";
         button.innerHTML = '<i class="fa-regular fa-eye" style="color: rgb(247, 247, 245);"></i>';
-    } else {
+    }
+    else {
         input.type = "password";
         button.innerHTML = '<i class="fa-regular fa-eye-slash" style="color: rgb(251, 251, 250);"></i>';
     }
 }
-const togglepass = document.getElementById("togglepass")
+const togglepass = document.getElementById("togglepass");
 const toggleconfirmpass = document.getElementById("toggleconfirmpass");
-
+const pass = document.getElementById("pass");
+const confirmpassword = document.getElementById("confirmpassword");
 togglepass.addEventListener("click", function () {
     eyepass(pass, togglepass);
 });
-
-
 toggleconfirmpass.addEventListener("click", function () {
     eyepass(confirmpassword, toggleconfirmpass);
 });
+
