@@ -1,21 +1,13 @@
-
-// validation
 const loginForm = document.getElementById("loginForm");
-
 loginForm.addEventListener("submit", function (event) {
     event.preventDefault();
-
     const email = document.getElementById("email").value;
     const pass = document.getElementById("pass").value;
-
     const emailError = document.getElementById("emailError");
     const passError = document.getElementById("passError");
-
     let isvalid = true;
-
-    emailError.innerHTML = "";
-    passError.innerHTML = "";
-
+    emailError.textContent = "";
+    passError.textContent = "";
     if (!email) {
         emailError.innerText = "Email is required";
         isvalid = false;
@@ -23,8 +15,9 @@ loginForm.addEventListener("submit", function (event) {
     if (!pass) {
         passError.innerText = "Password is required";
         isvalid = false;
-    } else {
-        if((!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))){
+    }
+    else {
+        if ((!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))) {
             emailError.innerText = "*Please enter a valid email address";
             isvalid = false;
         }
@@ -35,32 +28,34 @@ loginForm.addEventListener("submit", function (event) {
     }
     if (isvalid) {
         const storedUser = localStorage.getItem("user");
-
         if (!storedUser) {
             alert("No account found! Please sign up first");
-        } else {
+        }
+        else {
             const fetcheduser = JSON.parse(storedUser);
-
             if (email == fetcheduser.email && pass == fetcheduser.pass) {
                 alert("Let's gooooo");
                 localStorage.setItem("isloggedin", "true");
                 window.location.href = "/index.html";
-            } else {
+            }
+            else {
                 alert("Invalid pass or mail");
             }
         }
     }
 });
-
-
-// password eye button
+// password toggle eye
 const togglepass = document.getElementById("togglepass");
+const pass = document.getElementById("pass");
 togglepass.addEventListener("click", function () {
+    console.log(pass.type);
     if (pass.type === "password") {
         pass.type = "text";
         togglepass.innerHTML = '<i class="fa-regular fa-eye" style="color: rgb(251, 251, 251);"></i>';
-    } else {
+    }
+    else {
         pass.type = "password";
-        togglepass.innerHTML = '<i class="fa-regular fa-eye-slash" style="color: rgb(253, 252, 249);"></i>'
+        togglepass.innerHTML = '<i class="fa-regular fa-eye-slash" style="color: rgb(253, 252, 249);"></i>';
     }
 });
+
