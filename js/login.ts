@@ -1,4 +1,4 @@
-const loginForm = document.getElementById("loginForm") as HTMLInputElement;
+const loginForm = document.getElementById("loginForm") as HTMLFormElement;
 
 
 loginForm.addEventListener("submit",function(event){
@@ -53,7 +53,7 @@ loginForm.addEventListener("submit",function(event){
 });
 
 // password toggle eye
-const togglepass = document.getElementById("togglepass") as HTMLInputElement;
+const togglepass = document.getElementById("togglepass") as HTMLButtonElement;
 const pass : any = document.getElementById("pass") as HTMLInputElement;
 togglepass.addEventListener("click", function () {
     if (pass.type === "password") {
