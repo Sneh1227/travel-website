@@ -1,0 +1,122 @@
+// hamburger for tablet and mobile
+const hamburger = document.getElementById("hamburger") as HTMLButtonElement;
+const mobileMenu = document.getElementById("mobile-menu") as HTMLElement;
+
+hamburger.addEventListener("click", function () {
+    mobileMenu.classList.toggle("active");
+});
+
+// function to change navbar option
+const login = document.getElementById("login") as HTMLAnchorElement;
+const logout = document.getElementById("logout") as HTMLAnchorElement;
+
+const loginm = document.getElementById("loginm") as HTMLAnchorElement;
+const logoutm = document.getElementById("logoutm") as HTMLAnchorElement;
+
+const signup = document.querySelectorAll<HTMLElement>(".signup");
+const signalt = document.querySelectorAll<HTMLElement>(".signalt");
+
+function updateUI():void {
+    const isloggedIn : boolean = localStorage.getItem("isloggedin") === "true";
+    if (isloggedIn) {
+        login.classList.add("hidden");
+        logout.classList.remove("hidden");
+
+        loginm.classList.add("hidden");
+        logoutm.classList.remove("hidden");
+
+        const user : string | null = localStorage.getItem("user");
+        let disvalue = "";
+        if(user){
+
+        const fetcheduser  = JSON.parse(user);
+        
+        
+        const initials = fetcheduser.firstname[0] + fetcheduser.lastname[0];
+        disvalue = initials.toUpperCase();
+        }
+        signup.forEach((signlist) => {
+            signlist.classList.add("hidden");
+        });
+        signalt.forEach((signalt) => {
+            signalt.classList.remove("hidden");
+            signalt.textContent = disvalue;
+        });
+    } else {
+        login.classList.remove("hidden");
+        logout.classList.add("hidden");
+
+        loginm.classList.remove("hidden");
+        logoutm.classList.add("hidden");
+        signup.forEach((signlist) => {
+            signlist.classList.remove("hidden");
+        });
+        signalt.forEach((signalt) => {
+            signalt.classList.add("hidden");
+        });
+    }
+}
+document.addEventListener("DOMContentLoaded", updateUI);
+
+// logout
+
+const logoutt = document.querySelectorAll(".logout");
+
+logoutt.forEach(btn => {
+    btn.addEventListener("click", function () {
+        localStorage.removeItem("isloggedin");
+        alert("Log out successfully");
+        updateUI();
+    });
+})
+
+
+// testimonials changer
+
+const testimonials = document.querySelectorAll<HTMLElement>(".testimonial");
+const dots = document.querySelectorAll<HTMLElement>(".dots button");
+
+const prevBtn = document.querySelector(".prev") as HTMLButtonElement;
+const nextBtn = document.querySelector(".next") as HTMLButtonElement;
+
+let current = 0;
+
+function showTestimonials(index:number) : void{
+    testimonials.forEach((testimonial) => {
+        testimonial.classList.remove("active");
+    });
+
+    dots.forEach((dot) => {
+        dot.classList.remove("active");
+    });
+
+    testimonials[index].classList.add("active");
+    dots[index].classList.add("active");
+    current = index;
+}
+
+dots.forEach((dot, index) => {
+    dot.addEventListener("click", () => {
+        showTestimonials(index);
+    });
+});
+
+nextBtn.addEventListener("click", () => {
+    current++;
+    if (current >= testimonials.length) {
+        current = 0;
+    }
+    showTestimonials(current);
+});
+
+prevBtn.addEventListener("click", () => {
+    current--;
+    if (current < 0) {
+        current = testimonials.length - 1;
+    }
+    showTestimonials(current);
+});
+
+showTestimonials(0);
+
+export{};
