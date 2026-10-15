@@ -4,11 +4,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Destinations</title>
+    <title>Explore Destinations</title>
 </head>
 
 <body>
-    <h>under construction</h>
+    <header class="page-header">
+        <h1>Explore the World</h1>
+        <p>Find your next travel destination.</p>
+    </header>
+
+    <main class="container">
+        <form id="search-form">
+            <label for="destination-input">Destination</label>
+
+            <div class="search-bar">
+                <input type="search" id="destination-input" placeholder="Search cities or countries..." minlength="2">
+                <button type="submit" id="btnsearch">Search</button>
+            </div>
+        </form>
+
+        <p id="status" role="status" aria-live="polite"></p>
+        <section id="results" class="destination-grid" aria-label="Search results"></section>
+    </main>
+
+    <footer>
+        <p>Destination information powered by GeoNames.</p>
+    </footer>
+    <script src="/js/destination.js"></script>
 </body>
 
 </html>
