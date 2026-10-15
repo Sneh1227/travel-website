@@ -135,6 +135,12 @@
         margin-right: 8px;
     }
 
+    .destination .view-more-btn {
+        margin-top: 40px;
+        padding: 13px 34px;
+        font-size: 15px;
+    }
+
     /* book a trip */
     .bookatrip,
     .destination+.bookatrip {

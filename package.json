@@ -1,0 +1,22 @@
+{
+  "name": "travel-website",
+  "version": "1.0.0",
+  "description": "Travel Website",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sneh1227/travel-website.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sneh1227/travel-website/issues"
+  },
+  "homepage": "https://github.com/Sneh1227/travel-website#readme",
+  "dependencies": {
+    "typescript": "^7.0.2"
+  }
+}

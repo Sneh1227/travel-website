@@ -223,6 +223,15 @@
         margin-right: 6px;
     }
 
+    .destination .view-more-btn {
+        margin-top: 30px;
+        padding: 12px 30px;
+        font-size: 14px;
+        width: auto;
+        max-width: 200px;
+        text-align: center;
+    }
+
     /* book a trip */
     .bookatrip {
         position: relative;

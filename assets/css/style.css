@@ -95,7 +95,8 @@ a {
     border: none;
     font-size: 17px;
 }
-.signalt{
+
+.signalt {
     border: 2px solid var(--black);
     padding: 20%;
     border-radius: 50%;
@@ -421,6 +422,33 @@ a {
 .destination .desti .opt .col .row p i {
     margin-right: 10px;
     color: var(--black);
+}
+
+.destination .view-more-btn {
+    display: inline-block;
+    /* margin-top: 50px; */
+    padding: 14px 40px;
+    background: var(--btn);
+    color: var(--white);
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(224, 153, 45, 0.35);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-align: center;
+}
+
+.destination .view-more-btn:hover {
+    background: var(--red);
+    box-shadow: 0 12px 24px rgba(223, 105, 81, 0.4);
+    transform: translateY(-3px);
+}
+
+.destination .view-more-btn:active {
+    transform: translateY(-1px);
 }
 
 /* book a trip */
