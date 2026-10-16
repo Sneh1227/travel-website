@@ -11,11 +11,25 @@ searchForm.addEventListener("submit", function (event) {
     event.preventDefault();
     const value = destinationInput.value;
     if (value) {
-        console.log(value);
+        getData(value);
     } else {
         status.textContent = "Please enter a valid destination";
     }
 });
+
+async function getData(value: string) {
+    const api =
+        `http://localhost:8000/api/destination?query=${encodeURIComponent(value)}`;
+
+    try {
+        const response = await fetch(api);
+        const data = await response.json();
+
+        console.log(data);
+    } catch (error) {
+        console.error("Error fetching photos:", error);
+    }
+}
 
 
 export { };
