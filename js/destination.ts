@@ -25,7 +25,15 @@ async function getData(value: string) {
         const response = await fetch(api);
         const data = await response.json();
 
-        console.log(data);
+        results.innerHTML = "";
+        data.forEach((photo: any) => {
+            const img = document.createElement("img");
+            img.src = data[0].links.download;
+            results.appendChild(img);
+            console.log(data[0]);
+        });
+
+
     } catch (error) {
         console.error("Error fetching photos:", error);
     }
