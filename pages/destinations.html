@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Destinations</title>
+    <link rel="stylesheet" href="/assets/css/destination.css">
+</head>
+
+<body>
+    <header class="page-header">
+        <h1>Explore the World</h1>
+        <p>Find your next travel destination.</p>
+    </header>
+
+    <main class="container">
+        <form id="search-form">
+            <label for="destination-input">Destination</label>
+
+            <div class="search-bar">
+                <input type="search" id="destination-input" placeholder="Search cities or countries..." minlength="2">
+                <button type="submit" id="btnsearch">Search</button>
+            </div>
+        </form>
+
+        <p id="status" role="status" aria-live="polite"></p>
+        <section id="results" class="destination-grid" aria-label="Search results">
+        </section>
+        <div id="wiki-info"></div>
+
+        <section class="popular-destinations">
+            <h2>Popular Destinations</h2>
+            <div id="popular-destinations"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Destination information powered by Wikipedia.</p>
+    </footer>
+    <script src="/js/destination.js"></script>
+</body>
+<!--  -->
+
+</html>

@@ -14,13 +14,10 @@
 
     .head .topnav {
         position: relative;
-        flex-direction: row-reverse;
-    }
-
-    .head ul {
-        position: relative;
-        flex-wrap: wrap;
-        gap: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 40px;
     }
 
     .signalt {
@@ -133,6 +130,12 @@
 
     .destination .desti .opt .col .row p i {
         margin-right: 8px;
+    }
+
+    .destination .view-more-btn {
+        margin-top: 40px;
+        padding: 13px 34px;
+        font-size: 15px;
     }
 
     /* book a trip */
@@ -389,38 +392,14 @@
     }
 
     .hamburger {
-        display: block;
-        position: relative;
-        left: 0%;
-        height: 100%;
-        width: fit-content;
+        display: inline-flex;
     }
 
     .mobile-menu {
-        display: none;
-        position: absolute;
-        flex-direction: column;
-        gap: 20px;
-        padding: 2% 5%;
-        height: fit-content;
-        width: 30%;
-        left: 0%;
-        background-color: white;
-        border: 5px solid wheat;
-        border-radius: 10%;
-    }
-
-    .mobile-menu.active {
-        display: flex;
-    }
-
-    .mobile-menu a {
-        font-family: 'Poppins';
-    }
-
-    .mobile-menu a:hover {
-        scale: 1.2;
-        border: 2px solid red;
+        top: calc(100% + 12px);
+        right: 40px;
+        left: auto;
+        width: 300px;
     }
 
 }
