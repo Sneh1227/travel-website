@@ -24,6 +24,7 @@ async function getData(value) {
         console.log("Destination:", data.destination);
         console.log("Photos:", data.photos);
         console.log("Wikipedia information:", data.information);
+        // console.log("likes", data.likes);
         results.innerHTML = "";
         data.photos.forEach((photo) => {
             const img = document.createElement("img");
@@ -59,7 +60,10 @@ const popularPlaces = [
     "Paris",
     "Tokyo",
     "Dubai",
-    "Goa"
+    "Goa",
+    "Las vegas",
+    "Mumbai",
+    "Istanbul",
 ];
 async function loadPopularDestinations() {
     popularContainer.textContent = "Loading destinations...";
@@ -99,3 +103,4 @@ async function loadPopularDestinations() {
 }
 // Automatically load destinations when the page opens
 loadPopularDestinations();
+

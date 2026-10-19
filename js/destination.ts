@@ -31,6 +31,7 @@ async function getData(value: string) {
         console.log("Destination:", data.destination);
         console.log("Photos:", data.photos);
         console.log("Wikipedia information:", data.information);
+        // console.log("likes", data.likes);
 
 
         results.innerHTML = "";
@@ -77,7 +78,10 @@ const popularPlaces = [
     "Paris",
     "Tokyo",
     "Dubai",
-    "Goa"
+    "Goa",
+    "Las vegas",
+    "Mumbai",
+    "Istanbul",
 ];
 
 async function loadPopularDestinations() {
