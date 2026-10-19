@@ -18,13 +18,36 @@ async function getData(value) {
     try {
         const response = await fetch(api);
         const data = await response.json();
+        if (!response.ok) {
+            throw new Error(data.error || "Request failed");
+        }
+        console.log("Destination:", data.destination);
+        console.log("Photos:", data.photos);
+        console.log("Wikipedia information:", data.information);
         results.innerHTML = "";
-        data.forEach((photo) => {
+        data.photos.forEach((photo) => {
             const img = document.createElement("img");
-            img.src = data[0].links.download;
+            img.src = photo.links.download;
+            img.alt = "Image not found";
             results.appendChild(img);
-            console.log(data[0]);
+            console.log(photo);
         });
+        // Display Wikipedia information
+        const wikiInfo = document.getElementById("wiki-info");
+        wikiInfo.innerHTML = "";
+        const title = document.createElement("h2");
+        title.textContent = data.information.title;
+        const description = document.createElement("p");
+        description.textContent = data.information.description;
+        wikiInfo.append(title, description);
+        if (data.information.url) {
+            const link = document.createElement("a");
+            // link.href = data.information.url;
+            link.textContent = "Read more on Wikipedia";
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
+            wikiInfo.appendChild(link);
+        }
     }
     catch (error) {
         console.error("Error fetching photos:", error);
