@@ -90,7 +90,10 @@ const popularPlaces = [
     "Paris",
     "Tokyo",
     "Dubai",
-    "Goa"
+    "Goa",
+    "Las vegas",
+    "Mumbai",
+    "Istanbul",
 ];
 
 async function loadPopularDestinations() {
@@ -145,3 +148,4 @@ async function loadPopularDestinations() {
 
 // Automatically load destinations when the page opens
 loadPopularDestinations();
+

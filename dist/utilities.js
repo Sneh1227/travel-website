@@ -1,9 +1,39 @@
 // hamburger for tablet and mobile
 const hamburger = document.getElementById("hamburger");
 const mobileMenu = document.getElementById("mobile-menu");
-hamburger.addEventListener("click", function () {
-    mobileMenu.classList.toggle("active");
-});
+
+if (hamburger && mobileMenu) {
+    function setMenuState(isOpen) {
+        if (isOpen) {
+            mobileMenu.classList.add("active");
+            hamburger.classList.add("active");
+            hamburger.setAttribute("aria-expanded", "true");
+        } else {
+            mobileMenu.classList.remove("active");
+            hamburger.classList.remove("active");
+            hamburger.setAttribute("aria-expanded", "false");
+        }
+    }
+
+    hamburger.addEventListener("click", function () {
+        const isOpen = mobileMenu.classList.contains("active");
+        setMenuState(!isOpen);
+    });
+
+    // Close mobile menu when clicking outside
+    document.addEventListener("click", function (e) {
+        if (!hamburger.contains(e.target) && !mobileMenu.contains(e.target)) {
+            setMenuState(false);
+        }
+    });
+
+    // Close mobile menu when clicking any link
+    mobileMenu.querySelectorAll("a").forEach(function (link) {
+        link.addEventListener("click", function () {
+            setMenuState(false);
+        });
+    });
+}
 // function to change navbar option
 const login = document.getElementById("login");
 const logout = document.getElementById("logout");
