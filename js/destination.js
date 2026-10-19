@@ -43,7 +43,7 @@ async function getData(value) {
         wikiInfo.append(title, description);
         if (data.information.url) {
             const link = document.createElement("a");
-            // link.href = data.information.url;
+            link.href = data.information.url;
             link.textContent = "Read more on Wikipedia";
             link.target = "_blank";
             link.rel = "noopener noreferrer";

@@ -336,119 +336,238 @@ a {
 /* services */
 .services {
     position: relative;
+    width: 100%;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 60px 24px 70px;
 }
 
 .services .cat-head {
-    justify-content: center;
-    align-items: center;
+    position: relative;
     text-align: center;
-    padding: 80px 0;
+    margin-bottom: 50px;
+    padding: 0;
 }
 
 .services .cat-head p {
-    font-family: poppins;
+    font-family: 'Poppins', sans-serif;
     color: var(--lightgrey);
     font-size: 18px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 12px;
 }
 
 .services .cat-head h2 {
-    font-family: volkhov;
+    font-family: 'Volkhov', serif;
     font-size: 50px;
-}
-
-.services .category {
-    display: flex;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
-    padding: 80px 0;
+    font-weight: 700;
+    color: var(--darkblue);
+    line-height: 1.25;
 }
 
 .services .bg-decor {
     position: absolute;
-    top: 80px;
-    right: 0;
+    top: -10px;
+    right: 15px;
+    z-index: 0;
+    pointer-events: none;
 }
 
-.services .category .column {
-    padding: 0 40px;
-    align-items: center;
-    text-align: center;
+.services .bg-decor img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+.services .category {
+    display: flex;
     justify-content: center;
-    width: auto;
+    align-items: stretch;
+    gap: 30px;
+    position: relative;
+    padding: 25px 0 35px;
+    z-index: 1;
 }
 
 .services .category .column {
     position: relative;
+    flex: 1 1 0;
+    max-width: 270px;
+    min-width: 220px;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    cursor: pointer;
+    z-index: 1;
+    outline: none;
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-.services .category .column:hover .bg-plain {
+/* Card inner box that holds content and solid white background */
+.services .category .column .card-box {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 45px 24px 40px;
+    border-radius: 36px;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+    z-index: 2;
+    transition: box-shadow 0.35s ease;
+}
+
+/* Decorative red shape behind bottom-left of card */
+.services .category .column .bg-plain {
     position: absolute;
-    display: block;
-    width: 100px;
-    height: 100px;
-    bottom: -50px;
-    left: 10px;
-    z-index: -1;
+    width: 90px;
+    height: 90px;
+    bottom: -24px;
+    left: -24px;
+    z-index: 1;
     background-color: var(--red);
     border-top-left-radius: 30px;
     border-bottom-right-radius: 10px;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.6) translate(15px, -15px);
+    transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0.35s;
+    pointer-events: none;
 }
 
-.services .category .column:hover {
-    scale: 1.2;
+/* Hover, active and focus states for card */
+.services .category .column:hover,
+.services .category .column:focus-visible {
+    transform: translateY(-10px);
 }
 
-.category.row .column h4 {
-    font-family: Open Sans;
-    padding: 30px;
-    color: var(--darkblue);
-    font-size: 20px;
+.services .category .column:hover .card-box,
+.services .category .column:focus-visible .card-box {
+    box-shadow: 0px 40px 70px rgba(0, 0, 0, 0.07), 0px 10px 25px rgba(0, 0, 0, 0.04);
 }
 
-.category.row .column p {
-    font-family: poppins;
-    font-size: 16px;
-    color: var(--lightgrey);
-    width: 200px;
-    border-radius: 10px;
-    background-color: var(--white);
+.services .category .column:hover .bg-plain,
+.services .category .column:focus-visible .bg-plain {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1) translate(0, 0);
 }
 
-.category .column img {
-    width: 80px;
-    height: 80px;
-}
-
-.category .column.cat-2 .img-layout img {
-    width: 150px;
-    height: 130px;
-    margin-bottom: -30px;
-    margin-top: -20px;
-}
-
-.category.row .column .bg-box {
-    position: absolute;
-    width: 50px;
-    height: 49px;
-    background: var(--skin);
-    border-top-left-radius: 18px;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 10px;
-    border-bottom-left-radius: 5px;
-    margin-left: 105px;
-    margin-top: 30px;
-    z-index: -1;
-}
-
-.category.row .column .c2 .bg-box,
-.category.row .column .c3 .bg-box {
-    margin-left: 50px;
-    margin-top: 10px;
+/* Icon layout & micro-animations */
+.services .category .column .img-layout {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
 }
 
 .services .category .column .img-layout img {
-    z-index: 10;
+    position: relative;
+    z-index: 2;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.services .category .column:hover .img-layout img,
+.services .category .column:focus-visible .img-layout img {
+    transform: scale(1.08);
+}
+
+/* Specific icon adjustments */
+.category .column.cat-1 .img-layout img {
+    width: 70px;
+    height: 70px;
+}
+
+.category .column.cat-2 .img-layout img {
+    width: 120px;
+    height: 100px;
+    margin: 0;
+}
+
+.category .column.cat-3 .img-layout img {
+    width: 50px;
+    height: 70px;
+}
+
+.category .column.cat-4 .img-layout img {
+    width: 55px;
+    height: 55px;
+}
+
+/* Peach accent box behind icon */
+.category.row .column .bg-box {
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    background: var(--skin);
+    border-radius: 18px 5px 10px 5px;
+    z-index: 1;
+    pointer-events: none;
+    transition: transform 0.35s ease;
+}
+
+.services .category .column:hover .bg-box,
+.services .category .column:focus-visible .bg-box {
+    transform: scale(1.1) rotate(4deg);
+}
+
+.category.row .column .c1 .bg-box {
+    right: 12px;
+    bottom: 12px;
+}
+
+.category.row .column .c2 .bg-box {
+    left: 8px;
+    top: 10px;
+}
+
+.category.row .column .c3 .bg-box {
+    left: 14px;
+    top: 12px;
+}
+
+.category.row .column .c4 .bg-box {
+    right: 14px;
+    bottom: 12px;
+}
+
+/* Typography inside card */
+.category.row .column h4 {
+    position: relative;
+    font-family: 'Open Sans', 'Poppins', sans-serif;
+    padding: 0;
+    margin-bottom: 14px;
+    color: var(--darkblue);
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.35;
+    z-index: 1;
+}
+
+.category.row .column p {
+    position: relative;
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--lightgrey);
+    width: 100%;
+    max-width: 210px;
+    line-height: 1.6;
+    margin: 0 auto;
+    background-color: transparent;
+    border-radius: 0;
+    z-index: 1;
 }
 
 /* destination */

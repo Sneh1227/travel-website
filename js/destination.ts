@@ -10,6 +10,7 @@ const results = document.getElementById("results") as HTMLElement;
 searchForm.addEventListener("submit", function (event) {
     event.preventDefault();
     const value = destinationInput.value;
+
     if (value) {
         getData(value);
     } else {
@@ -57,7 +58,7 @@ async function getData(value: string) {
 
         if (data.information.url) {
             const link = document.createElement("a");
-            // link.href = data.information.url;
+            link.href = data.information.url;
             link.textContent = "Read more on Wikipedia";
             link.target = "_blank";
             link.rel = "noopener noreferrer";

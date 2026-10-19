@@ -98,29 +98,95 @@
     /* services */
     .services {
         display: flex;
-        width: 100%;
-        height: 100%;
         flex-direction: column;
-        margin-top: 10%;
-        margin-left: auto;
-        margin-right: auto;
+        align-items: center;
+        width: 100%;
+        max-width: 100%;
+        margin-top: 25px;
+        margin-bottom: 20px;
+        padding: 40px 16px 50px;
+        box-sizing: border-box;
     }
 
-    .services .category {
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-        flex-wrap: wrap;
-        width: 100%;
+    .services .cat-head {
+        text-align: center;
+        margin-bottom: 30px;
+        padding: 0;
+    }
 
+    .services .cat-head p {
+        font-size: 15px;
+        margin-bottom: 8px;
+    }
+
+    .services .cat-head h2 {
+        font-size: 28px;
+        line-height: 1.3;
     }
 
     .services .bg-decor {
         display: none;
     }
 
-    .services .cat-head h2 {
-        font-size: 30px;
+    .services .category {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        gap: 36px;
+        padding: 15px 0 25px;
+        margin: 0 auto;
+    }
+
+    .services .category .column {
+        width: 100%;
+        max-width: 290px;
+        min-width: 0;
+        transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .services .category .column .card-box {
+        padding: 38px 20px 32px;
+        border-radius: 30px;
+        background-color: #ffffff;
+    }
+
+    /* On mobile / small screens, support smooth touch/hover/active states without page overflow */
+    .services .category .column:hover,
+    .services .category .column:active {
+        transform: translateY(-6px);
+    }
+
+    .services .category .column:hover .card-box,
+    .services .category .column:active .card-box {
+        box-shadow: 0px 25px 50px rgba(0, 0, 0, 0.08), 0px 8px 20px rgba(0, 0, 0, 0.04);
+    }
+
+    .services .category .column .bg-plain {
+        width: 70px;
+        height: 70px;
+        bottom: -18px;
+        left: -16px;
+        border-top-left-radius: 24px;
+        border-bottom-right-radius: 10px;
+    }
+
+    .services .category .column:hover .bg-plain,
+    .services .category .column:active .bg-plain {
+        opacity: 1;
+        visibility: visible;
+        transform: scale(1) translate(0, 0);
+    }
+
+    .category.row .column h4 {
+        font-size: 19px;
+        margin-bottom: 12px;
+    }
+
+    .category.row .column p {
+        font-size: 14px;
+        max-width: 240px;
     }
 
     /* destination */
