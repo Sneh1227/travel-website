@@ -4,128 +4,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Explore Destinations - Jadoo Travel</title>
-    <meta name="description" content="Discover extraordinary travel destinations, high-resolution photography, and real-time destination insights powered by Wikipedia and Unsplash.">
-
-    <!-- Fonts & Icons -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Volkhov:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-    <!-- Stylesheet -->
+    <title>Explore Destinations</title>
     <link rel="stylesheet" href="/assets/css/destination.css">
-    <link rel="stylesheet" href="../assets/css/destination.css">
 </head>
 
 <body>
-    <!-- Ambient Background Lighting -->
-    <div class="ambient-glow glow-top-right"></div>
-    <div class="ambient-glow glow-bottom-left"></div>
-
-    <!-- Navigation Bar -->
-    <nav class="top-nav" aria-label="Main Navigation">
-        <div class="nav-container">
-            <a href="../index.html" class="nav-brand" aria-label="Jadoo Travel Home">
-                <img src="../assets/images/header/Logo.png" alt="Jadoo Travel Logo" class="brand-logo">
-            </a>
-            <div class="nav-links">
-                <a href="../index.html" class="nav-link"><i class="fa-solid fa-house"></i> Home</a>
-                <a href="../index.html#services" class="nav-link">Hotels</a>
-                <a href="../index.html#testimonials" class="nav-link">Flights</a>
-                <a href="../index.html#bookatrip" class="nav-link">Bookings</a>
-            </div>
-            <div class="nav-actions">
-                <a href="login.html" class="nav-btn-login">Login</a>
-                <a href="../index.html" class="nav-btn-back">
-                    <i class="fa-solid fa-arrow-left"></i>
-                    <span>Back to Home</span>
-                </a>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Page Header / Hero -->
     <header class="page-header">
-        <div class="hero-badge">
-            <i class="fa-solid fa-compass"></i>
-            <span>DISCOVER THE WORLD</span>
-        </div>
-        <h1>Explore Destinations</h1>
-        <p>Find your next vacation, uncover hidden gems, and view instant Wikipedia travel intelligence with high-resolution photography.</p>
+        <h1>Explore the World</h1>
+        <p>Find your next travel destination.</p>
     </header>
 
-    <!-- Main Content Container -->
     <main class="container">
-        <!-- Search Section -->
-        <form id="search-form" class="search-form" role="search">
-            <label for="destination-input" class="search-label">Destination Search</label>
+        <form id="search-form">
+            <label for="destination-input">Destination</label>
 
             <div class="search-bar">
-                <i class="fa-solid fa-magnifying-glass search-icon" aria-hidden="true"></i>
-                <input type="search" id="destination-input" placeholder="Search cities or countries (e.g. Paris, Tokyo, Bali)..." minlength="2" autocomplete="off" required>
-                <button type="submit" id="btnsearch">
-                    <span>Search</span>
-                    <i class="fa-solid fa-arrow-right"></i>
-                </button>
-            </div>
-
-            <!-- Trending Quick Tags -->
-            <div class="trending-tags">
-                <span class="trending-label"><i class="fa-solid fa-fire"></i> Trending:</span>
-                <button type="button" class="tag-btn" data-place="Bali">Bali</button>
-                <button type="button" class="tag-btn" data-place="Paris">Paris</button>
-                <button type="button" class="tag-btn" data-place="Tokyo">Tokyo</button>
-                <button type="button" class="tag-btn" data-place="Dubai">Dubai</button>
-                <button type="button" class="tag-btn" data-place="Rome">Rome</button>
-                <button type="button" class="tag-btn" data-place="Goa">Goa</button>
+                <input type="search" id="destination-input" placeholder="Search cities or countries..." minlength="2">
+                <button type="submit" id="btnsearch">Search</button>
             </div>
         </form>
 
-        <!-- Status Message -->
         <p id="status" role="status" aria-live="polite"></p>
+        <section id="results" class="destination-grid" aria-label="Search results">
+        </section>
+        <div id="wiki-info"></div>
 
-        <!-- Dynamic Results Section -->
-        <div class="results-section">
-            <section id="results" class="destination-grid" aria-label="Search results"></section>
-            <div id="wiki-info"></div>
-        </div>
-
-        <!-- Popular Destinations Section -->
-        <section class="popular-destinations" aria-label="Popular Destinations">
-            <div class="section-title-wrap">
-                <span class="section-eyebrow">TOP PICKS</span>
-                <h2>Popular Destinations</h2>
-                <p class="section-subtitle">Discover the most sought-after holiday getaways chosen by globetrotters around the world</p>
-            </div>
+        <section class="popular-destinations">
+            <h2>Popular Destinations</h2>
             <div id="popular-destinations"></div>
         </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="page-footer">
-        <div class="footer-content">
-            <div class="footer-brand">
-                <img src="../assets/images/header/Logo.png" alt="Jadoo Travel" class="footer-logo">
-                <p>Your gateway to unforgettable travel adventures and global exploration.</p>
-            </div>
-            <div class="footer-meta">
-                <p><i class="fa-brands fa-wikipedia-w"></i> Destination information powered by Wikipedia & Unsplash.</p>
-                <p class="copyright">© 2026 Jadoo Travel. All rights reserved.</p>
-            </div>
-        </div>
+    <footer>
+        <p>Destination information powered by Wikipedia.</p>
     </footer>
-
-    <!-- Script -->
     <script src="/js/destination.js"></script>
-    <script>
-        // Fallback in case /js/destination.js didn't resolve under direct file protocol
-        if (typeof getData !== 'function') {
-            const script = document.createElement('script');
-            script.src = '../js/destination.js';
-            document.body.appendChild(script);
-        }
-    </script>
 </body>
+<!--  -->
 
 </html>
