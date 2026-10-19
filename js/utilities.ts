@@ -1,10 +1,39 @@
 // hamburger for tablet and mobile
-const hamburger = document.getElementById("hamburger") as HTMLButtonElement;
-const mobileMenu = document.getElementById("mobile-menu") as HTMLElement;
+const hamburger = document.getElementById("hamburger") as HTMLButtonElement | null;
+const mobileMenu = document.getElementById("mobile-menu") as HTMLElement | null;
 
-hamburger.addEventListener("click", function () {
-    mobileMenu.classList.toggle("active");
-});
+if (hamburger && mobileMenu) {
+    const setMenuState = (isOpen: boolean): void => {
+        if (isOpen) {
+            mobileMenu.classList.add("active");
+            hamburger.classList.add("active");
+            hamburger.setAttribute("aria-expanded", "true");
+        } else {
+            mobileMenu.classList.remove("active");
+            hamburger.classList.remove("active");
+            hamburger.setAttribute("aria-expanded", "false");
+        }
+    };
+
+    hamburger.addEventListener("click", function () {
+        const isOpen = mobileMenu.classList.contains("active");
+        setMenuState(!isOpen);
+    });
+
+    // Close mobile menu when clicking outside
+    document.addEventListener("click", function (e: MouseEvent) {
+        if (!hamburger.contains(e.target as Node) && !mobileMenu.contains(e.target as Node)) {
+            setMenuState(false);
+        }
+    });
+
+    // Close mobile menu when clicking any link
+    mobileMenu.querySelectorAll("a").forEach(function (link) {
+        link.addEventListener("click", function () {
+            setMenuState(false);
+        });
+    });
+}
 
 // function to change navbar option
 const login = document.getElementById("login") as HTMLAnchorElement;
