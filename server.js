@@ -1,8 +1,4 @@
 const http = require("http");
-// console.log(
-//     "API key loaded:",
-//     Boolean(process.env.access_key)
-// );
 
 const server = http.createServer(async (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -20,7 +16,6 @@ const server = http.createServer(async (req, res) => {
         }
 
         try {
-            // https://en.wikipedia.org/api/rest_v1/page/summary/bali
             // unsplash
             const [unsplashResponse, wikiResponse] = await Promise.all([
                 fetch(
@@ -64,7 +59,7 @@ const server = http.createServer(async (req, res) => {
                 information: {
                     title: wikiData.title,
                     description: wikiData.extract,
-                    // url: wikiData.content_urls?.desktop?.page
+                    url: wikiData.content_urls?.desktop?.page
                 }
             }));
 
