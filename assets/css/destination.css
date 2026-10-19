@@ -2,7 +2,7 @@
    JADOO TRAVEL - DESTINATIONS PAGE STYLESHEET
    Modern, responsive, and cohesive design system for Explore Destinations
    ========================================================================== */
-
+/* final css for destination */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Volkhov:wght@700&display=swap');
 
 /* --- Design Tokens & Variables --- */
@@ -21,31 +21,33 @@
     --white: #FFFFFF;
     --border-subtle: rgba(24, 30, 75, 0.08);
     --border-hover: rgba(223, 105, 81, 0.25);
-    
+
     /* Shadows */
     --shadow-sm: 0 4px 12px rgba(24, 30, 75, 0.04);
     --shadow-card: 0 12px 30px rgba(24, 30, 75, 0.07);
     --shadow-card-hover: 0 22px 45px rgba(223, 105, 81, 0.18);
     --shadow-search: 0 18px 40px rgba(24, 30, 75, 0.08);
     --shadow-btn: 0 8px 22px rgba(223, 105, 81, 0.35);
-    
+
     /* Radii */
     --radius-sm: 10px;
     --radius-md: 16px;
     --radius-card: 22px;
     --radius-pill: 50px;
-    
+
     /* Fonts */
     --font-heading: 'Volkhov', Georgia, serif;
     --font-body: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    
+
     /* Transitions */
     --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     --transition-slow: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* --- Base & Reset --- */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -734,6 +736,7 @@ body {
     from {
         opacity: 0;
     }
+
     to {
         opacity: 1;
     }
@@ -744,6 +747,7 @@ body {
         opacity: 0;
         transform: translateY(24px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -755,6 +759,7 @@ body {
         opacity: 0;
         transform: translateY(-16px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -785,20 +790,20 @@ body {
     .page-header {
         padding: 44px 16px 24px;
     }
-    
+
     #popular-destinations {
         grid-template-columns: repeat(2, 1fr);
         gap: 22px;
     }
-    
+
     .nav-links {
         gap: 20px;
     }
-    
+
     #wiki-info:not(:empty) {
         padding: 30px 32px;
     }
-    
+
     .destination-grid img {
         height: 280px;
     }
@@ -809,117 +814,118 @@ body {
     .nav-container {
         padding: 12px 16px;
     }
-    
+
     .nav-links {
-        display: none; /* Keep topnav clutter-free on mobile */
+        display: none;
+        /* Keep topnav clutter-free on mobile */
     }
-    
+
     .nav-btn-login {
         display: none;
     }
-    
+
     .nav-btn-back {
         padding: 7px 14px;
         font-size: 0.82rem;
     }
-    
+
     .page-header {
         padding: 32px 12px 20px;
     }
-    
+
     .hero-badge {
         font-size: 0.75rem;
         padding: 5px 14px;
     }
-    
+
     .page-header h1 {
         font-size: 2.15rem;
     }
-    
+
     .page-header p {
         font-size: 0.98rem;
     }
-    
+
     .search-form {
         margin: 10px auto 28px;
     }
-    
+
     .search-bar {
         padding: 6px 8px 6px 18px;
     }
-    
+
     .search-icon {
         font-size: 1.1rem;
         margin-right: 10px;
     }
-    
+
     .search-bar input[type="search"] {
         font-size: 0.95rem;
     }
-    
+
     .search-bar button[type="submit"] {
         padding: 10px 18px;
         font-size: 0.9rem;
     }
-    
+
     .trending-tags {
         gap: 8px;
     }
-    
+
     .tag-btn {
         padding: 5px 12px;
         font-size: 0.8rem;
     }
-    
+
     #wiki-info:not(:empty) {
         padding: 24px 20px;
         border-radius: var(--radius-md);
     }
-    
+
     #wiki-info:not(:empty)::before {
         position: static;
         display: inline-block;
         margin-bottom: 12px;
     }
-    
+
     #wiki-info h2 {
         font-size: 1.6rem;
     }
-    
+
     #wiki-info p {
         font-size: 0.95rem;
         line-height: 1.65;
     }
-    
+
     .popular-destinations {
         margin-top: 48px;
         margin-bottom: 50px;
     }
-    
+
     .popular-destinations h2 {
         font-size: 2rem;
     }
-    
+
     #popular-destinations {
         grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
         gap: 20px;
     }
-    
+
     .destination-card img {
         height: 190px;
     }
-    
+
     .footer-content {
         flex-direction: column;
         text-align: center;
         align-items: center;
         gap: 18px;
     }
-    
+
     .footer-brand {
         align-items: center;
     }
-    
+
     .footer-meta {
         text-align: center;
     }
@@ -930,63 +936,63 @@ body {
     .container {
         padding: 0 16px;
     }
-    
+
     .brand-logo {
         height: 28px;
     }
-    
+
     .page-header h1 {
         font-size: 1.85rem;
     }
-    
+
     .search-bar {
         flex-direction: column;
         border-radius: var(--radius-md);
         padding: 14px 14px 12px;
         gap: 12px;
     }
-    
+
     .search-bar input[type="search"] {
         width: 100%;
         text-align: left;
     }
-    
+
     .search-bar button[type="submit"] {
         width: 100%;
         justify-content: center;
         padding: 12px;
         border-radius: var(--radius-sm);
     }
-    
+
     .search-icon {
         display: none;
     }
-    
+
     #popular-destinations {
         grid-template-columns: 1fr;
     }
-    
+
     .destination-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .destination-grid img {
         height: 220px;
     }
-    
+
     .destination-card img {
         height: 200px;
     }
-    
+
     .destination-card h3 {
         margin: 16px 18px 8px;
         font-size: 1.25rem;
     }
-    
+
     .destination-card p {
         margin: 0 18px 18px;
     }
-    
+
     .destination-card::after {
         padding: 0 18px 16px;
     }
