@@ -1,6 +1,6 @@
 /* ==========================================================================
-   JADOO TRAVEL - DESTINATIONS PAGE STYLESHEET
-   Modern, responsive, and cohesive design system for Explore Destinations
+    JADOO TRAVEL - DESTINATIONS PAGE STYLESHEET
+    Modern, responsive, and cohesive design system for Explore Destinations
    ========================================================================== */
 /* final css for destination */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Volkhov:wght@700&display=swap');
@@ -321,7 +321,7 @@ body {
     min-width: 0;
 }
 
-.search-bar input[type="search"]::placeholder {
+.search-bar input[type="text"]::placeholder {
     color: var(--text-muted);
     font-weight: 400;
 }
