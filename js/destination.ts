@@ -1,23 +1,39 @@
 const searchForm = document.getElementById("search-form") as HTMLFormElement;
-
 const destinationInput = document.getElementById("destination-input") as HTMLInputElement;
 const btnSearch = document.getElementById("btnsearch") as HTMLButtonElement;
-
 const status = document.getElementById("status") as HTMLElement;
 const results = document.getElementById("results") as HTMLElement;
 
-
-searchForm.addEventListener("submit", function (event) {
+searchForm?.addEventListener("submit", function (event: Event) {
     event.preventDefault();
-    const value = destinationInput.value;
+    const value = destinationInput.value.trim();
+
     if (value) {
-        getData(value);
-    } else {
+        if (!(/^[A-Za-z]+$/).test(value)) {
+            status.textContent = "Please enter a valid destination";
+        } else {
+            getData(value);
+        }
+    }
+    else {
         status.textContent = "Please enter a valid destination";
     }
+
 });
 
-async function getData(value: string) {
+// Trending tags click handler
+document.querySelectorAll<HTMLButtonElement>(".tag-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+        const place = btn.getAttribute("data-destination") || btn.textContent?.trim() || "";
+        if (destinationInput) {
+            destinationInput.value = place;
+            getData(place);
+        }
+    });
+});
+
+async function getData(value: string): Promise<void> {
+    status.textContent = `Searching for "${value}"...`;
     const api =
         `http://localhost:8000/api/destination?query=${encodeURIComponent(value)}`;
 
@@ -28,44 +44,48 @@ async function getData(value: string) {
         if (!response.ok) {
             throw new Error(data.error || "Request failed");
         }
+        status.textContent = "";
         console.log("Destination:", data.destination);
         console.log("Photos:", data.photos);
         console.log("Wikipedia information:", data.information);
-        // console.log("likes", data.likes);
-
 
         results.innerHTML = "";
-        data.photos.forEach((photo: any) => {
-            const img = document.createElement("img");
-            img.src = photo.links.download;
-            img.alt = "Image not found"
-            results.appendChild(img);
-            console.log(photo);
-        });
+        if (data.photos && data.photos.length > 0) {
+            data.photos.forEach((photo: any) => {
+                const img = document.createElement("img");
+                img.src = photo.urls?.regular || photo.links?.download || "";
+                img.alt = photo.alt_description || `${data.destination} photo`;
+                img.loading = "lazy";
+                results.appendChild(img);
+            });
+        }
 
         // Display Wikipedia information
-        const wikiInfo = document.getElementById("wiki-info")!;
+        const wikiInfo = document.getElementById("wiki-info") as HTMLElement;
         wikiInfo.innerHTML = "";
 
-        const title = document.createElement("h2");
-        title.textContent = data.information.title;
+        if (data.information && (data.information.title || data.information.description)) {
+            const title = document.createElement("h2");
+            title.textContent = data.information.title || data.destination;
 
-        const description = document.createElement("p");
-        description.textContent = data.information.description;
+            const description = document.createElement("p");
+            description.textContent = data.information.description || "No description available.";
 
-        wikiInfo.append(title, description);
+            wikiInfo.append(title, description);
 
-        if (data.information.url) {
-            const link = document.createElement("a");
-            // link.href = data.information.url;
-            link.textContent = "Read more on Wikipedia";
-            link.target = "_blank";
-            link.rel = "noopener noreferrer";
-            wikiInfo.appendChild(link);
+            if (data.information.url) {
+                const link = document.createElement("a");
+                link.href = data.information.url;
+                link.textContent = "Read more on Wikipedia";
+                link.target = "_blank";
+                link.rel = "noopener noreferrer";
+                wikiInfo.appendChild(link);
+            }
         }
 
     } catch (error) {
         console.error("Error fetching photos:", error);
+        status.textContent = `Could not load details for "${value}". Check your connection or backend server.`;
     }
 }
 
@@ -84,7 +104,8 @@ const popularPlaces = [
     "Istanbul",
 ];
 
-async function loadPopularDestinations() {
+async function loadPopularDestinations(): Promise<void> {
+    if (!popularContainer) return;
     popularContainer.textContent = "Loading destinations...";
 
     const requests = popularPlaces.map(async (place) => {
@@ -113,6 +134,7 @@ async function loadPopularDestinations() {
 
         const card = document.createElement("article");
         card.className = "destination-card";
+        card.setAttribute("title", `Click to explore ${data.destination}`);
 
         const image = document.createElement("img");
         image.src = data.photos?.[0]?.urls?.regular || "";
@@ -124,20 +146,33 @@ async function loadPopularDestinations() {
 
         const description = document.createElement("p");
         description.textContent =
-            data.information?.description || "Discover this destination.";
+            data.information?.description || "Discover this breathtaking destination.";
 
         card.append(image, title, description);
+
+        // Interactive click on destination card to search
+        card.addEventListener("click", () => {
+            if (destinationInput) {
+                destinationInput.value = data.destination;
+                window.scrollTo({ top: 120, behavior: "smooth" });
+                getData(data.destination);
+            }
+        });
+
         popularContainer.appendChild(card);
     });
 
     if (popularContainer.children.length === 0) {
         popularContainer.textContent =
-            "Destinations could not be loaded. Please try again.";
+            "Popular destinations could not be loaded. Please ensure the server is running.";
     }
 }
 
 // Automatically load destinations when the page opens
 loadPopularDestinations();
+
+
+// pagination
 
 
 export { };
