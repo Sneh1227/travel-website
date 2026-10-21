@@ -9,10 +9,16 @@ searchForm?.addEventListener("submit", function (event: Event) {
     const value = destinationInput.value.trim();
 
     if (value) {
-        getData(value);
-    } else {
+        if (!(/^[A-Za-z]+$/).test(value)) {
+            status.textContent = "Please enter a valid destination";
+        } else {
+            getData(value);
+        }
+    }
+    else {
         status.textContent = "Please enter a valid destination";
     }
+
 });
 
 // Trending tags click handler
