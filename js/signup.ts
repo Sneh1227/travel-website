@@ -6,12 +6,14 @@ signupForm.addEventListener("submit", function (event) {
 
     const firstname = (document.getElementById("firstname") as HTMLInputElement).value;
     const lastname = (document.getElementById("lastname") as HTMLInputElement).value;
+    const contact = (document.getElementById("contact") as HTMLInputElement).value;
     const email = (document.getElementById("email") as HTMLInputElement).value;
     const pass = (document.getElementById("pass") as HTMLInputElement).value;
     const confirmpassword = (document.getElementById("confirmpassword") as HTMLInputElement).value;
 
     const nameError = document.getElementById("nameError") as HTMLElement;
     const lastError = document.getElementById("lastError") as HTMLElement;
+    const contactError = document.getElementById("contactError") as HTMLElement;
     const emailError = document.getElementById("emailError") as HTMLElement;
     const passError = document.getElementById("passError") as HTMLElement;
     const confPassError = document.getElementById("confPassError") as HTMLElement;
@@ -19,6 +21,7 @@ signupForm.addEventListener("submit", function (event) {
     let isvalid = true;
     nameError.innerText = "";
     lastError.innerText = "";
+    contactError.innerText = "";
     emailError.innerText = "";
     passError.innerText = "";
     confPassError.innerText = "";
@@ -41,6 +44,10 @@ signupForm.addEventListener("submit", function (event) {
         lastError.innerText = "*Last Name should contain alphabates only";
         isvalid = false;
     }
+    if (!/^[6-9][0-9]{9}$/.test(contact)) {
+        contactError.innerText = "*Enter a valid indian contact number";
+        isvalid = false;
+    }
     if ((!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))) {
         emailError.innerHTML = "*Please enter a valid email address";
         isvalid = false;
@@ -50,11 +57,36 @@ signupForm.addEventListener("submit", function (event) {
         const user = {
             firstname: firstname,
             lastname: lastname,
+            contact: contact,
             email: email,
             pass: pass
         };
+        console.log(firstname, lastname);
+        async function signup(values: object): Promise<void> {
+            try {
+                const response = await fetch(
+                    "http://localhost:3000/signup",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(values)
+                    }
+                );
+                const data = await response.json();
 
-        localStorage.setItem("user", JSON.stringify(user));
+                if (!response.ok) {
+                    throw new Error("Signup failed");
+                }
+                console.log(data);
+
+            } catch (error) {
+                console.error("Error during signup:", error);
+            }
+        }
+        signup(user);
+
         localStorage.setItem("isloggedin", "true");
         alert("WOHOO Registered Successfully");
         window.location.href = "/index.html";
@@ -62,7 +94,7 @@ signupForm.addEventListener("submit", function (event) {
 });
 
 // password eye button
-function eyepass(input:HTMLInputElement, button:HTMLButtonElement):void {
+function eyepass(input: HTMLInputElement, button: HTMLButtonElement): void {
     if (input.type === "password") {
         input.type = "text";
         button.innerHTML = '<i class="fa-regular fa-eye" style="color: rgb(247, 247, 245);"></i>';
@@ -84,4 +116,4 @@ toggleconfirmpass.addEventListener("click", function () {
     eyepass(confirmpassword, toggleconfirmpass);
 });
 
-export{};
+export { };

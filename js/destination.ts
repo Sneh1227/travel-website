@@ -35,7 +35,7 @@ document.querySelectorAll<HTMLButtonElement>(".tag-btn").forEach((btn) => {
 async function getData(value: string): Promise<void> {
     status.textContent = `Searching for "${value}"...`;
     const api =
-        `http://localhost:8000/api/destination?query=${encodeURIComponent(value)}`;
+        `http://localhost:3000/api/destination?query=${encodeURIComponent(value)}`;
 
     try {
         const response = await fetch(api);
@@ -45,9 +45,9 @@ async function getData(value: string): Promise<void> {
             throw new Error(data.error || "Request failed");
         }
         status.textContent = "";
-        console.log("Destination:", data.destination);
-        console.log("Photos:", data.photos);
-        console.log("Wikipedia information:", data.information);
+        // console.log("Destination:", data.destination);
+        // console.log("Photos:", data.photos);
+        // console.log("Wikipedia information:", data.information);
 
         results.innerHTML = "";
         if (data.photos && data.photos.length > 0) {
@@ -101,7 +101,6 @@ const popularPlaces = [
     "Goa",
     "Las vegas",
     "Mumbai",
-    "Istanbul",
 ];
 
 async function loadPopularDestinations(): Promise<void> {
@@ -110,7 +109,7 @@ async function loadPopularDestinations(): Promise<void> {
 
     const requests = popularPlaces.map(async (place) => {
         const response = await fetch(
-            `http://localhost:8000/api/destination?query=${encodeURIComponent(place)}`
+            `http://localhost:3000/api/destination?query=${encodeURIComponent(place)}`
         );
 
         if (!response.ok) {

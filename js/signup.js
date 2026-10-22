@@ -4,17 +4,20 @@ signupForm.addEventListener("submit", function (event) {
     event.preventDefault();
     const firstname = document.getElementById("firstname").value;
     const lastname = document.getElementById("lastname").value;
+    const contact = document.getElementById("contact").value;
     const email = document.getElementById("email").value;
     const pass = document.getElementById("pass").value;
     const confirmpassword = document.getElementById("confirmpassword").value;
     const nameError = document.getElementById("nameError");
     const lastError = document.getElementById("lastError");
+    const contactError = document.getElementById("contactError");
     const emailError = document.getElementById("emailError");
     const passError = document.getElementById("passError");
     const confPassError = document.getElementById("confPassError");
     let isvalid = true;
     nameError.innerText = "";
     lastError.innerText = "";
+    contactError.innerText = "";
     emailError.innerText = "";
     passError.innerText = "";
     confPassError.innerText = "";
@@ -36,6 +39,10 @@ signupForm.addEventListener("submit", function (event) {
         lastError.innerText = "*Last Name should contain alphabates only";
         isvalid = false;
     }
+    if (!/^[6-9][0-9]{9}$/.test(contact)) {
+        contactError.innerText = "*Enter a valid indian contact number";
+        isvalid = false;
+    }
     if ((!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))) {
         emailError.innerHTML = "*Please enter a valid email address";
         isvalid = false;
@@ -44,10 +51,30 @@ signupForm.addEventListener("submit", function (event) {
         const user = {
             firstname: firstname,
             lastname: lastname,
+            contact: contact,
             email: email,
             pass: pass
         };
-        localStorage.setItem("user", JSON.stringify(user));
+        async function signup(values) {
+            try {
+                const response = await fetch("http://localhost:3000/signup", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(values)
+                });
+                const data = await response.json();
+                if (!response.ok) {
+                    throw new Error("Signup failed");
+                }
+                console.log(data);
+            }
+            catch (error) {
+                console.error("Error during signup:", error);
+            }
+        }
+        signup(user);
         localStorage.setItem("isloggedin", "true");
         alert("WOHOO Registered Successfully");
         window.location.href = "/index.html";
@@ -74,4 +101,3 @@ togglepass.addEventListener("click", function () {
 toggleconfirmpass.addEventListener("click", function () {
     eyepass(confirmpassword, toggleconfirmpass);
 });
-
