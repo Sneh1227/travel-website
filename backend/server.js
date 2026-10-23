@@ -23,10 +23,25 @@ app.get('/api/destination', async (req, res) => {
     }
 
     try {
+        const dbResult = await db.query(
+            `SELECT name FROM destination
+            WHERE LOWER(name) = LOWER($1)`,
+            [destination.trim()]
+        );
+
+        // 2. Stop if the destination is not found
+        if (dbResult.rows.length === 0) {
+            return res.status(404).json({
+                error: 'Destination not found in our database'
+            });
+        }
+
+        // Use the name stored in the database
+        const destinationName = dbResult.rows[0].name;
         // Fetch data from Unsplash and Wikipedia simultaneously
         const [unsplashResponse, wikiResponse] = await Promise.all([
             fetch(
-                `https://api.unsplash.com/search/photos?query=${encodeURIComponent(destination)}&per_page=1`,
+                `https://api.unsplash.com/search/photos?query=${encodeURIComponent(destinationName)}&per_page=1`,
                 {
                     headers: {
                         Authorization: `Client-ID ${process.env.access_key}`
@@ -35,7 +50,7 @@ app.get('/api/destination', async (req, res) => {
             ),
 
             fetch(
-                `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(destination)}`
+                `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(destinationName)}`
             )
         ]);
 

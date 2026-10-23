@@ -33,14 +33,15 @@ async function getData(value) {
     const api = `http://localhost:3000/api/destination?query=${encodeURIComponent(value)}`;
     try {
         const response = await fetch(api);
-        const data = await response.json();
         if (!response.ok) {
-            throw new Error(data.error || "Request failed");
+            status.textContent = "Please enter a valid destination";
+            results.innerHTML = "";
+            const wikiInfo = document.getElementById("wiki-info");
+            wikiInfo.innerHTML = "";
+            return;
         }
+        const data = await response.json();
         status.textContent = "";
-        // console.log("Destination:", data.destination);
-        // console.log("Photos:", data.photos);
-        // console.log("Wikipedia information:", data.information);
         results.innerHTML = "";
         if (data.photos && data.photos.length > 0) {
             data.photos.forEach((photo) => {
@@ -80,10 +81,8 @@ const popularPlaces = [
     "Bali",
     "Paris",
     "Tokyo",
-    "Dubai",
     "Goa",
-    "Las vegas",
-    "Mumbai",
+    "Maldives"
 ];
 async function loadPopularDestinations() {
     if (!popularContainer)
