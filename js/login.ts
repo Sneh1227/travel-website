@@ -1,3 +1,4 @@
+import { json } from "express";
 import { error } from "node:console";
 
 const loginForm = document.getElementById("loginForm") as HTMLFormElement;
@@ -61,8 +62,13 @@ loginForm.addEventListener("submit", function (event) {
                 if (!response.ok) {
                     alert("Invalid email or password");
                 } else {
+                    const name = {
+                        firstname: data.user.firstname,
+                        lastname: data.user.lastname
+                    };
                     alert("Let's gooooo");
                     localStorage.setItem("isloggedin", "true");
+                    localStorage.setItem("user", JSON.stringify(name));
                     window.location.href = "/index.html";
                 }
             } catch (error) {

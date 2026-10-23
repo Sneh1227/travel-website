@@ -152,8 +152,8 @@ app.post('/login', async (req, res) => {
             message: 'Login successful',
             user: {
                 id: user.id,
-                firstname: user.firstname,
-                lastname: user.lastname,
+                firstname: user.first_name,
+                lastname: user.last_name,
             }
         });
     } catch (error) {
