@@ -30,7 +30,7 @@ document.querySelectorAll(".tag-btn").forEach((btn) => {
 });
 async function getData(value) {
     status.textContent = `Searching for "${value}"...`;
-    const api = `http://localhost:8000/api/destination?query=${encodeURIComponent(value)}`;
+    const api = `http://localhost:3000/api/destination?query=${encodeURIComponent(value)}`;
     try {
         const response = await fetch(api);
         const data = await response.json();
@@ -38,9 +38,9 @@ async function getData(value) {
             throw new Error(data.error || "Request failed");
         }
         status.textContent = "";
-        console.log("Destination:", data.destination);
-        console.log("Photos:", data.photos);
-        console.log("Wikipedia information:", data.information);
+        // console.log("Destination:", data.destination);
+        // console.log("Photos:", data.photos);
+        // console.log("Wikipedia information:", data.information);
         results.innerHTML = "";
         if (data.photos && data.photos.length > 0) {
             data.photos.forEach((photo) => {
@@ -84,14 +84,13 @@ const popularPlaces = [
     "Goa",
     "Las vegas",
     "Mumbai",
-    "Istanbul",
 ];
 async function loadPopularDestinations() {
     if (!popularContainer)
         return;
     popularContainer.textContent = "Loading destinations...";
     const requests = popularPlaces.map(async (place) => {
-        const response = await fetch(`http://localhost:8000/api/destination?query=${encodeURIComponent(place)}`);
+        const response = await fetch(`http://localhost:3000/api/destination?query=${encodeURIComponent(place)}`);
         if (!response.ok) {
             throw new Error(`Failed to fetch ${place}`);
         }
