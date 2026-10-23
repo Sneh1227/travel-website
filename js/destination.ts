@@ -32,6 +32,26 @@ document.querySelectorAll<HTMLButtonElement>(".tag-btn").forEach((btn) => {
     });
 });
 
+function formatPrice(price: string | number | undefined | null): string {
+    if (!price && price !== 0) return "";
+    const cleanStr = String(price).trim();
+    if (cleanStr.startsWith("$")) return cleanStr;
+    const num = Number(cleanStr.replace(/[^0-9.]/g, ""));
+    if (!isNaN(num) && num > 0) {
+        return `$${num.toLocaleString()}`;
+    }
+    return `$${cleanStr}`;
+}
+
+function formatDays(days: string | number | undefined | null): string {
+    if (!days && days !== 0) return "";
+    const cleanStr = String(days).trim();
+    if (/days?/i.test(cleanStr)) {
+        return cleanStr.toLowerCase().includes("trip") ? cleanStr : `${cleanStr} Trip`;
+    }
+    return `${cleanStr} Days Trip`;
+}
+
 async function getData(value: string): Promise<void> {
     status.textContent = `Searching for "${value}"...`;
     const api =
@@ -51,7 +71,8 @@ async function getData(value: string): Promise<void> {
         }
         const data = await response.json();
         status.textContent = "";
-
+        console.log(data.price);
+        console.log(data.days);
         results.innerHTML = "";
         if (data.photos && data.photos.length > 0) {
             data.photos.forEach((photo: any) => {
@@ -70,11 +91,33 @@ async function getData(value: string): Promise<void> {
         if (data.information && (data.information.title || data.information.description)) {
             const title = document.createElement("h2");
             title.textContent = data.information.title || data.destination;
+            wikiInfo.appendChild(title);
+
+            // Display Days and Price meta pills if available
+            if (data.price || data.days) {
+                const metaBar = document.createElement("div");
+                metaBar.className = "wiki-meta-bar";
+
+                if (data.price) {
+                    const priceBadge = document.createElement("div");
+                    priceBadge.className = "wiki-meta-item wiki-meta-price";
+                    priceBadge.innerHTML = `<i class="fa-solid fa-tag" aria-hidden="true"></i><span>From <strong>${formatPrice(data.price)}</strong> / person</span>`;
+                    metaBar.appendChild(priceBadge);
+                }
+
+                if (data.days) {
+                    const daysBadge = document.createElement("div");
+                    daysBadge.className = "wiki-meta-item wiki-meta-days";
+                    daysBadge.innerHTML = `<i class="fa-solid fa-location-arrow" aria-hidden="true"></i><span><strong>${formatDays(data.days)}</strong></span>`;
+                    metaBar.appendChild(daysBadge);
+                }
+
+                wikiInfo.appendChild(metaBar);
+            }
 
             const description = document.createElement("p");
             description.textContent = data.information.description || "No description available.";
-
-            wikiInfo.append(title, description);
+            wikiInfo.appendChild(description);
 
             if (data.information.url) {
                 const link = document.createElement("a");
@@ -131,24 +174,65 @@ async function loadPopularDestinations(): Promise<void> {
         }
 
         const data = outcome.value;
-
+        console.log(data.price);
+        console.log(data.days);
         const card = document.createElement("article");
         card.className = "destination-card";
         card.setAttribute("title", `Click to explore ${data.destination}`);
+
+        // Media container with image and floating days badge
+        const mediaWrap = document.createElement("div");
+        mediaWrap.className = "destination-card-media";
 
         const image = document.createElement("img");
         image.src = data.photos?.[0]?.urls?.regular || "";
         image.alt = data.destination;
         image.loading = "lazy";
+        mediaWrap.appendChild(image);
+
+        if (data.days) {
+            const daysBadge = document.createElement("span");
+            daysBadge.className = "destination-card-badge";
+            daysBadge.innerHTML = `<i class="fa-solid fa-location-arrow" aria-hidden="true"></i> ${formatDays(data.days)}`;
+            mediaWrap.appendChild(daysBadge);
+        }
+
+        // Card body container
+        const body = document.createElement("div");
+        body.className = "destination-card-body";
+
+        // Header: Title and Price
+        const header = document.createElement("div");
+        header.className = "destination-card-header";
 
         const title = document.createElement("h3");
+        title.className = "destination-card-title";
         title.textContent = data.information?.title || data.destination;
+        header.appendChild(title);
+
+        if (data.price) {
+            const price = document.createElement("span");
+            price.className = "destination-card-price";
+            price.textContent = formatPrice(data.price);
+            header.appendChild(price);
+        }
+        body.appendChild(header);
+
+        // Trip duration row
+        if (data.days) {
+            const tripRow = document.createElement("div");
+            tripRow.className = "destination-card-trip";
+            tripRow.innerHTML = `<i class="fa-solid fa-location-arrow" aria-hidden="true"></i><span>${formatDays(data.days)}</span>`;
+            body.appendChild(tripRow);
+        }
 
         const description = document.createElement("p");
+        description.className = "destination-card-desc";
         description.textContent =
             data.information?.description || "Discover this breathtaking destination.";
+        body.appendChild(description);
 
-        card.append(image, title, description);
+        card.append(mediaWrap, body);
 
         // Interactive click on destination card to search
         card.addEventListener("click", () => {

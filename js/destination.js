@@ -3,6 +3,7 @@ const destinationInput = document.getElementById("destination-input");
 const btnSearch = document.getElementById("btnsearch");
 const status = document.getElementById("status");
 const results = document.getElementById("results");
+
 searchForm?.addEventListener("submit", function (event) {
     event.preventDefault();
     const value = destinationInput.value.trim();
@@ -18,6 +19,7 @@ searchForm?.addEventListener("submit", function (event) {
         status.textContent = "Please enter a valid destination";
     }
 });
+
 // Trending tags click handler
 document.querySelectorAll(".tag-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -28,6 +30,27 @@ document.querySelectorAll(".tag-btn").forEach((btn) => {
         }
     });
 });
+
+function formatPrice(price) {
+    if (!price && price !== 0) return "";
+    const cleanStr = String(price).trim();
+    if (cleanStr.startsWith("$")) return cleanStr;
+    const num = Number(cleanStr.replace(/[^0-9.]/g, ""));
+    if (!isNaN(num) && num > 0) {
+        return `$${num.toLocaleString()}`;
+    }
+    return `$${cleanStr}`;
+}
+
+function formatDays(days) {
+    if (!days && days !== 0) return "";
+    const cleanStr = String(days).trim();
+    if (/days?/i.test(cleanStr)) {
+        return cleanStr.toLowerCase().includes("trip") ? cleanStr : `${cleanStr} Trip`;
+    }
+    return `${cleanStr} Days Trip`;
+}
+
 async function getData(value) {
     status.textContent = `Searching for "${value}"...`;
     const api = `http://localhost:3000/api/destination?query=${encodeURIComponent(value)}`;
@@ -42,6 +65,8 @@ async function getData(value) {
         }
         const data = await response.json();
         status.textContent = "";
+        console.log(data.price);
+        console.log(data.days);
         results.innerHTML = "";
         if (data.photos && data.photos.length > 0) {
             data.photos.forEach((photo) => {
@@ -58,9 +83,34 @@ async function getData(value) {
         if (data.information && (data.information.title || data.information.description)) {
             const title = document.createElement("h2");
             title.textContent = data.information.title || data.destination;
+            wikiInfo.appendChild(title);
+
+            // Display Days and Price meta pills if available
+            if (data.price || data.days) {
+                const metaBar = document.createElement("div");
+                metaBar.className = "wiki-meta-bar";
+
+                if (data.price) {
+                    const priceBadge = document.createElement("div");
+                    priceBadge.className = "wiki-meta-item wiki-meta-price";
+                    priceBadge.innerHTML = `<i class="fa-solid fa-tag" aria-hidden="true"></i><span>From <strong>${formatPrice(data.price)}</strong> / person</span>`;
+                    metaBar.appendChild(priceBadge);
+                }
+
+                if (data.days) {
+                    const daysBadge = document.createElement("div");
+                    daysBadge.className = "wiki-meta-item wiki-meta-days";
+                    daysBadge.innerHTML = `<i class="fa-solid fa-location-arrow" aria-hidden="true"></i><span><strong>${formatDays(data.days)}</strong></span>`;
+                    metaBar.appendChild(daysBadge);
+                }
+
+                wikiInfo.appendChild(metaBar);
+            }
+
             const description = document.createElement("p");
             description.textContent = data.information.description || "No description available.";
-            wikiInfo.append(title, description);
+            wikiInfo.appendChild(description);
+
             if (data.information.url) {
                 const link = document.createElement("a");
                 link.href = data.information.url;
@@ -76,6 +126,7 @@ async function getData(value) {
         status.textContent = `Could not load details for "${value}". Check your connection or backend server.`;
     }
 }
+
 const popularContainer = document.getElementById("popular-destinations");
 const popularPlaces = [
     "Bali",
@@ -84,6 +135,7 @@ const popularPlaces = [
     "Goa",
     "Maldives"
 ];
+
 async function loadPopularDestinations() {
     if (!popularContainer)
         return;
@@ -103,19 +155,66 @@ async function loadPopularDestinations() {
             return;
         }
         const data = outcome.value;
+        console.log(data.price);
+        console.log(data.days);
         const card = document.createElement("article");
         card.className = "destination-card";
         card.setAttribute("title", `Click to explore ${data.destination}`);
+
+        // Media container with image and floating days badge
+        const mediaWrap = document.createElement("div");
+        mediaWrap.className = "destination-card-media";
+
         const image = document.createElement("img");
         image.src = data.photos?.[0]?.urls?.regular || "";
         image.alt = data.destination;
         image.loading = "lazy";
+        mediaWrap.appendChild(image);
+
+        if (data.days) {
+            const daysBadge = document.createElement("span");
+            daysBadge.className = "destination-card-badge";
+            daysBadge.innerHTML = `<i class="fa-solid fa-location-arrow" aria-hidden="true"></i> ${formatDays(data.days)}`;
+            mediaWrap.appendChild(daysBadge);
+        }
+
+        // Card body container
+        const body = document.createElement("div");
+        body.className = "destination-card-body";
+
+        // Header: Title and Price
+        const header = document.createElement("div");
+        header.className = "destination-card-header";
+
         const title = document.createElement("h3");
+        title.className = "destination-card-title";
         title.textContent = data.information?.title || data.destination;
+        header.appendChild(title);
+
+        if (data.price) {
+            const price = document.createElement("span");
+            price.className = "destination-card-price";
+            price.textContent = formatPrice(data.price);
+            header.appendChild(price);
+        }
+        body.appendChild(header);
+
+        // Trip duration row
+        if (data.days) {
+            const tripRow = document.createElement("div");
+            tripRow.className = "destination-card-trip";
+            tripRow.innerHTML = `<i class="fa-solid fa-location-arrow" aria-hidden="true"></i><span>${formatDays(data.days)}</span>`;
+            body.appendChild(tripRow);
+        }
+
         const description = document.createElement("p");
+        description.className = "destination-card-desc";
         description.textContent =
             data.information?.description || "Discover this breathtaking destination.";
-        card.append(image, title, description);
+        body.appendChild(description);
+
+        card.append(mediaWrap, body);
+
         // Interactive click on destination card to search
         card.addEventListener("click", () => {
             if (destinationInput) {
@@ -131,6 +230,6 @@ async function loadPopularDestinations() {
             "Popular destinations could not be loaded. Please ensure the server is running.";
     }
 }
+
 // Automatically load destinations when the page opens
 loadPopularDestinations();
-
