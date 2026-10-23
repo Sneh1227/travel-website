@@ -6,6 +6,8 @@ const db = require('./db');
 const http = require("http");
 const express = require('express');
 const { timeEnd, timeLog } = require('console');
+const { use } = require('bcrypt/promises');
+const { json } = require('stream/consumers');
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -76,6 +78,7 @@ app.get('/api/destination', async (req, res) => {
     }
 });
 
+// signup
 app.post('/signup', async (req, res) => {
     try {
         const { firstname, lastname, contact, email, pass } = req.body;
@@ -115,6 +118,48 @@ app.post('/signup', async (req, res) => {
         console.error('Signup error:', err);
         return res.status(500).json({
             error: 'Signup failed'
+        });
+    }
+});
+
+// login
+app.post('/login', async (req, res) => {
+    try {
+        const { email, pass } = req.body;
+        const login_query = `select id,first_name,last_name,email,password,status
+                            from customer where email = $1`;
+
+        const result = await db.query(login_query, [email]);
+        if (!result.rows.length === 0) {
+            return res.status(401).json({
+                message: 'Invalid Email or Password'
+            });
+        }
+
+        const user = result.rows[0];
+        const isMatch = await bcrypt.compare(
+            pass,
+            user.password
+        );
+
+        if (!isMatch || user.status === false) {
+            return res.status(401).json({
+                message: 'Invalid Email or Password'
+            });
+        }
+
+        return res.status(200).json({
+            message: 'Login successful',
+            user: {
+                id: user.id,
+                firstname: user.firstname,
+                lastname: user.lastname,
+            }
+        });
+    } catch (error) {
+        console.log("Error", error);
+        res.status(500), json({
+            message: 'something went wrong'
         });
     }
 });

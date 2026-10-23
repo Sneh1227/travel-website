@@ -27,21 +27,34 @@ loginForm.addEventListener("submit", function (event) {
         }
     }
     if (isvalid) {
-        const storedUser = localStorage.getItem("user");
-        if (!storedUser) {
-            alert("No account found! Please sign up first");
-        }
-        else {
-            const fetcheduser = JSON.parse(storedUser);
-            if (email == fetcheduser.email && pass == fetcheduser.pass) {
-                alert("Let's gooooo");
-                localStorage.setItem("isloggedin", "true");
-                window.location.href = "/index.html";
+        const loginDetails = {
+            email: email,
+            pass: pass
+        };
+        async function login(values) {
+            try {
+                const response = await fetch('http://localhost:3000/login', {
+                    method: "POST",
+                    headers: {
+                        "Content-type": "application/json"
+                    },
+                    body: JSON.stringify(values)
+                });
+                const data = await response.json();
+                // console.log(data);
+                if (!response.ok) {
+                    alert("Invalid email or password");
+                } else {
+                    alert("Let's gooooo");
+                    localStorage.setItem("isloggedin", "true");
+                    window.location.href = "/index.html";
+                }
             }
-            else {
-                alert("Invalid pass or mail");
+            catch (error) {
+                console.error("Error during login:", error);
             }
         }
+        login(loginDetails);
     }
 });
 // password toggle eye
@@ -57,4 +70,3 @@ togglepass.addEventListener("click", function () {
         togglepass.innerHTML = '<i class="fa-regular fa-eye-slash" style="color: rgb(253, 252, 249);"></i>';
     }
 });
-
