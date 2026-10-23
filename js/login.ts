@@ -1,16 +1,19 @@
+import { json } from "express";
+import { error } from "node:console";
+
 const loginForm = document.getElementById("loginForm") as HTMLFormElement;
 
 
-loginForm.addEventListener("submit",function(event){
+loginForm.addEventListener("submit", function (event) {
     event.preventDefault();
 
-    const email : string = (document.getElementById("email") as HTMLInputElement).value;    
-    const pass : any = (document.getElementById("pass") as HTMLInputElement).value;
+    const email: string = (document.getElementById("email") as HTMLInputElement).value;
+    const pass: any = (document.getElementById("pass") as HTMLInputElement).value;
 
     const emailError = document.getElementById("emailError") as HTMLElement;
     const passError = document.getElementById("passError") as HTMLElement;
 
-    let isvalid : boolean = true;
+    let isvalid: boolean = true;
 
     emailError.textContent = "";
     passError.textContent = "";
@@ -23,7 +26,7 @@ loginForm.addEventListener("submit",function(event){
         passError.innerText = "Password is required";
         isvalid = false;
     } else {
-        if((!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))){
+        if ((!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))) {
             emailError.innerText = "*Please enter a valid email address";
             isvalid = false;
         }
@@ -34,27 +37,51 @@ loginForm.addEventListener("submit",function(event){
     }
 
     if (isvalid) {
-        const storedUser = localStorage.getItem("user");
 
-        if (!storedUser) {
-            alert("No account found! Please sign up first");
-        } else {
-            const fetcheduser = JSON.parse(storedUser);
+        const loginDetails = {
+            email: email,
+            pass: pass
+        }
 
-            if (email == fetcheduser.email && pass == fetcheduser.pass) {
-                alert("Let's gooooo");
-                localStorage.setItem("isloggedin", "true");
-                window.location.href = "/index.html";
-            } else {
-                alert("Invalid pass or mail");
+        async function login(values: object): Promise<void> {
+            try {
+                const response = await fetch(
+                    'http://localhost:3000/login',
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-type": "application/json"
+                        },
+                        body: JSON.stringify(values)
+                    }
+                );
+
+                const data = await response.json();
+
+                // console.log(data);
+                if (!response.ok) {
+                    alert("Invalid email or password");
+                } else {
+                    const name = {
+                        firstname: data.user.firstname,
+                        lastname: data.user.lastname
+                    };
+                    alert("Let's gooooo");
+                    localStorage.setItem("isloggedin", "true");
+                    localStorage.setItem("user", JSON.stringify(name));
+                    window.location.href = "/index.html";
+                }
+            } catch (error) {
+                console.error("Error during login:", error);
             }
         }
+        login(loginDetails);
     }
 });
 
 // password toggle eye
 const togglepass = document.getElementById("togglepass") as HTMLButtonElement;
-const pass : any = document.getElementById("pass") as HTMLInputElement;
+const pass: any = document.getElementById("pass") as HTMLInputElement;
 togglepass.addEventListener("click", function () {
     if (pass.type === "password") {
         pass.type = "text";
@@ -65,4 +92,4 @@ togglepass.addEventListener("click", function () {
     }
 });
 
-export{};
+export { };
