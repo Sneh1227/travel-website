@@ -71,6 +71,7 @@ const bookTravelerEmail = document.getElementById("book-traveler-email");
 const bookTravelDate = document.getElementById("book-travel-date");
 const bookTravelersCount = document.getElementById("book-travelers-count");
 const bookingSuccessMsg = document.getElementById("booking-success-message");
+const btnconfirmbooking = document.getElementById("btn-confirm-booking");
 let currentUnitCost = 0;
 let currentBookingDestination = "";
 function updateModalTotal() {
@@ -85,56 +86,79 @@ function updateModalTotal() {
     }
 }
 bookTravelersCount?.addEventListener("input", updateModalTotal);
-// function openBookingModal(destName: string, price: any, days: any): void {
-//     if (!bookingModal) return;
-//     currentBookingDestination = destName || "Destination";
-//     currentUnitCost = parseNumericPrice(price);
-//     if (modalDestTitle) modalDestTitle.textContent = `Book Trip to ${currentBookingDestination}`;
-//     if (modalDestPrice) modalDestPrice.textContent = formatPrice(price) || "Special Rate";
-//     if (modalDestDays) modalDestDays.innerHTML = `<i class="fa-solid fa-location-arrow"></i> ${formatDays(days) || "Flexible Duration"}`;
-//     if (bookTravelDate) {
-//         const today = new Date().toISOString().split("T")[0];
-//         bookTravelDate.min = today;
-//         if (!bookTravelDate.value) bookTravelDate.value = today;
-//     }
-//     if (bookTravelersCount) bookTravelersCount.value = "1";
-//     updateModalTotal();
-//     // Auto-fill traveler details from localStorage if available
-//     const savedUser = localStorage.getItem("user");
-//     if (savedUser) {
-//         try {
-//             const parsed = JSON.parse(savedUser);
-//             if (bookTravelerName && !bookTravelerName.value) {
-//                 const fullName = `${parsed.firstname || ""} ${parsed.lastname || ""}`.trim();
-//                 if (fullName) bookTravelerName.value = fullName;
-//             }
-//             if (bookTravelerEmail && !bookTravelerEmail.value && parsed.email) {
-//                 bookTravelerEmail.value = parsed.email;
-//             }
-//         } catch { }
-//     }
-//     if (bookingForm) bookingForm.classList.remove("hidden");
-//     if (bookingSuccess) bookingSuccess.classList.add("hidden");
-//     bookingModal.classList.remove("hidden");
-//     document.body.style.overflow = "hidden";
-// }
-// function closeBookingModal(): void {
-//     if (!bookingModal) return;
-//     bookingModal.classList.add("hidden");
-//     document.body.style.overflow = "";
-// }
-// modalCloseBtn?.addEventListener("click", closeBookingModal);
-// btnModalDone?.addEventListener("click", closeBookingModal);
-// bookingModal?.addEventListener("click", (e) => {
-//     if (e.target === bookingModal) {
-//         closeBookingModal();
-//     }
-// });
-// document.addEventListener("keydown", (e) => {
-//     if (e.key === "Escape" && bookingModal && !bookingModal.classList.contains("hidden")) {
-//         closeBookingModal();
-//     }
-// });
+function openBookingModal(id, destName, price, days) {
+    if (!bookingModal)
+        return;
+    currentBookingDestination = destName || "Destination";
+    currentUnitCost = parseNumericPrice(price);
+    if (modalDestTitle)
+        modalDestTitle.textContent = `Book Trip to ${currentBookingDestination}`;
+    if (modalDestPrice)
+        modalDestPrice.textContent = formatPrice(price) || "Special Rate";
+    if (modalDestDays)
+        modalDestDays.innerHTML = `<i class="fa-solid fa-location-arrow"></i> ${formatDays(days) || "Flexible Duration"}`;
+    if (bookTravelDate) {
+        const today = new Date().toISOString().split("T")[0];
+        bookTravelDate.min = today;
+        if (!bookTravelDate.value)
+            bookTravelDate.value = today;
+    }
+    if (bookTravelersCount)
+        bookTravelersCount.value = "1";
+    updateModalTotal();
+    // Auto-fill traveler details from localStorage
+    const savedUser = localStorage.getItem("user");
+    if (savedUser) {
+        try {
+            const parsed = JSON.parse(savedUser);
+            if (bookTravelerName && !bookTravelerName.value) {
+                const fullName = `${parsed.firstname || ""} ${parsed.lastname || ""}`.trim();
+                if (fullName)
+                    bookTravelerName.value = fullName;
+            }
+            if (bookTravelerEmail && !bookTravelerEmail.value && parsed.email) {
+                bookTravelerEmail.value = parsed.email;
+            }
+        }
+        catch { }
+    }
+    // booking form submit event
+    bookingForm?.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const destiID = id;
+        const travelerName = bookTravelerName?.value;
+        const travelDate = bookTravelDate?.value;
+        const travelPerson = bookTravelersCount?.value;
+        const travelCost = parseNumericPrice(modalTotalPrice?.textContent);
+        if (destiID && travelerName && travelDate && travelPerson && travelCost) {
+            bookTrip(destiID, travelerName, travelDate, Number(travelPerson), Number(travelCost));
+        }
+    });
+    if (bookingForm)
+        bookingForm.classList.remove("hidden");
+    if (bookingSuccess)
+        bookingSuccess.classList.add("hidden");
+    bookingModal.classList.remove("hidden");
+    document.body.style.overflow = "hidden";
+}
+function closeBookingModal() {
+    if (!bookingModal)
+        return;
+    bookingModal.classList.add("hidden");
+    document.body.style.overflow = "";
+}
+modalCloseBtn?.addEventListener("click", closeBookingModal);
+btnModalDone?.addEventListener("click", closeBookingModal);
+bookingModal?.addEventListener("click", (e) => {
+    if (e.target === bookingModal) {
+        closeBookingModal();
+    }
+});
+document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && bookingModal && !bookingModal.classList.contains("hidden")) {
+        closeBookingModal();
+    }
+});
 async function getData(value) {
     status.textContent = `Searching for "${value}"...`;
     const api = `http://localhost:3000/api/destination?query=${encodeURIComponent(value)}`;
@@ -149,8 +173,7 @@ async function getData(value) {
         }
         const data = await response.json();
         status.textContent = "";
-        console.log(data.price);
-        console.log(data.days);
+        console.log(data.id);
         results.innerHTML = "";
         if (data.photos && data.photos.length > 0) {
             data.photos.forEach((photo) => {
@@ -205,11 +228,7 @@ async function getData(value) {
             bookBtn.className = "btn-wiki-book";
             bookBtn.innerHTML = `<i class="fa-solid fa-paper-plane"></i> <span>Book This Trip</span>`;
             bookBtn.addEventListener("click", () => {
-                // openBookingModal(
-                //     data.information?.title || data.destination,
-                //     data.price,
-                //     data.days
-                // );
+                openBookingModal(data.id, data.information?.title || data.destination, data.price, data.days);
             });
             actionsWrap.appendChild(bookBtn);
             wikiInfo.appendChild(actionsWrap);
@@ -247,8 +266,6 @@ async function loadPopularDestinations() {
             return;
         }
         const data = outcome.value;
-        console.log(data.price);
-        console.log(data.days);
         const card = document.createElement("article");
         card.className = "destination-card";
         card.setAttribute("title", `Click to explore ${data.destination}`);
@@ -305,6 +322,7 @@ async function loadPopularDestinations() {
         bookBtn.setAttribute("aria-label", `Book trip to ${data.destination}`);
         bookBtn.addEventListener("click", (e) => {
             e.stopPropagation(); // prevent triggering card search click
+            openBookingModal(data.id, data.information?.title || data.destination, data.price, data.days);
         });
         footer.appendChild(bookBtn);
         body.appendChild(footer);
@@ -324,6 +342,32 @@ async function loadPopularDestinations() {
             "Popular destinations could not be loaded. Please ensure the server is running.";
     }
 }
+// booking function to book a trip
+async function bookTrip(id, name, date, totalPerson, totalCost) {
+    const bookingDetails = {
+        destinationid: id,
+        customerid: "85264ba8-aaea-4b02-989b-39c33c9ccf5c",
+        name: name,
+        date: date,
+        totalPerson: totalPerson,
+        totalCost: totalCost
+    };
+    try {
+        const response = await fetch("http://localhost:3000/bookatrip", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(bookingDetails)
+        });
+        const data = await response.json();
+        if (!response.ok) {
+            throw new Error(data.message || "booking failed");
+        }
+    }
+    catch (error) {
+        console.error("Error during booking:", error);
+    }
+}
 // Automatically load destinations when the page opens
 loadPopularDestinations();
-

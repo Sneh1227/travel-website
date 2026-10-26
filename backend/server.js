@@ -3,7 +3,6 @@ const bcrypt = require('bcrypt');
 require('dotenv').config();
 const { randomUUID } = require('crypto');
 const db = require('./db');
-const http = require("http");
 const express = require('express');
 const { timeEnd, timeLog } = require('console');
 const { use } = require('bcrypt/promises');
@@ -37,6 +36,7 @@ app.get('/api/destination', async (req, res) => {
         }
 
         // Use the name stored in the database
+        const id = dbResult.rows[0].id;
         const destinationName = dbResult.rows[0].name;
         const price = dbResult.rows[0].price;
         const days = dbResult.rows[0].days;
@@ -78,6 +78,7 @@ app.get('/api/destination', async (req, res) => {
         // Send combined response
         return res.status(200).json({
             destination,
+            id: id,
             photos: unsplashData.results,
             price: price,
             days: days,
@@ -179,6 +180,38 @@ app.post('/login', async (req, res) => {
         console.log("Error", error);
         res.status(500), json({
             message: 'something went wrong'
+        });
+    }
+});
+
+// booking a trip
+app.post('/bookatrip', async (req, res) => {
+    try {
+        const { destinationid, customerid, date, totalPerson, totalCost } = req.body;
+
+        const id = randomUUID();
+        const booking_query = `insert into booking (id,travel_date,total_person,
+                                total_cost,created_at,updated_at,customer_id,
+                                destination_id) values ($1,$2,$3,$4,now(),now(),$5,$6)`;
+
+        const values = [
+            id,
+            date,
+            totalPerson,
+            totalCost,
+            customerid,
+            destinationid
+        ]
+        await db.query(booking_query, values);
+        console.log('booking successfully');
+        return res.status(201).json({
+            message: 'Booking successfull',
+            id: id
+        });
+    } catch (error) {
+        console.log("Error", error);
+        res.status(500).json({
+            message: error.message
         });
     }
 });
