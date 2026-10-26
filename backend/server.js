@@ -24,7 +24,7 @@ app.get('/api/destination', async (req, res) => {
 
     try {
         const dbResult = await db.query(
-            `SELECT name FROM destination
+            `SELECT * FROM destination
             WHERE LOWER(name) = LOWER($1)`,
             [destination.trim()]
         );
@@ -38,6 +38,8 @@ app.get('/api/destination', async (req, res) => {
 
         // Use the name stored in the database
         const destinationName = dbResult.rows[0].name;
+        const price = dbResult.rows[0].price;
+        const days = dbResult.rows[0].days;
         // Fetch data from Unsplash and Wikipedia simultaneously
         const [unsplashResponse, wikiResponse] = await Promise.all([
             fetch(
@@ -77,6 +79,8 @@ app.get('/api/destination', async (req, res) => {
         return res.status(200).json({
             destination,
             photos: unsplashData.results,
+            price: price,
+            days: days,
             information: {
                 title: wikiData.title,
                 description: wikiData.extract,

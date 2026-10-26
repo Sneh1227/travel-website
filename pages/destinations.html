@@ -86,6 +86,63 @@
             </div>
             <div id="popular-destinations"></div>
         </section>
+
+        <!-- Booking Modal -->
+        <div id="booking-modal" class="booking-modal-backdrop hidden" role="dialog" aria-modal="true"
+            aria-labelledby="modal-dest-title">
+            <div class="booking-modal-card">
+                <button type="button" class="modal-close-btn" id="modal-close-btn" aria-label="Close modal">&times;</button>
+                <div class="modal-header">
+                    <span class="modal-badge"><i class="fa-solid fa-plane-departure"></i> Quick Booking</span>
+                    <h2 id="modal-dest-title">Book Trip</h2>
+                    <div class="modal-trip-meta">
+                        <span id="modal-dest-price" class="modal-meta-pill price-pill">$0</span>
+                        <span id="modal-dest-days" class="modal-meta-pill days-pill"><i class="fa-solid fa-location-arrow"></i> 5 Days Trip</span>
+                    </div>
+                </div>
+
+                <form id="booking-form" class="booking-form">
+                    <div class="form-group">
+                        <label for="book-traveler-name">Traveler Name</label>
+                        <input type="text" id="book-traveler-name" required placeholder="Your full name"
+                            autocomplete="name">
+                    </div>
+                    <!-- <div class="form-group">
+                        <label for="book-traveler-email">Email Address</label>
+                        <input type="email" id="book-traveler-email" required placeholder="your.email@example.com"
+                            autocomplete="email">
+                    </div> -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="book-travel-date">Departure Date</label>
+                            <input type="date" id="book-travel-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="book-travelers-count">Travelers</label>
+                            <input type="number" id="book-travelers-count" min="1" max="15" value="1" required>
+                        </div>
+                    </div>
+                    <div class="modal-price-calc">
+                        <span>Estimated Total:</span>
+                        <strong id="modal-total-price">$0</strong>
+                    </div>
+                    <button type="submit" class="btn-confirm-booking">
+                        <span>Confirm Booking</span>
+                        <i class="fa-solid fa-check"></i>
+                    </button>
+                </form>
+
+                <div id="booking-success" class="booking-success hidden">
+                    <div class="success-icon"><i class="fa-solid fa-circle-check"></i></div>
+                    <h3>Booking Confirmed!</h3>
+                    <p id="booking-success-message">Your trip is confirmed. Check your email for itinerary details.</p>
+                    <div class="success-actions">
+                        <button type="button" class="btn-modal-done" id="btn-modal-done">Done</button>
+                        <a href="/index.html#bookatrip" class="btn-modal-view-bookings">View Bookings</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 
     <!-- Footer-->
