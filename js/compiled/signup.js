@@ -1,3 +1,4 @@
+import { eyepass } from "./utilities.js";
 // validation
 const signupForm = document.getElementById("formsignup");
 signupForm.addEventListener("submit", function (event) {
@@ -86,16 +87,6 @@ signupForm.addEventListener("submit", function (event) {
     }
 });
 // password eye button
-function eyepass(input, button) {
-    if (input.type === "password") {
-        input.type = "text";
-        button.innerHTML = '<i class="fa-regular fa-eye" style="color: rgb(247, 247, 245);"></i>';
-    }
-    else {
-        input.type = "password";
-        button.innerHTML = '<i class="fa-regular fa-eye-slash" style="color: rgb(251, 251, 250);"></i>';
-    }
-}
 const togglepass = document.getElementById("togglepass");
 const toggleconfirmpass = document.getElementById("toggleconfirmpass");
 const pass = document.getElementById("pass");
@@ -106,4 +97,3 @@ togglepass.addEventListener("click", function () {
 toggleconfirmpass.addEventListener("click", function () {
     eyepass(confirmpassword, toggleconfirmpass);
 });
-

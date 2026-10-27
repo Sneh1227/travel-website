@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - JADOO TRAVEL</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/profile.css">
+</head>
+
+<body>
+    <div class="profile-container">
+        <!-- Back Navigation & Logo -->
+        <header class="profile-header">
+            <a href="/index.html" class="back-link" title="Back to Home">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            <img src="/assets/images/header/Logo.png" alt="Jadoo Travel Logo" class="profile-logo">
+        </header>
+
+        <!-- User Summary Card -->
+        <div class="user-card">
+            <div class="user-avatar" id="userAvatar">U</div>
+            <div class="user-details">
+                <h1 id="userName">User</h1>
+                <p id="userEmail">user@example.com</p>
+            </div>
+        </div>
+
+        <!-- Profile Navigation Tabs -->
+        <nav class="profile-tabs" role="tablist">
+            <button type="button" class="tab-btn active" id="tabBookings" role="tab" aria-selected="true"
+                aria-controls="sectionBookings">
+                <i class="fa-solid fa-ticket"></i>
+                <span>My Bookings</span>
+            </button>
+            <button type="button" class="tab-btn" id="tabPassword" role="tab" aria-selected="false"
+                aria-controls="sectionPassword">
+                <i class="fa-solid fa-lock"></i>
+                <span>Change Password</span>
+            </button>
+            <button type="button" class="tab-btn btn-logout" id="btnLogout" role="tab">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Logout</span>
+            </button>
+        </nav>
+
+        <!-- Section 1: My Bookings -->
+        <section id="sectionBookings" class="tab-content active" role="tabpanel" aria-labelledby="tabBookings">
+            <div class="section-header">
+                <h2>My Bookings</h2>
+                <button type="button" class="btn-refresh" id="btnRefreshBookings" title="Refresh bookings">
+                    <i class="fa-solid fa-rotate-right"></i>
+                </button>
+            </div>
+            <div id="bookingsList" class="bookings-list">
+                <p class="status-msg">Loading your bookings...</p>
+            </div>
+        </section>
+
+        <!-- Section 2: Change Password -->
+        <section id="sectionPassword" class="tab-content hidden" role="tabpanel" aria-labelledby="tabPassword">
+            <div class="section-header">
+                <h2>Change Password</h2>
+            </div>
+            <form id="changePasswordForm" class="password-form">
+                <div id="passwordAlert" class="form-alert hidden" role="alert"></div>
+
+                <div class="form-group">
+                    <label for="currentPassword">Current Password</label>
+                    <div class="pass-box">
+                        <input type="password" id="currentPassword" required autocomplete="current-password"
+                            placeholder="Enter current password">
+                        <button type="button" id="toggleCurrentPassword" class="toggle-pass"
+                            aria-label="Toggle current password visibility">
+                            <i class="fa-regular fa-eye-slash"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="newPassword">New Password</label>
+                    <div class="pass-box">
+                        <input type="password" id="newPassword" required minlength="8" autocomplete="new-password"
+                            placeholder="Enter new password (min. 8 characters)">
+                        <button type="button" id="toggleNewPassword" class="toggle-pass"
+                            aria-label="Toggle new password visibility">
+                            <i class="fa-regular fa-eye-slash"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmNewPassword">Confirm New Password</label>
+                    <div class="pass-box">
+                        <input type="password" id="confirmNewPassword" required minlength="8"
+                            autocomplete="new-password" placeholder="Re-enter new password">
+                        <button type="button" id="toggleConfirmNewPassword" class="toggle-pass"
+                            aria-label="Toggle confirm new password visibility">
+                            <i class="fa-regular fa-eye-slash"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <button type="submit" id="btnChangePassword" class="btn-submit">
+                    <span>Update Password</span>
+                </button>
+            </form>
+        </section>
+    </div>
+
+    <script type="module" src="/js/compiled/profile.js"></script>
+</body>
+
+</html>

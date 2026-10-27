@@ -1,3 +1,4 @@
+import { eyepass } from "./utilities.js";
 const loginForm = document.getElementById("loginForm");
 loginForm.addEventListener("submit", function (event) {
     event.preventDefault();
@@ -68,13 +69,5 @@ loginForm.addEventListener("submit", function (event) {
 const togglepass = document.getElementById("togglepass");
 const pass = document.getElementById("pass");
 togglepass.addEventListener("click", function () {
-    if (pass.type === "password") {
-        pass.type = "text";
-        togglepass.innerHTML = '<i class="fa-regular fa-eye" style="color: rgb(251, 251, 251);"></i>';
-    }
-    else {
-        pass.type = "password";
-        togglepass.innerHTML = '<i class="fa-regular fa-eye-slash" style="color: rgb(253, 252, 249);"></i>';
-    }
+    eyepass(pass, togglepass);
 });
-

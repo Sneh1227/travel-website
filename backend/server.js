@@ -235,6 +235,119 @@ app.post('/bookatrip', authenticateToken, async (req, res) => {
     }
 });
 
+// Fetch bookings for logged in user
+app.get('/mybookings', authenticateToken, async (req, res) => {
+    try {
+        const customerId = req.user.customerId;
+        const query = `
+            SELECT 
+                b.id,
+                b.travel_date,
+                b.total_person,
+                b.total_cost,
+                b.created_at,
+                d.name AS destination_name,
+                d.price AS destination_price,
+                d.days AS destination_days
+            FROM booking b
+            LEFT JOIN destination d ON b.destination_id = d.id
+            WHERE b.customer_id = $1
+            ORDER BY b.created_at DESC
+        `;
+        const result = await db.query(query, [customerId]);
+        return res.status(200).json({
+            message: 'Bookings fetched successfully',
+            bookings: result.rows
+        });
+    } catch (error) {
+        console.error('Error fetching bookings:', error);
+        return res.status(500).json({
+            message: 'Failed to fetch bookings'
+        });
+    }
+});
+
+// Change user password
+app.post('/change-password', authenticateToken, async (req, res) => {
+    try {
+        const customerId = req.user.customerId;
+        const currentPassword = req.body.currentPassword || req.body.oldPassword || req.body.oldpass;
+        const newPassword = req.body.newPassword || req.body.newpass;
+
+        if (!currentPassword || !newPassword) {
+            return res.status(400).json({
+                message: 'Current password and new password are required'
+            });
+        }
+
+        if (newPassword.length < 6) {
+            return res.status(400).json({
+                message: 'New password must be at least 6 characters long'
+            });
+        }
+
+        const userResult = await db.query(
+            `SELECT id, password FROM customer WHERE id = $1`,
+            [customerId]
+        );
+
+        if (userResult.rows.length === 0) {
+            return res.status(404).json({
+                message: 'Customer not found'
+            });
+        }
+
+        const user = userResult.rows[0];
+        const isMatch = await bcrypt.compare(currentPassword, user.password);
+
+        if (!isMatch) {
+            return res.status(400).json({
+                message: 'Current password is incorrect'
+            });
+        }
+
+        const hashPass = await bcrypt.hash(newPassword, 12);
+        await db.query(
+            `UPDATE customer SET password = $1, updated_at = NOW() WHERE id = $2`,
+            [hashPass, customerId]
+        );
+
+        console.log('Password updated successfully');
+        return res.status(200).json({
+            message: 'Password changed successfully'
+        });
+    } catch (error) {
+        console.error('Change password error:', error);
+        return res.status(500).json({
+            message: 'Failed to change password'
+        });
+    }
+});
+
+// Get user profile info
+app.get('/profile', authenticateToken, async (req, res) => {
+    try {
+        const customerId = req.user.customerId;
+        const query = `
+            SELECT id, first_name, last_name, contact, email, created_at
+            FROM customer
+            WHERE id = $1
+        `;
+        const result = await db.query(query, [customerId]);
+        if (result.rows.length === 0) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        return res.status(200).json({
+            user: result.rows[0]
+        });
+    } catch (error) {
+        console.error('Profile fetch error:', error);
+        return res.status(500).json({
+            message: 'Failed to fetch profile'
+        });
+    }
+});
+
 app.listen(3000, () => {
     console.log('Express server running at http://localhost:3000');
 });
