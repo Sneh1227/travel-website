@@ -1,6 +1,3 @@
-import { json } from "express";
-import { error } from "node:console";
-
 const loginForm = document.getElementById("loginForm") as HTMLFormElement;
 
 

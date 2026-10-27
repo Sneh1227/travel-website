@@ -54,10 +54,13 @@
                             </a>
 
                             <li class="user-profile-nav user-logged-in-only hidden">
-                                <div class="user-badge" id="user-badge" title="My Account">
-                                    <span id="signalt" class="signalt" aria-label="User Avatar"></span>
-                                    <span class="user-name-display" id="user-name-display"></span>
-                                </div>
+                                <a href="pages/profile.html" class="user-profile-link" title="My Profile & Bookings"
+                                    style="text-decoration: none; color: inherit;">
+                                    <div class="user-badge" id="user-badge">
+                                        <span id="signalt" class="signalt" aria-label="User Avatar"></span>
+                                        <span class="user-name-display" id="user-name-display"></span>
+                                    </div>
+                                </a>
                             </li>
                         </ul>
                     </nav>
@@ -69,16 +72,20 @@
             </div>
             <!-- hamburger list -->
             <div class="mobile-menu" id="mobile-menu" role="navigation" aria-label="Mobile Navigation">
-                <div class="mobile-user-card user-logged-in-only hidden" id="mobile-user-card">
-                    <div class="signalt" aria-label="User Avatar"></div>
-                    <div class="mobile-user-info">
-                        <span class="mobile-user-welcome">Signed in as</span>
-                        <strong class="mobile-user-name user-fullname-display">Traveler</strong>
+                <a href="pages/profile.html" class="user-logged-in-only hidden"
+                    style="text-decoration: none; color: inherit;">
+                    <div class="mobile-user-card" id="mobile-user-card">
+                        <div class="signalt" aria-label="User Avatar"></div>
+                        <div class="mobile-user-info">
+                            <span class="mobile-user-welcome">Signed in as</span>
+                            <strong class="mobile-user-name user-fullname-display">Traveler</strong>
+                        </div>
                     </div>
-                </div>
+                </a>
                 <a href="#destination">Destinations</a>
                 <a href="#services">Hotels</a>
                 <a href="#testimonials">Flights</a>
+                <a href="pages/profile.html" class="user-logged-in-only hidden">My Bookings</a>
                 <a href="#bookatrip">Bookings</a>
                 <a id="loginm" href="pages/login.html">Login</a>
                 <a id="logoutm" class="hidden logout" href="javascript:void(0)">Logout</a>
@@ -122,7 +129,8 @@
                     <div class="card-box">
                         <div class="img-layout c1">
                             <div class="bg-box"></div>
-                            <img src="assets/images/service-section/service-satellite-dish.svg" alt="Calculated Weather">
+                            <img src="assets/images/service-section/service-satellite-dish.svg"
+                                alt="Calculated Weather">
                         </div>
                         <h4>Calculated Weather</h4>
                         <p>Built Wicket longer admire do barton vanity itself do in it.</p>
@@ -459,7 +467,7 @@
             </div>
         </footer>
     </div>
-    <script src="js/utilities.js"></script>
+    <script type="module" src="js/compiled/utilities.js"></script>
 </body>
 
 </html>

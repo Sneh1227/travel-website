@@ -565,3 +565,4 @@ async function bookTrip(id, name, date, totalPerson, totalCost) {
 }
 // Automatically load destinations when the page opens
 loadPopularDestinations();
+export {};

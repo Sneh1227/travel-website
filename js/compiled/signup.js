@@ -106,4 +106,4 @@ togglepass.addEventListener("click", function () {
 toggleconfirmpass.addEventListener("click", function () {
     eyepass(confirmpassword, toggleconfirmpass);
 });
-
+export {};

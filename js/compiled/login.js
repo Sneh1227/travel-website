@@ -77,4 +77,4 @@ togglepass.addEventListener("click", function () {
         togglepass.innerHTML = '<i class="fa-regular fa-eye-slash" style="color: rgb(253, 252, 249);"></i>';
     }
 });
-
+export {};

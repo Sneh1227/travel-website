@@ -194,4 +194,15 @@ prevBtn.addEventListener("click", () => {
 
 showTestimonials(0);
 
+// Password eye button
+function eyepass(input: HTMLInputElement, button: HTMLButtonElement): void {
+    if (input.type === "password") {
+        input.type = "text";
+        button.innerHTML = '<i class="fa-regular fa-eye"></i>';
+    } else {
+        input.type = "password";
+        button.innerHTML = '<i class="fa-regular fa-eye-slash"></i>';
+    }
+}
+
 export { };
