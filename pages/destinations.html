@@ -86,64 +86,135 @@
             </div>
             <div id="popular-destinations"></div>
         </section>
+    </main>
 
-        <!-- Booking Modal -->
-        <div id="booking-modal" class="booking-modal-backdrop hidden" role="dialog" aria-modal="true"
-            aria-labelledby="modal-dest-title">
-            <div class="booking-modal-card">
-                <button type="button" class="modal-close-btn" id="modal-close-btn" aria-label="Close modal">&times;</button>
-                <div class="modal-header">
-                    <span class="modal-badge"><i class="fa-solid fa-plane-departure"></i> Quick Booking</span>
-                    <h2 id="modal-dest-title">Book Trip</h2>
-                    <div class="modal-trip-meta">
-                        <span id="modal-dest-price" class="modal-meta-pill price-pill">$0</span>
-                        <span id="modal-dest-days" class="modal-meta-pill days-pill"><i class="fa-solid fa-location-arrow"></i> 5 Days Trip</span>
+    <!-- Booking Modal (Root level to prevent navbar overlap) -->
+    <div id="booking-modal" class="booking-modal-backdrop hidden" role="dialog" aria-modal="true"
+        aria-labelledby="modal-dest-title">
+        <div class="booking-modal-card">
+            <button type="button" class="modal-close-btn" id="modal-close-btn"
+                aria-label="Close modal">&times;</button>
+            <div class="modal-header" id="modal-header">
+                <span class="modal-badge"><i class="fa-solid fa-plane-departure"></i> Quick Booking</span>
+                <h2 id="modal-dest-title">Book Trip</h2>
+                <div class="modal-trip-meta">
+                    <span id="modal-dest-price" class="modal-meta-pill price-pill">$0</span>
+                    <span id="modal-dest-days" class="modal-meta-pill days-pill"><i
+                            class="fa-solid fa-location-arrow"></i> 5 Days Trip</span>
+                </div>
+            </div>
+
+            <!-- Inline error / warning banner -->
+            <div id="booking-alert" class="booking-alert hidden" role="alert">
+                <i class="fa-solid fa-circle-exclamation alert-icon"></i>
+                <span id="booking-alert-text"></span>
+                <a href="/pages/login.html" id="booking-alert-link" class="booking-alert-link hidden">Log in here</a>
+            </div>
+
+            <form id="booking-form" class="booking-form">
+                <div class="form-group">
+                    <label for="book-traveler-name">Traveler Name</label>
+                    <input type="text" id="book-traveler-name" required placeholder="Your full name"
+                        autocomplete="name">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="book-travel-date">Departure Date</label>
+                        <input type="date" id="book-travel-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="book-travelers-count">Travelers</label>
+                        <input type="number" id="book-travelers-count" min="1" max="15" value="1" required>
+                    </div>
+                </div>
+                <div class="modal-price-calc">
+                    <span>Estimated Total:</span>
+                    <strong id="modal-total-price">$0</strong>
+                </div>
+                <button type="submit" id="btn-confirm-booking" class="btn-confirm-booking">
+                    <span>Confirm Booking</span>
+                    <i class="fa-solid fa-check"></i>
+                </button>
+            </form>
+
+            <!-- Rich Booking Done UI -->
+            <div id="booking-success" class="booking-success hidden">
+                <div class="success-animation-wrap">
+                    <div class="success-pulse-ring"></div>
+                    <div class="success-icon"><i class="fa-solid fa-circle-check"></i></div>
+                </div>
+                <span class="booking-done-pill"><i class="fa-solid fa-circle-check"></i> Booking Done</span>
+                <h3 class="booking-done-title" id="booking-done-heading">Booking Confirmed!</h3>
+                <p id="booking-success-message" class="booking-done-subtitle">Your trip is confirmed. Here are your booking details:</p>
+                
+                <div class="booking-receipt-card" id="booking-receipt-card">
+                    <div class="receipt-header">
+                        <div class="receipt-dest-block">
+                            <span class="receipt-caption">Destination</span>
+                            <h4 id="receipt-dest-name" class="receipt-destination">Destination</h4>
+                        </div>
+                        <span class="receipt-status-badge"><span class="badge-dot"></span> Confirmed</span>
+                    </div>
+                    
+                    <div class="receipt-divider">
+                        <span class="receipt-notch notch-left"></span>
+                        <span class="receipt-dash"></span>
+                        <span class="receipt-notch notch-right"></span>
+                    </div>
+
+                    <div class="receipt-grid">
+                        <div class="receipt-cell">
+                            <span class="receipt-cell-label"><i class="fa-regular fa-user"></i> Primary Traveler</span>
+                            <span class="receipt-cell-val" id="receipt-traveler-name">-</span>
+                        </div>
+                        <div class="receipt-cell">
+                            <span class="receipt-cell-label"><i class="fa-regular fa-calendar"></i> Departure Date</span>
+                            <span class="receipt-cell-val" id="receipt-travel-date">-</span>
+                        </div>
+                        <div class="receipt-cell">
+                            <span class="receipt-cell-label"><i class="fa-solid fa-users"></i> Guests</span>
+                            <span class="receipt-cell-val" id="receipt-travelers-count">1 Traveler</span>
+                        </div>
+                        <div class="receipt-cell">
+                            <span class="receipt-cell-label"><i class="fa-solid fa-ticket"></i> Reference ID</span>
+                            <span class="receipt-cell-val font-mono" id="receipt-booking-id">#BK-000000</span>
+                        </div>
+                    </div>
+
+                    <div class="receipt-footer">
+                        <span class="receipt-total-label">Total Amount Paid</span>
+                        <span class="receipt-total-price" id="receipt-total-cost">$0</span>
                     </div>
                 </div>
 
-                <form id="booking-form" class="booking-form">
-                    <div class="form-group">
-                        <label for="book-traveler-name">Traveler Name</label>
-                        <input type="text" id="book-traveler-name" required placeholder="Your full name"
-                            autocomplete="name">
-                    </div>
-                    <!-- <div class="form-group">
-                        <label for="book-traveler-email">Email Address</label>
-                        <input type="email" id="book-traveler-email" required placeholder="your.email@example.com"
-                            autocomplete="email">
-                    </div> -->
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="book-travel-date">Departure Date</label>
-                            <input type="date" id="book-travel-date" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="book-travelers-count">Travelers</label>
-                            <input type="number" id="book-travelers-count" min="1" max="15" value="1" required>
-                        </div>
-                    </div>
-                    <div class="modal-price-calc">
-                        <span>Estimated Total:</span>
-                        <strong id="modal-total-price">$0</strong>
-                    </div>
-                    <button type="submit" class="btn-confirm-booking">
-                        <span>Confirm Booking</span>
-                        <i class="fa-solid fa-check"></i>
-                    </button>
-                </form>
+                <p class="booking-success-note">
+                    <i class="fa-regular fa-envelope"></i> Confirmation details & travel guidelines have been emailed.
+                </p>
 
-                <div id="booking-success" class="booking-success hidden">
-                    <div class="success-icon"><i class="fa-solid fa-circle-check"></i></div>
-                    <h3>Booking Confirmed!</h3>
-                    <p id="booking-success-message">Your trip is confirmed. Check your email for itinerary details.</p>
-                    <div class="success-actions">
-                        <button type="button" class="btn-modal-done" id="btn-modal-done">Done</button>
-                        <a href="/index.html#bookatrip" class="btn-modal-view-bookings">View Bookings</a>
-                    </div>
+                <div class="success-actions">
+                    <button type="button" class="btn-modal-done" id="btn-modal-done">
+                        <i class="fa-solid fa-check"></i> Done
+                    </button>
+                    <button type="button" class="btn-modal-print" id="btn-modal-print">
+                        <i class="fa-solid fa-print"></i> Print Receipt
+                    </button>
+                    <a href="#popular-destinations" class="btn-modal-view-bookings" id="btn-modal-view-bookings">
+                        <i class="fa-solid fa-compass"></i> Explore More
+                    </a>
                 </div>
             </div>
         </div>
-    </main>
+    </div>
+
+    <!-- Floating Toast Notification for Booking Done -->
+    <div id="booking-toast" class="booking-toast hidden" role="status" aria-live="polite">
+        <div class="toast-icon"><i class="fa-solid fa-circle-check"></i></div>
+        <div class="toast-content">
+            <strong class="toast-title">Booking Done!</strong>
+            <span class="toast-message" id="toast-message">Trip confirmed successfully.</span>
+        </div>
+        <button type="button" class="toast-dismiss" id="toast-dismiss" aria-label="Dismiss">&times;</button>
+    </div>
 
     <!-- Footer-->
     <footer>

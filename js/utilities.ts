@@ -138,6 +138,8 @@ const logoutt = document.querySelectorAll(".logout");
 logoutt.forEach(btn => {
     btn.addEventListener("click", function () {
         localStorage.removeItem("isloggedin");
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
         alert("Log out successfully");
         updateUI();
     });
@@ -154,7 +156,7 @@ const nextBtn = document.querySelector(".next") as HTMLButtonElement;
 
 let current = 0;
 
-function showTestimonials(index:number) : void{
+function showTestimonials(index: number): void {
     testimonials.forEach((testimonial) => {
         testimonial.classList.remove("active");
     });
@@ -192,4 +194,4 @@ prevBtn.addEventListener("click", () => {
 
 showTestimonials(0);
 
-export{};
+export { };

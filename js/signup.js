@@ -55,6 +55,7 @@ signupForm.addEventListener("submit", function (event) {
             email: email,
             pass: pass
         };
+        console.log(firstname, lastname);
         async function signup(values) {
             try {
                 const response = await fetch("http://localhost:3000/signup", {
@@ -77,7 +78,7 @@ signupForm.addEventListener("submit", function (event) {
         signup(user);
         localStorage.setItem("isloggedin", "true");
         alert("WOHOO Registered Successfully");
-        window.location.href = "/index.html";
+        window.location.href = "./login.html";
     }
 });
 // password eye button

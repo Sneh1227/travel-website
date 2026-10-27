@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 require('dotenv').config();
 const { randomUUID } = require('crypto');
 const db = require('./db');
-const http = require("http");
+const jwt = require("jsonwebtoken");
 const express = require('express');
 const { timeEnd, timeLog } = require('console');
 const { use } = require('bcrypt/promises');
@@ -37,6 +37,7 @@ app.get('/api/destination', async (req, res) => {
         }
 
         // Use the name stored in the database
+        const id = dbResult.rows[0].id;
         const destinationName = dbResult.rows[0].name;
         const price = dbResult.rows[0].price;
         const days = dbResult.rows[0].days;
@@ -78,6 +79,7 @@ app.get('/api/destination', async (req, res) => {
         // Send combined response
         return res.status(200).json({
             destination,
+            id: id,
             photos: unsplashData.results,
             price: price,
             days: days,
@@ -167,8 +169,16 @@ app.post('/login', async (req, res) => {
             });
         }
 
+        // Create a signed JWT containing the customer ID
+        const token = jwt.sign(
+            { customerId: user.id },
+            process.env.JWT_SECRET,
+            { expiresIn: '1h' }
+        );
+
         return res.status(200).json({
             message: 'Login successful',
+            token: token,
             user: {
                 id: user.id,
                 firstname: user.first_name,
@@ -183,6 +193,68 @@ app.post('/login', async (req, res) => {
     }
 });
 
+// booking a trip
+app.post('/bookatrip', authenticateToken, async (req, res) => {
+    try {
+        // Get the customer ID from the verified token
+        const customerId = req.user.customerId;
+        const { destinationid, date, totalPerson, totalCost } = req.body;
+
+        const id = randomUUID();
+        const booking_query = `insert into booking (id,travel_date,total_person,
+                                total_cost,created_at,updated_at,customer_id,
+                                destination_id) values ($1,$2,$3,$4,now(),now(),$5,$6)`;
+
+        const values = [
+            id,
+            date,
+            totalPerson,
+            totalCost,
+            customerId,
+            destinationid
+        ]
+        await db.query(booking_query, values);
+        console.log('booking successfully');
+        return res.status(201).json({
+            message: 'Booking successfull',
+            bookingId: id
+        });
+    } catch (error) {
+        console.log("Error", error);
+        res.status(500).json({
+            message: error.message
+        });
+    }
+});
+
 app.listen(3000, () => {
     console.log('Express server running at http://localhost:3000');
 });
+
+
+function authenticateToken(req, res, next) {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return res.status(401).json({
+            message: 'Please log in first'
+        });
+    }
+
+    const token = authHeader.split(' ')[1];
+
+    try {
+        const decoded = jwt.verify(
+            token,
+            process.env.JWT_SECRET
+        );
+
+        req.user = decoded;
+        next();
+
+    } catch (error) {
+        return res.status(401).json({
+            message: 'Invalid or expired token. Please log in again.'
+        });
+    }
+}
