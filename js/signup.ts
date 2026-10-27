@@ -89,7 +89,7 @@ signupForm.addEventListener("submit", function (event) {
 
         localStorage.setItem("isloggedin", "true");
         alert("WOHOO Registered Successfully");
-        window.location.href = "/index.html";
+        window.location.href = "./login.html";
     }
 });
 

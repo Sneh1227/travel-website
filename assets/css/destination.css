@@ -665,7 +665,7 @@ body {
 }
 
 .destination-card-media img,
-.destination-card > img {
+.destination-card>img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -675,7 +675,7 @@ body {
 }
 
 .destination-card:hover .destination-card-media img,
-.destination-card:hover > img {
+.destination-card:hover>img {
     transform: scale(1.06);
 }
 
@@ -887,6 +887,7 @@ body {
         opacity: 0;
         transform: translateY(28px) scale(0.97);
     }
+
     to {
         opacity: 1;
         transform: translateY(0) scale(1);
@@ -1149,7 +1150,7 @@ footer {
     width: 100%;
     margin-top: 60px;
     position: relative;
-    z-index: 1;
+    z-index: -1;
     border-top: 1px solid rgba(24, 30, 75, 0.08);
     background: transparent;
 }

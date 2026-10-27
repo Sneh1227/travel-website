@@ -62,6 +62,7 @@ loginForm.addEventListener("submit", function (event) {
                 if (!response.ok) {
                     alert("Invalid email or password");
                 } else {
+                    localStorage.setItem("token", data.token);
                     const name = {
                         firstname: data.user.firstname,
                         lastname: data.user.lastname

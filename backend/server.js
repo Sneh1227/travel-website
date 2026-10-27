@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 require('dotenv').config();
 const { randomUUID } = require('crypto');
 const db = require('./db');
+const jwt = require("jsonwebtoken");
 const express = require('express');
 const { timeEnd, timeLog } = require('console');
 const { use } = require('bcrypt/promises');
@@ -168,8 +169,16 @@ app.post('/login', async (req, res) => {
             });
         }
 
+        // Create a signed JWT containing the customer ID
+        const token = jwt.sign(
+            { customerId: user.id },
+            process.env.JWT_SECRET,
+            { expiresIn: '1h' }
+        );
+
         return res.status(200).json({
             message: 'Login successful',
+            token: token,
             user: {
                 id: user.id,
                 firstname: user.first_name,
@@ -185,9 +194,11 @@ app.post('/login', async (req, res) => {
 });
 
 // booking a trip
-app.post('/bookatrip', async (req, res) => {
+app.post('/bookatrip', authenticateToken, async (req, res) => {
     try {
-        const { destinationid, customerid, date, totalPerson, totalCost } = req.body;
+        // Get the customer ID from the verified token
+        const customerId = req.user.customerId;
+        const { destinationid, date, totalPerson, totalCost } = req.body;
 
         const id = randomUUID();
         const booking_query = `insert into booking (id,travel_date,total_person,
@@ -199,14 +210,13 @@ app.post('/bookatrip', async (req, res) => {
             date,
             totalPerson,
             totalCost,
-            customerid,
+            customerId,
             destinationid
         ]
         await db.query(booking_query, values);
         console.log('booking successfully');
         return res.status(201).json({
             message: 'Booking successfull',
-            id: id
         });
     } catch (error) {
         console.log("Error", error);
@@ -219,3 +229,31 @@ app.post('/bookatrip', async (req, res) => {
 app.listen(3000, () => {
     console.log('Express server running at http://localhost:3000');
 });
+
+
+function authenticateToken(req, res, next) {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return res.status(401).json({
+            message: 'Please log in first'
+        });
+    }
+
+    const token = authHeader.split(' ')[1];
+
+    try {
+        const decoded = jwt.verify(
+            token,
+            process.env.JWT_SECRET
+        );
+
+        req.user = decoded;
+        next();
+
+    } catch (error) {
+        return res.status(401).json({
+            message: 'Invalid or expired token. Please log in again.'
+        });
+    }
+}

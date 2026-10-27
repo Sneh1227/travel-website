@@ -74,6 +74,8 @@ const bookingSuccessMsg = document.getElementById("booking-success-message");
 const btnconfirmbooking = document.getElementById("btn-confirm-booking");
 let currentUnitCost = 0;
 let currentBookingDestination = "";
+let currentBookingDestinationId = null;
+let isBooking = false;
 function updateModalTotal() {
     if (!modalTotalPrice)
         return;
@@ -89,6 +91,7 @@ bookTravelersCount?.addEventListener("input", updateModalTotal);
 function openBookingModal(id, destName, price, days) {
     if (!bookingModal)
         return;
+    currentBookingDestinationId = id;
     currentBookingDestination = destName || "Destination";
     currentUnitCost = parseNumericPrice(price);
     if (modalDestTitle)
@@ -122,18 +125,6 @@ function openBookingModal(id, destName, price, days) {
         }
         catch { }
     }
-    // booking form submit event
-    bookingForm?.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const destiID = id;
-        const travelerName = bookTravelerName?.value;
-        const travelDate = bookTravelDate?.value;
-        const travelPerson = bookTravelersCount?.value;
-        const travelCost = parseNumericPrice(modalTotalPrice?.textContent);
-        if (destiID && travelerName && travelDate && travelPerson && travelCost) {
-            bookTrip(destiID, travelerName, travelDate, Number(travelPerson), Number(travelCost));
-        }
-    });
     if (bookingForm)
         bookingForm.classList.remove("hidden");
     if (bookingSuccess)
@@ -141,6 +132,37 @@ function openBookingModal(id, destName, price, days) {
     bookingModal.classList.remove("hidden");
     document.body.style.overflow = "hidden";
 }
+bookingForm?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    // Prevent duplicate submissions while a booking is processing.
+    if (isBooking)
+        return;
+    const destiID = currentBookingDestinationId;
+    const travelerName = bookTravelerName?.value.trim();
+    const travelDate = bookTravelDate?.value;
+    const travelPerson = Number(bookTravelersCount?.value);
+    const travelCost = parseNumericPrice(modalTotalPrice?.textContent);
+    if (!destiID ||
+        !travelerName ||
+        !travelDate ||
+        !travelPerson ||
+        !travelCost) {
+        return;
+    }
+    isBooking = true;
+    if (btnconfirmbooking) {
+        btnconfirmbooking.disabled = true;
+    }
+    try {
+        await bookTrip(destiID, travelerName, travelDate, travelPerson, travelCost);
+    }
+    finally {
+        isBooking = false;
+        if (btnconfirmbooking) {
+            btnconfirmbooking.disabled = false;
+        }
+    }
+});
 function closeBookingModal() {
     if (!bookingModal)
         return;
@@ -346,17 +368,22 @@ async function loadPopularDestinations() {
 async function bookTrip(id, name, date, totalPerson, totalCost) {
     const bookingDetails = {
         destinationid: id,
-        customerid: "85264ba8-aaea-4b02-989b-39c33c9ccf5c",
         name: name,
         date: date,
         totalPerson: totalPerson,
         totalCost: totalCost
     };
+    const token = localStorage.getItem("token");
+    if (!token) {
+        console.error("Please log in before booking.");
+        return;
+    }
     try {
         const response = await fetch("http://localhost:3000/bookatrip", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
             },
             body: JSON.stringify(bookingDetails)
         });
