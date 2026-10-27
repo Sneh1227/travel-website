@@ -130,6 +130,8 @@ const logoutt = document.querySelectorAll(".logout");
 logoutt.forEach(btn => {
     btn.addEventListener("click", function () {
         localStorage.removeItem("isloggedin");
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
         alert("Log out successfully");
         updateUI();
     });

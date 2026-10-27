@@ -217,6 +217,7 @@ app.post('/bookatrip', authenticateToken, async (req, res) => {
         console.log('booking successfully');
         return res.status(201).json({
             message: 'Booking successfull',
+            bookingId: id
         });
     } catch (error) {
         console.log("Error", error);

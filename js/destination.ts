@@ -62,9 +62,12 @@ function parseNumericPrice(price: string | number | undefined | null): number {
 // Booking Modal Elements
 const bookingModal = document.getElementById("booking-modal") as HTMLElement | null;
 const modalCloseBtn = document.getElementById("modal-close-btn") as HTMLButtonElement | null;
+const modalHeader = document.getElementById("modal-header") as HTMLElement | null;
 const bookingForm = document.getElementById("booking-form") as HTMLFormElement | null;
 const bookingSuccess = document.getElementById("booking-success") as HTMLElement | null;
 const btnModalDone = document.getElementById("btn-modal-done") as HTMLButtonElement | null;
+const btnModalPrint = document.getElementById("btn-modal-print") as HTMLButtonElement | null;
+const btnModalExplore = document.getElementById("btn-modal-view-bookings") as HTMLAnchorElement | null;
 const modalDestTitle = document.getElementById("modal-dest-title") as HTMLElement | null;
 const modalDestPrice = document.getElementById("modal-dest-price") as HTMLElement | null;
 const modalDestDays = document.getElementById("modal-dest-days") as HTMLElement | null;
@@ -75,6 +78,122 @@ const bookTravelDate = document.getElementById("book-travel-date") as HTMLInputE
 const bookTravelersCount = document.getElementById("book-travelers-count") as HTMLInputElement | null;
 const bookingSuccessMsg = document.getElementById("booking-success-message") as HTMLElement | null;
 const btnconfirmbooking = document.getElementById("btn-confirm-booking") as HTMLButtonElement | null;
+
+// Modal Inline Alert Elements
+const bookingAlert = document.getElementById("booking-alert") as HTMLElement | null;
+const bookingAlertText = document.getElementById("booking-alert-text") as HTMLElement | null;
+const bookingAlertLink = document.getElementById("booking-alert-link") as HTMLAnchorElement | null;
+
+// Receipt Card Elements
+const receiptDestName = document.getElementById("receipt-dest-name") as HTMLElement | null;
+const receiptTravelerName = document.getElementById("receipt-traveler-name") as HTMLElement | null;
+const receiptTravelDate = document.getElementById("receipt-travel-date") as HTMLElement | null;
+const receiptTravelersCount = document.getElementById("receipt-travelers-count") as HTMLElement | null;
+const receiptBookingId = document.getElementById("receipt-booking-id") as HTMLElement | null;
+const receiptTotalCost = document.getElementById("receipt-total-cost") as HTMLElement | null;
+
+// Toast Elements
+const bookingToast = document.getElementById("booking-toast") as HTMLElement | null;
+const toastMessage = document.getElementById("toast-message") as HTMLElement | null;
+const toastDismiss = document.getElementById("toast-dismiss") as HTMLButtonElement | null;
+
+let toastTimeout: any = null;
+
+function showToast(message: string): void {
+    if (!bookingToast || !toastMessage) return;
+    toastMessage.textContent = message;
+    bookingToast.classList.remove("hidden", "toast-hiding");
+
+    if (toastTimeout) clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(() => {
+        hideToast();
+    }, 4500);
+}
+
+function hideToast(): void {
+    if (!bookingToast || bookingToast.classList.contains("hidden")) return;
+    bookingToast.classList.add("toast-hiding");
+    setTimeout(() => {
+        bookingToast.classList.add("hidden");
+        bookingToast.classList.remove("toast-hiding");
+    }, 300);
+}
+
+toastDismiss?.addEventListener("click", hideToast);
+
+function showBookingAlert(message: string, isWarning = false, showLoginLink = false): void {
+    if (!bookingAlert || !bookingAlertText) return;
+    bookingAlertText.textContent = message;
+    if (isWarning) {
+        bookingAlert.classList.add("warning");
+    } else {
+        bookingAlert.classList.remove("warning");
+    }
+    if (bookingAlertLink) {
+        if (showLoginLink) {
+            bookingAlertLink.classList.remove("hidden");
+        } else {
+            bookingAlertLink.classList.add("hidden");
+        }
+    }
+    bookingAlert.classList.remove("hidden");
+}
+
+function hideBookingAlert(): void {
+    if (!bookingAlert) return;
+    bookingAlert.classList.add("hidden");
+}
+
+function formatDateForReceipt(dateStr: string): string {
+    if (!dateStr) return "-";
+    try {
+        const parts = dateStr.split("-");
+        if (parts.length === 3) {
+            const dateObj = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+            if (!isNaN(dateObj.getTime())) {
+                return dateObj.toLocaleDateString("en-US", {
+                    weekday: "short",
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric"
+                });
+            }
+        }
+    } catch (_) { }
+    return dateStr;
+}
+
+function showBookingSuccessUI(details: {
+    destination: string;
+    traveler: string;
+    date: string;
+    travelers: number;
+    cost: number;
+    bookingId?: string;
+}): void {
+    hideBookingAlert();
+
+    // Fill in receipt fields
+    if (receiptDestName) receiptDestName.textContent = details.destination;
+    if (receiptTravelerName) receiptTravelerName.textContent = details.traveler;
+    if (receiptTravelDate) receiptTravelDate.textContent = formatDateForReceipt(details.date);
+    if (receiptTravelersCount) {
+        receiptTravelersCount.textContent = `${details.travelers} Traveler${details.travelers > 1 ? "s" : ""}`;
+    }
+    const cleanId = details.bookingId
+        ? (details.bookingId.length > 8 ? details.bookingId.slice(0, 8).toUpperCase() : details.bookingId.toUpperCase())
+        : `BK-${Math.floor(100000 + Math.random() * 900000)}`;
+    if (receiptBookingId) receiptBookingId.textContent = `#${cleanId}`;
+    if (receiptTotalCost) receiptTotalCost.textContent = `$${details.cost.toLocaleString()}`;
+
+    // Switch view from form to success
+    if (modalHeader) modalHeader.classList.add("hidden");
+    if (bookingForm) bookingForm.classList.add("hidden");
+    if (bookingSuccess) bookingSuccess.classList.remove("hidden");
+
+    // Celebratory toast
+    showToast(`Booking Done! Your trip to ${details.destination} is confirmed.`);
+}
 
 let currentUnitCost = 0;
 let currentBookingDestination = "";
@@ -98,6 +217,13 @@ function openBookingModal(id: any, destName: string, price: any, days: any): voi
     currentBookingDestinationId = id;
     currentBookingDestination = destName || "Destination";
     currentUnitCost = parseNumericPrice(price);
+
+    hideBookingAlert();
+
+    // Reset view to form
+    if (modalHeader) modalHeader.classList.remove("hidden");
+    if (bookingForm) bookingForm.classList.remove("hidden");
+    if (bookingSuccess) bookingSuccess.classList.add("hidden");
 
     if (modalDestTitle) modalDestTitle.textContent = `Book Trip to ${currentBookingDestination}`;
     if (modalDestPrice) modalDestPrice.textContent = formatPrice(price) || "Special Rate";
@@ -126,9 +252,12 @@ function openBookingModal(id: any, destName: string, price: any, days: any): voi
             }
         } catch { }
     }
-    
-    if (bookingForm) bookingForm.classList.remove("hidden");
-    if (bookingSuccess) bookingSuccess.classList.add("hidden");
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+        showBookingAlert("You need to be logged in to confirm a booking.", true, true);
+    }
+
     bookingModal.classList.remove("hidden");
     document.body.style.overflow = "hidden";
 }
@@ -138,6 +267,14 @@ bookingForm?.addEventListener("submit", async (e: SubmitEvent) => {
 
     // Prevent duplicate submissions while a booking is processing.
     if (isBooking) return;
+
+    hideBookingAlert();
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+        showBookingAlert("Please log in before confirming your booking.", true, true);
+        return;
+    }
 
     const destiID = currentBookingDestinationId;
     const travelerName = bookTravelerName?.value.trim();
@@ -154,6 +291,7 @@ bookingForm?.addEventListener("submit", async (e: SubmitEvent) => {
         !travelPerson ||
         !travelCost
     ) {
+        showBookingAlert("Please fill in all booking fields before submitting.", true);
         return;
     }
 
@@ -161,21 +299,34 @@ bookingForm?.addEventListener("submit", async (e: SubmitEvent) => {
 
     if (btnconfirmbooking) {
         btnconfirmbooking.disabled = true;
+        btnconfirmbooking.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> <span>Confirming...</span>`;
     }
 
     try {
-        await bookTrip(
+        const result = await bookTrip(
             destiID,
             travelerName,
             travelDate,
             travelPerson,
             travelCost
         );
+
+        if (result && result.success) {
+            showBookingSuccessUI({
+                destination: currentBookingDestination,
+                traveler: travelerName,
+                date: travelDate,
+                travelers: travelPerson,
+                cost: travelCost,
+                bookingId: result.bookingId
+            });
+        }
     } finally {
         isBooking = false;
 
         if (btnconfirmbooking) {
             btnconfirmbooking.disabled = false;
+            btnconfirmbooking.innerHTML = `<span>Confirm Booking</span> <i class="fa-solid fa-check"></i>`;
         }
     }
 });
@@ -184,10 +335,25 @@ function closeBookingModal(): void {
     if (!bookingModal) return;
     bookingModal.classList.add("hidden");
     document.body.style.overflow = "";
+
+    // Reset views and fields for subsequent bookings
+    if (modalHeader) modalHeader.classList.remove("hidden");
+    if (bookingForm) {
+        bookingForm.reset();
+        bookingForm.classList.remove("hidden");
+    }
+    if (bookingSuccess) bookingSuccess.classList.add("hidden");
+    hideBookingAlert();
 }
 
 modalCloseBtn?.addEventListener("click", closeBookingModal);
 btnModalDone?.addEventListener("click", closeBookingModal);
+btnModalExplore?.addEventListener("click", () => {
+    closeBookingModal();
+});
+btnModalPrint?.addEventListener("click", () => {
+    window.print();
+});
 
 bookingModal?.addEventListener("click", (e) => {
     if (e.target === bookingModal) {
@@ -440,22 +606,35 @@ async function loadPopularDestinations(): Promise<void> {
 }
 
 
+interface BookingResponse {
+    success: boolean;
+    bookingId?: string;
+    message?: string;
+}
+
 // booking function to book a trip
-async function bookTrip(id: any, name: string, date: string, totalPerson: number, totalCost: number): Promise<void> {
+async function bookTrip(
+    id: any,
+    name: string,
+    date: string,
+    totalPerson: number,
+    totalCost: number
+): Promise<BookingResponse> {
     const bookingDetails = {
         destinationid: id,
         name: name,
         date: date,
         totalPerson: totalPerson,
         totalCost: totalCost
-    }
+    };
 
     const token = localStorage.getItem("token");
 
     if (!token) {
-        console.error("Please log in before booking.");
-        return;
+        showBookingAlert("Please log in before completing your booking.", true, true);
+        return { success: false, message: "Please log in first" };
     }
+
     try {
         const response = await fetch("http://localhost:3000/bookatrip", {
             method: "POST",
@@ -465,13 +644,25 @@ async function bookTrip(id: any, name: string, date: string, totalPerson: number
             },
             body: JSON.stringify(bookingDetails)
         });
-        const data = await response.json();
+
+        const data = await response.json().catch(() => ({}));
+
         if (!response.ok) {
-            throw new Error(data.message || "booking failed");
+            const errMsg = data.message || "Booking failed. Please try again.";
+            showBookingAlert(errMsg, false);
+            return { success: false, message: errMsg };
         }
-    }
-    catch (error) {
+
+        return {
+            success: true,
+            bookingId: data.bookingId || data.id,
+            message: data.message || "Booking successful"
+        };
+    } catch (error) {
         console.error("Error during booking:", error);
+        const errMsg = "Unable to connect to the booking server. Please verify the server is running.";
+        showBookingAlert(errMsg, false);
+        return { success: false, message: errMsg };
     }
 }
 

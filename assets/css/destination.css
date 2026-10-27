@@ -852,14 +852,16 @@ body {
     inset: 0;
     width: 100%;
     height: 100%;
-    background: rgba(15, 23, 42, 0.65);
+    background: rgba(15, 23, 42, 0.68);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1000;
-    padding: 20px;
+    z-index: 9999;
+    padding: 24px 16px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
     transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
@@ -871,13 +873,14 @@ body {
 .booking-modal-card {
     position: relative;
     width: 100%;
-    max-width: 480px;
+    max-width: 490px;
+    margin: auto;
     background: var(--white);
     border-radius: var(--radius-card);
-    box-shadow: 0 25px 60px rgba(15, 23, 42, 0.22);
+    box-shadow: 0 25px 60px rgba(15, 23, 42, 0.28);
     border: 1px solid var(--border-subtle);
-    padding: 34px 32px 30px;
-    max-height: 90vh;
+    padding: 26px 26px 22px;
+    max-height: calc(100vh - 48px);
     overflow-y: auto;
     animation: modalSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -1069,45 +1072,343 @@ body {
     transform: translateY(0);
 }
 
-/* Success Card */
-.booking-success {
-    text-align: center;
-    padding: 20px 10px 10px;
-    animation: fadeIn 0.3s ease;
+/* Booking Inline Alert */
+.booking-alert {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    border-radius: var(--radius-sm);
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #991b1b;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin-bottom: 16px;
+    animation: fadeIn 0.25s ease;
 }
 
-.booking-success .success-icon {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    background: rgba(34, 197, 94, 0.12);
-    color: #16a34a;
-    font-size: 2.2rem;
+.booking-alert.warning {
+    background: #fffbeb;
+    border-color: #fde68a;
+    color: #92400e;
+}
+
+.booking-alert .alert-icon {
+    font-size: 1.15rem;
+    flex-shrink: 0;
+}
+
+.booking-alert-link {
+    font-weight: 700;
+    color: inherit;
+    text-decoration: underline;
+    margin-left: auto;
+    white-space: nowrap;
+    transition: var(--transition);
+}
+
+.booking-alert-link:hover {
+    opacity: 0.8;
+}
+
+/* Success Card & Booking Done UI */
+.booking-success {
+    text-align: center;
+    padding: 2px 2px 0;
+    animation: successFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes successFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.success-animation-wrap {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 16px;
 }
 
-.booking-success h3 {
+.success-pulse-ring {
+    position: absolute;
+    inset: -5px;
+    border-radius: 50%;
+    background: rgba(34, 197, 94, 0.2);
+    animation: pulseGlow 2s infinite ease-out;
+}
+
+@keyframes pulseGlow {
+    0% {
+        transform: scale(0.9);
+        opacity: 0.8;
+    }
+    70% {
+        transform: scale(1.25);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1.25);
+        opacity: 0;
+    }
+}
+
+.booking-success .success-icon {
+    position: relative;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    color: var(--white);
+    font-size: 1.85rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 20px rgba(22, 163, 74, 0.3);
+    animation: iconPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes iconPop {
+    0% {
+        transform: scale(0.6);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.booking-done-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(34, 197, 94, 0.12);
+    color: #15803d;
+    font-size: 0.74rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 3px 10px;
+    border-radius: var(--radius-pill);
+    margin-bottom: 6px;
+    border: 1px solid rgba(34, 197, 94, 0.25);
+}
+
+.booking-done-title {
     font-family: var(--font-heading);
-    font-size: 1.6rem;
+    font-size: 1.48rem;
+    font-weight: 700;
     color: var(--dark);
-    margin-bottom: 10px;
+    margin-bottom: 4px;
 }
 
-.booking-success p {
-    font-size: 0.95rem;
+.booking-done-subtitle {
+    font-size: 0.88rem;
     color: var(--text-body);
-    line-height: 1.6;
-    margin-bottom: 24px;
+    line-height: 1.45;
+    margin-bottom: 12px;
 }
 
+/* Modern Boarding Pass / Receipt Card */
+.booking-receipt-card {
+    background: linear-gradient(180deg, #ffffff 0%, #fbfbfc 100%);
+    border: 1.5px solid rgba(24, 30, 75, 0.1);
+    border-radius: 14px;
+    padding: 13px 16px;
+    margin-bottom: 12px;
+    box-shadow: 0 8px 24px rgba(24, 30, 75, 0.04);
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+}
+
+.receipt-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.receipt-dest-block {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.receipt-caption {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 700;
+    color: var(--text-muted);
+}
+
+.receipt-destination {
+    font-family: var(--font-heading);
+    font-size: 1.18rem;
+    font-weight: 700;
+    color: var(--dark);
+    line-height: 1.25;
+}
+
+.receipt-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #ecfdf5;
+    color: #047857;
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: var(--radius-pill);
+    border: 1px solid #a7f3d0;
+}
+
+.receipt-status-badge .badge-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.25);
+    display: inline-block;
+}
+
+/* Receipt Ticket Perforation Divider */
+.receipt-divider {
+    position: relative;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    margin: 8px -18px;
+}
+
+.receipt-notch {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    background: var(--white);
+    border: 1.5px solid rgba(24, 30, 75, 0.1);
+    border-radius: 50%;
+    z-index: 2;
+}
+
+.receipt-notch.notch-left {
+    left: -7px;
+}
+
+.receipt-notch.notch-right {
+    right: -7px;
+}
+
+.receipt-dash {
+    width: 100%;
+    border-top: 1.5px dashed rgba(24, 30, 75, 0.18);
+    margin: 0 10px;
+}
+
+/* Receipt Info Grid */
+.receipt-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 14px;
+    margin-bottom: 12px;
+}
+
+.receipt-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.receipt-cell-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.receipt-cell-label i {
+    font-size: 0.72rem;
+    color: var(--primary);
+}
+
+.receipt-cell-val {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--dark);
+    word-break: break-word;
+}
+
+.receipt-cell-val.font-mono {
+    font-family: "Consolas", "Courier New", monospace;
+    font-size: 0.85rem;
+    color: #4338ca;
+    background: rgba(99, 102, 241, 0.08);
+    padding: 2px 6px;
+    border-radius: 4px;
+    display: inline-block;
+    width: fit-content;
+}
+
+/* Receipt Footer Total */
+.receipt-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(223, 105, 81, 0.07);
+    border: 1px solid rgba(223, 105, 81, 0.15);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    margin-top: 6px;
+}
+
+.receipt-total-label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--dark);
+}
+
+.receipt-total-price {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--primary);
+}
+
+.booking-success-note {
+    font-size: 0.84rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.booking-success-note i {
+    color: var(--primary);
+}
+
+/* Success Actions */
 .success-actions {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
+    gap: 10px;
+    flex-wrap: wrap;
 }
 
 .btn-modal-done {
@@ -1121,10 +1422,36 @@ body {
     border-radius: var(--radius-pill);
     cursor: pointer;
     transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .btn-modal-done:hover {
     background: #2b3363;
+    transform: translateY(-1px);
+}
+
+.btn-modal-print {
+    background: var(--white);
+    color: var(--dark);
+    border: 1.5px solid rgba(24, 30, 75, 0.2);
+    font-family: var(--font-body);
+    font-size: 0.92rem;
+    font-weight: 600;
+    padding: 9px 18px;
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-modal-print:hover {
+    background: rgba(24, 30, 75, 0.05);
+    border-color: var(--dark);
+    transform: translateY(-1px);
 }
 
 .btn-modal-view-bookings {
@@ -1134,15 +1461,142 @@ body {
     font-family: var(--font-body);
     font-size: 0.92rem;
     font-weight: 600;
-    padding: 10px 22px;
+    padding: 10px 20px;
     border-radius: var(--radius-pill);
     box-shadow: 0 4px 14px rgba(223, 105, 81, 0.3);
     transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .btn-modal-view-bookings:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(223, 105, 81, 0.45);
+}
+
+/* Floating Toast Notification */
+.booking-toast {
+    position: fixed;
+    top: 76px;
+    right: 24px;
+    z-index: 10000;
+    background: var(--white);
+    border-left: 4px solid #16a34a;
+    border-radius: var(--radius-sm);
+    padding: 14px 18px;
+    box-shadow: 0 16px 36px rgba(24, 30, 75, 0.16), 0 4px 10px rgba(0, 0, 0, 0.06);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: 380px;
+    animation: toastSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes toastSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(40px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+.booking-toast.toast-hiding {
+    animation: toastSlideOut 0.3s ease forwards;
+}
+
+@keyframes toastSlideOut {
+    to {
+        opacity: 0;
+        transform: translateX(40px) scale(0.95);
+    }
+}
+
+.booking-toast .toast-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(34, 197, 94, 0.12);
+    color: #16a34a;
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.booking-toast .toast-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.booking-toast .toast-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--dark);
+}
+
+.booking-toast .toast-message {
+    font-size: 0.84rem;
+    color: var(--text-body);
+    line-height: 1.35;
+}
+
+.booking-toast .toast-dismiss {
+    background: none;
+    border: none;
+    font-size: 1.3rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 0 4px;
+    margin-left: 8px;
+    transition: var(--transition);
+    line-height: 1;
+}
+
+.booking-toast .toast-dismiss:hover {
+    color: var(--dark);
+}
+
+/* Print Stylesheet for Receipt */
+@media print {
+    body * {
+        visibility: hidden !important;
+    }
+
+    #booking-modal,
+    #booking-modal .booking-modal-card,
+    #booking-success,
+    #booking-receipt-card,
+    #booking-receipt-card * {
+        visibility: visible !important;
+    }
+
+    #booking-modal {
+        position: static !important;
+        background: transparent !important;
+        padding: 0 !important;
+        display: block !important;
+    }
+
+    .booking-modal-card {
+        box-shadow: none !important;
+        border: none !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+    }
+
+    .modal-close-btn,
+    .success-actions,
+    .booking-success-note,
+    .success-animation-wrap,
+    #booking-toast {
+        display: none !important;
+    }
 }
 
 /*FOOTER */
@@ -1551,6 +2005,54 @@ footer .copyright {
         padding: 20px 16px 40px;
         font-size: 0.82rem;
     }
+
+    /* Modal & Booking UI Responsive (Tablet & Medium Screens) */
+    .booking-modal-backdrop {
+        padding: 18px 14px;
+    }
+
+    .booking-modal-card {
+        max-width: 460px;
+        padding: 22px 20px 20px;
+        border-radius: var(--radius-md);
+        max-height: calc(100vh - 36px);
+    }
+
+    .modal-header h2 {
+        font-size: 1.45rem;
+    }
+
+    .booking-done-title {
+        font-size: 1.35rem;
+    }
+
+    .booking-receipt-card {
+        padding: 12px 14px;
+        margin-bottom: 12px;
+    }
+
+    .receipt-destination {
+        font-size: 1.1rem;
+    }
+
+    .receipt-grid {
+        gap: 10px 12px;
+    }
+
+    .receipt-cell-val {
+        font-size: 0.88rem;
+    }
+
+    .receipt-total-price {
+        font-size: 1.15rem;
+    }
+
+    .booking-toast {
+        top: 68px;
+        right: 16px;
+        max-width: 340px;
+        padding: 12px 14px;
+    }
 }
 
 /* --- Small Mobile Phones (<= 480px) --- */
@@ -1662,19 +2164,184 @@ footer .copyright {
         padding: 11px 18px;
     }
 
+    /* Modal & Booking UI Responsive (Mobile <= 480px) */
+    .booking-modal-backdrop {
+        padding: 10px 8px;
+    }
+
     .booking-modal-card {
-        padding: 26px 20px 22px;
-        margin: 10px;
-        max-height: 94vh;
+        padding: 18px 14px 16px;
+        margin: auto;
+        border-radius: 14px;
+        max-width: 100%;
+        max-height: calc(100vh - 20px);
+    }
+
+    .modal-close-btn {
+        top: 10px;
+        right: 10px;
+        width: 30px;
+        height: 30px;
+        font-size: 1.15rem;
+    }
+
+    .modal-header {
+        margin-bottom: 14px;
+    }
+
+    .modal-header h2 {
+        font-size: 1.25rem;
+    }
+
+    .modal-trip-meta {
+        gap: 6px;
+    }
+
+    .modal-meta-pill {
+        font-size: 0.78rem;
+        padding: 3px 9px;
     }
 
     .form-row {
         grid-template-columns: 1fr;
-        gap: 12px;
+        gap: 10px;
     }
 
-    .modal-header h2 {
-        font-size: 1.35rem;
+    .form-group input {
+        padding: 9px 12px;
+        font-size: 0.9rem;
+    }
+
+    .btn-confirm-booking {
+        width: 100%;
+        padding: 12px;
+        font-size: 0.95rem;
+    }
+
+    /* Success state on mobile */
+    .success-animation-wrap {
+        width: 50px;
+        height: 50px;
+        margin: 0 auto 6px;
+    }
+
+    .booking-success .success-icon {
+        width: 46px;
+        height: 46px;
+        font-size: 1.5rem;
+    }
+
+    .booking-done-pill {
+        font-size: 0.7rem;
+        padding: 2px 8px;
+        margin-bottom: 4px;
+    }
+
+    .booking-done-title {
+        font-size: 1.25rem;
+        margin-bottom: 2px;
+    }
+
+    .booking-done-subtitle {
+        font-size: 0.82rem;
+        margin-bottom: 10px;
+    }
+
+    .booking-receipt-card {
+        padding: 10px 12px;
+        border-radius: 12px;
+        margin-bottom: 10px;
+    }
+
+    .receipt-destination {
+        font-size: 1rem;
+    }
+
+    .receipt-status-badge {
+        font-size: 0.7rem;
+        padding: 2px 7px;
+    }
+
+    .receipt-divider {
+        margin: 5px -12px;
+    }
+
+    .receipt-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px 6px;
+        margin-bottom: 8px;
+    }
+
+    .receipt-cell-label {
+        font-size: 0.68rem;
+        gap: 4px;
+    }
+
+    .receipt-cell-val {
+        font-size: 0.8rem;
+    }
+
+    .receipt-cell-val.font-mono {
+        font-size: 0.75rem;
+        padding: 1px 4px;
+    }
+
+    .receipt-footer {
+        padding: 7px 10px;
+        margin-top: 4px;
+    }
+
+    .receipt-total-label {
+        font-size: 0.78rem;
+    }
+
+    .receipt-total-price {
+        font-size: 1.05rem;
+    }
+
+    .booking-success-note {
+        font-size: 0.75rem;
+        margin-bottom: 12px;
+    }
+
+    .success-actions {
+        flex-direction: column;
+        width: 100%;
+        gap: 8px;
+    }
+
+    .btn-modal-done,
+    .btn-modal-print,
+    .btn-modal-view-bookings {
+        width: 100%;
+        justify-content: center;
+        padding: 10px 16px;
+        font-size: 0.88rem;
+    }
+
+    /* Toast on mobile: full width below navbar */
+    .booking-toast {
+        top: 64px;
+        left: 10px;
+        right: 10px;
+        max-width: calc(100% - 20px);
+        width: auto;
+        padding: 10px 12px;
+        gap: 10px;
+    }
+
+    .booking-toast .toast-icon {
+        width: 30px;
+        height: 30px;
+        font-size: 1.05rem;
+    }
+
+    .booking-toast .toast-title {
+        font-size: 0.86rem;
+    }
+
+    .booking-toast .toast-message {
+        font-size: 0.78rem;
     }
 
     footer .outbound .discover .downplace {
@@ -1687,5 +2354,50 @@ footer .copyright {
     footer .outbound .discover .downplace .apple {
         width: 180px;
         justify-content: center;
+    }
+}
+
+/* Short Viewports & Mobile Landscape */
+@media (max-height: 650px) {
+    .booking-modal-backdrop {
+        align-items: flex-start;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .booking-modal-card {
+        margin: 0 auto;
+        max-height: calc(100vh - 20px);
+        padding: 14px 18px 12px;
+    }
+
+    .success-animation-wrap {
+        width: 42px;
+        height: 42px;
+        margin: 0 auto 4px;
+    }
+
+    .booking-success .success-icon {
+        width: 38px;
+        height: 38px;
+        font-size: 1.25rem;
+    }
+
+    .booking-done-subtitle {
+        margin-bottom: 6px;
+    }
+
+    .booking-receipt-card {
+        padding: 8px 12px;
+        margin-bottom: 8px;
+    }
+
+    .receipt-grid {
+        margin-bottom: 4px;
+        gap: 4px 8px;
+    }
+
+    .booking-success-note {
+        margin-bottom: 8px;
     }
 }
