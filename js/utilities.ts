@@ -165,37 +165,43 @@ function showTestimonials(index: number): void {
         dot.classList.remove("active");
     });
 
-    testimonials[index].classList.add("active");
-    dots[index].classList.add("active");
-    current = index;
+    if (testimonials[index] && dots[index]) {
+        testimonials[index].classList.add("active");
+        dots[index].classList.add("active");
+        current = index;
+    }
+}
+if (dots) {
+    dots.forEach((dot, index) => {
+        dot.addEventListener("click", () => {
+            showTestimonials(index);
+        });
+    });
+}
+if (nextBtn) {
+    nextBtn.addEventListener("click", () => {
+        current++;
+        if (current >= testimonials.length) {
+            current = 0;
+        }
+        showTestimonials(current);
+    });
+}
+if (prevBtn) {
+    prevBtn.addEventListener("click", () => {
+        current--;
+        if (current < 0) {
+            current = testimonials.length - 1;
+        }
+        showTestimonials(current);
+    });
+}
+if (testimonials.length > 0 && dots.length > 0) {
+    showTestimonials(current);
 }
 
-dots.forEach((dot, index) => {
-    dot.addEventListener("click", () => {
-        showTestimonials(index);
-    });
-});
-
-nextBtn.addEventListener("click", () => {
-    current++;
-    if (current >= testimonials.length) {
-        current = 0;
-    }
-    showTestimonials(current);
-});
-
-prevBtn.addEventListener("click", () => {
-    current--;
-    if (current < 0) {
-        current = testimonials.length - 1;
-    }
-    showTestimonials(current);
-});
-
-showTestimonials(0);
-
 // Password eye button
-function eyepass(input: HTMLInputElement, button: HTMLButtonElement): void {
+export function eyepass(input: HTMLInputElement, button: HTMLButtonElement): void {
     if (input.type === "password") {
         input.type = "text";
         button.innerHTML = '<i class="fa-regular fa-eye"></i>';

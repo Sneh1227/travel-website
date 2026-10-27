@@ -1,3 +1,4 @@
+import { eyepass } from "./utilities.js";
 // Profile Section Logic
 const userAvatar = document.getElementById("userAvatar");
 const userName = document.getElementById("userName");
@@ -19,16 +20,6 @@ const toggleCurrentPassword = document.getElementById("toggleCurrentPassword");
 const toggleNewPassword = document.getElementById("toggleNewPassword");
 const toggleConfirmNewPassword = document.getElementById("toggleConfirmNewPassword");
 // Password eye button
-function eyepass(input, button) {
-    if (input.type === "password") {
-        input.type = "text";
-        button.innerHTML = '<i class="fa-regular fa-eye"></i>';
-    }
-    else {
-        input.type = "password";
-        button.innerHTML = '<i class="fa-regular fa-eye-slash"></i>';
-    }
-}
 toggleCurrentPassword?.addEventListener("click", () => {
     if (currentPasswordInput && toggleCurrentPassword) {
         eyepass(currentPasswordInput, toggleCurrentPassword);
@@ -313,4 +304,3 @@ btnLogout?.addEventListener("click", () => {
 loadLocalUserData();
 fetchUserProfile();
 fetchMyBookings();
-export {};

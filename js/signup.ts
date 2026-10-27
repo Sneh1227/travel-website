@@ -1,3 +1,4 @@
+import { eyepass } from "./utilities.js";
 // validation
 const signupForm = document.getElementById("formsignup") as HTMLFormElement;
 
@@ -97,15 +98,6 @@ signupForm.addEventListener("submit", function (event) {
 });
 
 // password eye button
-function eyepass(input: HTMLInputElement, button: HTMLButtonElement): void {
-    if (input.type === "password") {
-        input.type = "text";
-        button.innerHTML = '<i class="fa-regular fa-eye" style="color: rgb(247, 247, 245);"></i>';
-    } else {
-        input.type = "password";
-        button.innerHTML = '<i class="fa-regular fa-eye-slash" style="color: rgb(251, 251, 250);"></i>';
-    }
-}
 const togglepass = document.getElementById("togglepass") as HTMLButtonElement;
 const toggleconfirmpass = document.getElementById("toggleconfirmpass") as HTMLButtonElement;
 const pass = document.getElementById("pass") as HTMLInputElement;

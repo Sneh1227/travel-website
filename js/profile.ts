@@ -1,3 +1,4 @@
+import { eyepass } from "./utilities.js";
 // Profile Section Logic
 
 const userAvatar = document.getElementById("userAvatar") as HTMLElement | null;
@@ -26,16 +27,6 @@ const toggleNewPassword = document.getElementById("toggleNewPassword") as HTMLBu
 const toggleConfirmNewPassword = document.getElementById("toggleConfirmNewPassword") as HTMLButtonElement | null;
 
 // Password eye button
-function eyepass(input: HTMLInputElement, button: HTMLButtonElement): void {
-    if (input.type === "password") {
-        input.type = "text";
-        button.innerHTML = '<i class="fa-regular fa-eye"></i>';
-    } else {
-        input.type = "password";
-        button.innerHTML = '<i class="fa-regular fa-eye-slash"></i>';
-    }
-}
-
 toggleCurrentPassword?.addEventListener("click", () => {
     if (currentPasswordInput && toggleCurrentPassword) {
         eyepass(currentPasswordInput, toggleCurrentPassword);
