@@ -245,6 +245,12 @@ changePasswordForm?.addEventListener("submit", async (e: SubmitEvent) => {
         return;
     }
 
+    if ((newPassword.length < 8) || (!/[A-Z]/.test(newPassword)) || (!/[a-z]/.test(newPassword)) ||
+        (!/[0-9]/.test(newPassword)) || (!/[!@#$%^&*]/.test(newPassword))) {
+        showPasswordAlert("Password must contain 8+ characters, including uppercase, lowercase, a number, and a special character.", false);
+        return;
+    }
+
     if (newPassword !== confirmNewPassword) {
         showPasswordAlert("New password and confirmation do not match.", false);
         return;
