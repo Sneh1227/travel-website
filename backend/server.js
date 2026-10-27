@@ -104,6 +104,14 @@ app.post('/signup', async (req, res) => {
     try {
         const { firstname, lastname, contact, email, pass } = req.body;
 
+        const check = `select * from customer where email = $1`;
+        const data = await db.query(check, [email])
+        if (data.rows.length > 0) {
+            return res.status(409).json({
+                message: 'Email already registered. Please login.'
+            });
+        }
+
         // Generate UUID
         const id = randomUUID();
 

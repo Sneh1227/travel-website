@@ -55,7 +55,6 @@ signupForm.addEventListener("submit", function (event) {
             email: email,
             pass: pass
         };
-        console.log(firstname, lastname);
         async function signup(values) {
             try {
                 const response = await fetch("http://localhost:3000/signup", {
@@ -67,18 +66,23 @@ signupForm.addEventListener("submit", function (event) {
                 });
                 const data = await response.json();
                 if (!response.ok) {
-                    throw new Error("Signup failed");
+                    if (response.status === 409) {
+                        emailError.innerText = data.message;
+                        alert("Email already registered! please login");
+                    }
+                    else {
+                        alert(data.message || data.error || "Signup failed");
+                    }
+                    return;
                 }
-                console.log(data);
+                alert(data.message);
+                window.location.href = "./login.html";
             }
             catch (error) {
                 console.error("Error during signup:", error);
             }
         }
         signup(user);
-        localStorage.setItem("isloggedin", "true");
-        alert("WOHOO Registered Successfully");
-        window.location.href = "./login.html";
     }
 });
 // password eye button
@@ -102,3 +106,4 @@ togglepass.addEventListener("click", function () {
 toggleconfirmpass.addEventListener("click", function () {
     eyepass(confirmpassword, toggleconfirmpass);
 });
+
