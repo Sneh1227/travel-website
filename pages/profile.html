@@ -111,6 +111,116 @@
                 </button>
             </form>
         </section>
+        <!-- Testimonial Modal -->
+        <div id="testimonialModal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="testimonialModalTitle">
+            <div class="modal-card">
+                <div class="modal-header">
+                    <div>
+                        <h3 id="testimonialModalTitle" class="modal-title">Share Your Experience</h3>
+                        <p id="testimonialDestTitle" class="modal-subtitle">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <span id="testimonialDestName">Destination</span>
+                        </p>
+                    </div>
+                    <button type="button" class="btn-modal-close" id="btnCloseTestimonialModal" aria-label="Close modal">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <form id="testimonialForm" class="modal-body">
+                    <div id="testimonialAlert" class="form-alert hidden" role="alert"></div>
+
+                    <input type="hidden" id="testimonialDestId" name="destination_id">
+                    <input type="hidden" id="testimonialRatingValue" name="ratings" value="5">
+
+                    <!-- Star Rating Section -->
+                    <div class="form-group">
+                        <label class="rating-label">Your Rating</label>
+                        <div class="rating-stars-container">
+                            <div class="stars-row" id="starRatingGroup" role="radiogroup" aria-label="Rating from 1 to 5 stars">
+                                <button type="button" class="star-btn active" data-rating="1" aria-label="1 star"><i class="fa-solid fa-star"></i></button>
+                                <button type="button" class="star-btn active" data-rating="2" aria-label="2 stars"><i class="fa-solid fa-star"></i></button>
+                                <button type="button" class="star-btn active" data-rating="3" aria-label="3 stars"><i class="fa-solid fa-star"></i></button>
+                                <button type="button" class="star-btn active" data-rating="4" aria-label="4 stars"><i class="fa-solid fa-star"></i></button>
+                                <button type="button" class="star-btn active" data-rating="5" aria-label="5 stars"><i class="fa-solid fa-star"></i></button>
+                            </div>
+                            <span id="ratingDescriptor" class="rating-descriptor">Exceptional (5/5)</span>
+                        </div>
+                    </div>
+
+                    <!-- Testimonial Comment -->
+                    <div class="form-group">
+                        <div class="label-with-hint">
+                            <label for="testimonialComment">Your Testimonial</label>
+                            <span class="char-count" id="testimonialCharCount">0 / 500</span>
+                        </div>
+                        <textarea id="testimonialComment" class="modal-textarea" rows="4" maxlength="500" required
+                            placeholder="Tell us what you loved about this destination, the tour, highlights and experiences..."></textarea>
+                    </div>
+
+                    <div class="modal-actions">
+                        <button type="button" class="btn-secondary" id="btnCancelTestimonial">Cancel</button>
+                        <button type="submit" class="btn-primary" id="btnSubmitTestimonial">
+                            <i class="fa-solid fa-paper-plane"></i>
+                            <span>Submit Testimonial</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Cancel Booking Confirmation Modal -->
+        <div id="cancelBookingModal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="cancelModalTitle">
+            <div class="modal-card modal-card-sm">
+                <div class="modal-header">
+                    <div class="modal-header-icon danger">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+                    <div>
+                        <h3 id="cancelModalTitle" class="modal-title">Cancel Booking?</h3>
+                        <p class="modal-subtitle">This action cannot be undone.</p>
+                    </div>
+                    <button type="button" class="btn-modal-close" id="btnCloseCancelModal" aria-label="Close modal">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <div id="cancelModalAlert" class="form-alert hidden" role="alert"></div>
+                    <div class="cancel-summary-box">
+                        <div class="summary-row">
+                            <span class="summary-label">Destination</span>
+                            <span class="summary-val" id="cancelSummaryDest">-</span>
+                        </div>
+                        <div class="summary-row">
+                            <span class="summary-label">Travel Date</span>
+                            <span class="summary-val" id="cancelSummaryDate">-</span>
+                        </div>
+                        <div class="summary-row">
+                            <span class="summary-label">Booking Ref</span>
+                            <span class="summary-val ref" id="cancelSummaryRef">-</span>
+                        </div>
+                    </div>
+                    <p class="cancel-warning-text">
+                        Are you sure you want to cancel this booking? Once cancelled, your reserved spots will be released.
+                    </p>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" id="btnDismissCancelModal">Keep Booking</button>
+                    <button type="button" class="btn-danger" id="btnConfirmCancelAction">
+                        <i class="fa-solid fa-ban"></i>
+                        <span>Yes, Cancel Booking</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast Notification -->
+        <div id="profileToast" class="profile-toast hidden" role="status" aria-live="polite">
+            <i class="fa-solid fa-circle-check toast-icon" id="toastIcon"></i>
+            <span class="toast-message" id="toastMessage">Notification message</span>
+        </div>
     </div>
 
     <script type="module" src="/js/compiled/profile.js"></script>

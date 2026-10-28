@@ -1,10 +1,34 @@
 import { eyepass } from "./utilities.js";
-// Profile Section Logic
 
+// Interfaces
+interface BookingItem {
+    id: string;
+    travel_date: string;
+    total_person: number | string;
+    total_cost: number | string;
+    created_at: string;
+    destination_id: string;
+    destination_name?: string;
+    destination_price?: number | string;
+    destination_days?: number | string;
+}
+
+interface TestimonialItem {
+    id: string;
+    ratings: number | string;
+    comment: string;
+    created_at: string;
+    updated_at: string;
+    destination_id: string;
+    destination_name?: string;
+}
+
+// User Summary Elements
 const userAvatar = document.getElementById("userAvatar") as HTMLElement | null;
 const userName = document.getElementById("userName") as HTMLElement | null;
 const userEmail = document.getElementById("userEmail") as HTMLElement | null;
 
+// Tab Navigation Elements
 const tabBookings = document.getElementById("tabBookings") as HTMLButtonElement | null;
 const tabPassword = document.getElementById("tabPassword") as HTMLButtonElement | null;
 const btnLogout = document.getElementById("btnLogout") as HTMLButtonElement | null;
@@ -15,6 +39,7 @@ const sectionPassword = document.getElementById("sectionPassword") as HTMLElemen
 const bookingsList = document.getElementById("bookingsList") as HTMLElement | null;
 const btnRefreshBookings = document.getElementById("btnRefreshBookings") as HTMLButtonElement | null;
 
+// Password Change Elements
 const changePasswordForm = document.getElementById("changePasswordForm") as HTMLFormElement | null;
 const currentPasswordInput = document.getElementById("currentPassword") as HTMLInputElement | null;
 const newPasswordInput = document.getElementById("newPassword") as HTMLInputElement | null;
@@ -25,6 +50,51 @@ const btnChangePassword = document.getElementById("btnChangePassword") as HTMLBu
 const toggleCurrentPassword = document.getElementById("toggleCurrentPassword") as HTMLButtonElement | null;
 const toggleNewPassword = document.getElementById("toggleNewPassword") as HTMLButtonElement | null;
 const toggleConfirmNewPassword = document.getElementById("toggleConfirmNewPassword") as HTMLButtonElement | null;
+
+// Testimonial Modal Elements
+const testimonialModal = document.getElementById("testimonialModal") as HTMLElement | null;
+const btnCloseTestimonialModal = document.getElementById("btnCloseTestimonialModal") as HTMLButtonElement | null;
+const btnCancelTestimonial = document.getElementById("btnCancelTestimonial") as HTMLButtonElement | null;
+const testimonialForm = document.getElementById("testimonialForm") as HTMLFormElement | null;
+const testimonialDestName = document.getElementById("testimonialDestName") as HTMLElement | null;
+const testimonialDestId = document.getElementById("testimonialDestId") as HTMLInputElement | null;
+const testimonialRatingValue = document.getElementById("testimonialRatingValue") as HTMLInputElement | null;
+const starRatingGroup = document.getElementById("starRatingGroup") as HTMLElement | null;
+const ratingDescriptor = document.getElementById("ratingDescriptor") as HTMLElement | null;
+const testimonialComment = document.getElementById("testimonialComment") as HTMLTextAreaElement | null;
+const testimonialCharCount = document.getElementById("testimonialCharCount") as HTMLElement | null;
+const testimonialAlert = document.getElementById("testimonialAlert") as HTMLElement | null;
+const btnSubmitTestimonial = document.getElementById("btnSubmitTestimonial") as HTMLButtonElement | null;
+
+// Cancel Modal Elements
+const cancelBookingModal = document.getElementById("cancelBookingModal") as HTMLElement | null;
+const btnCloseCancelModal = document.getElementById("btnCloseCancelModal") as HTMLButtonElement | null;
+const btnDismissCancelModal = document.getElementById("btnDismissCancelModal") as HTMLButtonElement | null;
+const btnConfirmCancelAction = document.getElementById("btnConfirmCancelAction") as HTMLButtonElement | null;
+const cancelModalAlert = document.getElementById("cancelModalAlert") as HTMLElement | null;
+const cancelSummaryDest = document.getElementById("cancelSummaryDest") as HTMLElement | null;
+const cancelSummaryDate = document.getElementById("cancelSummaryDate") as HTMLElement | null;
+const cancelSummaryRef = document.getElementById("cancelSummaryRef") as HTMLElement | null;
+
+// Toast Notification Elements
+const profileToast = document.getElementById("profileToast") as HTMLElement | null;
+const toastIcon = document.getElementById("toastIcon") as HTMLElement | null;
+const toastMessage = document.getElementById("toastMessage") as HTMLElement | null;
+let toastTimeout: any = null;
+
+// State
+let userTestimonialsMap = new Map<string, TestimonialItem>();
+let activeCancelBookingId: string | null = null;
+let activeCancelDestName: string = "";
+let selectedRating: number = 5;
+
+const RATING_DESCRIPTIONS: Record<number, string> = {
+    1: "Poor (1/5)",
+    2: "Fair (2/5)",
+    3: "Good (3/5)",
+    4: "Very Good (4/5)",
+    5: "Exceptional (5/5)"
+};
 
 // Password eye button
 toggleCurrentPassword?.addEventListener("click", () => {
@@ -51,6 +121,29 @@ const token: string | null = localStorage.getItem("token");
 if (!token) {
     alert("Please log in to access your profile.");
     window.location.href = "/pages/login.html";
+}
+
+// Toast Helper
+function showToast(message: string, isError: boolean = false): void {
+    if (!profileToast || !toastMessage || !toastIcon) return;
+
+    toastMessage.textContent = message;
+    if (isError) {
+        profileToast.classList.add("error");
+        toastIcon.className = "fa-solid fa-circle-exclamation toast-icon";
+    } else {
+        profileToast.classList.remove("error");
+        toastIcon.className = "fa-solid fa-circle-check toast-icon";
+    }
+
+    profileToast.classList.remove("hidden");
+
+    if (toastTimeout) {
+        clearTimeout(toastTimeout);
+    }
+    toastTimeout = setTimeout(() => {
+        profileToast?.classList.add("hidden");
+    }, 4000);
 }
 
 // Format date utility
@@ -132,13 +225,43 @@ async function fetchUserProfile(): Promise<void> {
     }
 }
 
-// Fetch user bookings from backend
+// Fetch user's existing testimonials
+async function fetchUserTestimonials(): Promise<void> {
+    if (!token) return;
+
+    try {
+        const response = await fetch("http://localhost:3000/my-testimonials", {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            const testimonials: TestimonialItem[] = data.testimonials || [];
+            userTestimonialsMap.clear();
+            testimonials.forEach((t) => {
+                if (t.destination_id) {
+                    userTestimonialsMap.set(t.destination_id, t);
+                }
+            });
+        }
+    } catch (err) {
+        console.warn("Could not fetch testimonials:", err);
+    }
+}
+
+// Fetch user bookings from backend and render with Cancel & Testimonial buttons
 async function fetchMyBookings(): Promise<void> {
     if (!bookingsList || !token) return;
 
     bookingsList.innerHTML = `<p class="status-msg"><i class="fa-solid fa-spinner fa-spin"></i> Loading your bookings...</p>`;
 
     try {
+        // Fetch testimonials and bookings in parallel
+        await fetchUserTestimonials();
+
         const response = await fetch("http://localhost:3000/mybookings", {
             method: "GET",
             headers: {
@@ -152,7 +275,7 @@ async function fetchMyBookings(): Promise<void> {
         }
 
         const data = await response.json();
-        const bookings = data.bookings || [];
+        const bookings: BookingItem[] = data.bookings || [];
 
         if (bookings.length === 0) {
             bookingsList.innerHTML = `
@@ -166,15 +289,22 @@ async function fetchMyBookings(): Promise<void> {
 
         bookingsList.innerHTML = "";
 
-        bookings.forEach((b: any) => {
+        bookings.forEach((b: BookingItem) => {
             const item = document.createElement("div");
             item.className = "booking-item";
+            item.setAttribute("data-booking-id", b.id);
 
             const destName = b.destination_name || "Custom Destination";
             const travelDate = formatDate(b.travel_date);
-            const persons = b.total_person || 1;
+            const persons = Number(b.total_person) || 1;
             const cost = Number(b.total_cost || 0).toLocaleString();
             const ref = b.id ? (b.id.length > 8 ? b.id.slice(0, 8).toUpperCase() : b.id.toUpperCase()) : "N/A";
+            const destId = b.destination_id || "";
+
+            // Check if user has already submitted a testimonial for this destination
+            const existingReview = destId ? userTestimonialsMap.get(destId) : undefined;
+            const hasReviewed = !!existingReview;
+            const reviewRating = existingReview ? Number(existingReview.ratings) : 0;
 
             item.innerHTML = `
                 <div class="booking-item-header">
@@ -199,7 +329,47 @@ async function fetchMyBookings(): Promise<void> {
                         <span class="cell-val ref">#${ref}</span>
                     </div>
                 </div>
+                <div class="booking-item-actions">
+                    ${hasReviewed ? `
+                        <span class="reviewed-tag" title="You rated this destination ${reviewRating} out of 5 stars">
+                            <i class="fa-solid fa-star"></i> Testimonial Given (${reviewRating}★)
+                        </span>
+                    ` : ""}
+                    <button type="button" class="btn-booking-action btn-booking-cancel" 
+                        data-booking-id="${b.id}"
+                        data-dest-name="${destName}"
+                        data-date="${travelDate}"
+                        data-ref="#${ref}"
+                        title="Cancel this booking">
+                        <i class="fa-solid fa-ban"></i>
+                        <span>Cancel Booking</span>
+                    </button>
+                    <button type="button" class="btn-booking-action btn-booking-testimonial ${hasReviewed ? "has-reviewed" : ""}" 
+                        data-dest-id="${destId}"
+                        data-dest-name="${destName}"
+                        title="${hasReviewed ? "Update your testimonial" : "Share a testimonial for this destination"}">
+                        <i class="fa-solid ${hasReviewed ? "fa-pen-to-square" : "fa-star"}"></i>
+                        <span>${hasReviewed ? "Edit Testimonial" : "Testimonial"}</span>
+                    </button>
+                </div>
             `;
+
+            // Attach Cancel Click Handler
+            const cancelBtn = item.querySelector<HTMLButtonElement>(".btn-booking-cancel");
+            cancelBtn?.addEventListener("click", () => {
+                openCancelModal(b.id, destName, travelDate, `#${ref}`);
+            });
+
+            // Attach Testimonial Click Handler
+            const testimonialBtn = item.querySelector<HTMLButtonElement>(".btn-booking-testimonial");
+            testimonialBtn?.addEventListener("click", () => {
+                if (!destId) {
+                    showToast("Destination identifier is missing for this booking.", true);
+                    return;
+                }
+                openTestimonialModal(destId, destName, existingReview);
+            });
+
             bookingsList.appendChild(item);
         });
     } catch (error) {
@@ -207,13 +377,312 @@ async function fetchMyBookings(): Promise<void> {
         bookingsList.innerHTML = `
             <div class="status-msg" style="color: #991b1b;">
                 <p>Could not load bookings. Please make sure the server is running.</p>
-                <p style="margin-top: 8px;"><button type="button" class="tab-btn" onclick="fetchMyBookings()" style="display:inline-flex; width:auto; border:1px solid #fecaca; margin:0 auto;">Retry</button></p>
+                <p style="margin-top: 8px;">
+                    <button type="button" class="tab-btn" id="btnRetryBookings" style="display:inline-flex; width:auto; border:1px solid #fecaca; margin:0 auto;">
+                        <i class="fa-solid fa-rotate-right"></i> Retry
+                    </button>
+                </p>
             </div>
         `;
+        document.getElementById("btnRetryBookings")?.addEventListener("click", () => {
+            fetchMyBookings();
+        });
     }
 }
 
-// Password Alert helper
+// Cancel Booking Modal Logic
+function openCancelModal(bookingId: string, destName: string, travelDate: string, ref: string): void {
+    activeCancelBookingId = bookingId;
+    activeCancelDestName = destName;
+
+    if (cancelSummaryDest) cancelSummaryDest.textContent = destName;
+    if (cancelSummaryDate) cancelSummaryDate.textContent = travelDate;
+    if (cancelSummaryRef) cancelSummaryRef.textContent = ref;
+
+    hideCancelAlert();
+
+    if (btnConfirmCancelAction) {
+        btnConfirmCancelAction.disabled = false;
+        btnConfirmCancelAction.innerHTML = `<i class="fa-solid fa-ban"></i> <span>Yes, Cancel Booking</span>`;
+    }
+
+    cancelBookingModal?.classList.remove("hidden");
+}
+
+function closeCancelModal(): void {
+    cancelBookingModal?.classList.add("hidden");
+    activeCancelBookingId = null;
+    hideCancelAlert();
+}
+
+function showCancelAlert(msg: string): void {
+    if (!cancelModalAlert) return;
+    cancelModalAlert.textContent = msg;
+    cancelModalAlert.className = "form-alert error";
+    cancelModalAlert.classList.remove("hidden");
+}
+
+function hideCancelAlert(): void {
+    if (!cancelModalAlert) return;
+    cancelModalAlert.classList.add("hidden");
+}
+
+btnCloseCancelModal?.addEventListener("click", closeCancelModal);
+btnDismissCancelModal?.addEventListener("click", closeCancelModal);
+
+// Confirm Cancellation Request
+btnConfirmCancelAction?.addEventListener("click", async () => {
+    if (!activeCancelBookingId || !token) return;
+
+    hideCancelAlert();
+
+    btnConfirmCancelAction.disabled = true;
+    btnConfirmCancelAction.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Cancelling...`;
+
+    try {
+        const response = await fetch(`http://localhost:3000/cancel-booking/${activeCancelBookingId}`, {
+            method: "DELETE",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        const data = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+            showCancelAlert(data.message || "Failed to cancel booking. Please try again.");
+            btnConfirmCancelAction.disabled = false;
+            btnConfirmCancelAction.innerHTML = `<i class="fa-solid fa-ban"></i> <span>Yes, Cancel Booking</span>`;
+            return;
+        }
+
+        closeCancelModal();
+        showToast(`Booking for ${activeCancelDestName} was successfully cancelled.`);
+        fetchMyBookings();
+    } catch (err) {
+        console.error("Cancel booking error:", err);
+        showCancelAlert("Could not reach the server. Please verify your connection.");
+        btnConfirmCancelAction.disabled = false;
+        btnConfirmCancelAction.innerHTML = `<i class="fa-solid fa-ban"></i> <span>Yes, Cancel Booking</span>`;
+    }
+});
+
+// Testimonial Modal Logic
+function updateStarsDisplay(rating: number): void {
+    const starButtons = starRatingGroup?.querySelectorAll<HTMLButtonElement>(".star-btn");
+    starButtons?.forEach((btn) => {
+        const val = Number(btn.getAttribute("data-rating")) || 0;
+        if (val <= rating) {
+            btn.classList.add("active");
+            btn.innerHTML = `<i class="fa-solid fa-star"></i>`;
+        } else {
+            btn.classList.remove("active");
+            btn.innerHTML = `<i class="fa-regular fa-star"></i>`;
+        }
+    });
+
+    if (testimonialRatingValue) {
+        testimonialRatingValue.value = String(rating);
+    }
+
+    if (ratingDescriptor) {
+        ratingDescriptor.textContent = RATING_DESCRIPTIONS[rating] || `${rating}/5 Stars`;
+    }
+}
+
+// Highlight stars up to hovered rating
+function highlightStarsOnHover(hoverRating: number): void {
+    const starButtons = starRatingGroup?.querySelectorAll<HTMLButtonElement>(".star-btn");
+    starButtons?.forEach((btn) => {
+        const val = Number(btn.getAttribute("data-rating")) || 0;
+        if (val <= hoverRating) {
+            btn.classList.add("hover");
+            btn.innerHTML = `<i class="fa-solid fa-star"></i>`;
+        } else {
+            btn.classList.remove("hover");
+            if (!btn.classList.contains("active")) {
+                btn.innerHTML = `<i class="fa-regular fa-star"></i>`;
+            }
+        }
+    });
+}
+
+function clearStarsHover(): void {
+    const starButtons = starRatingGroup?.querySelectorAll<HTMLButtonElement>(".star-btn");
+    starButtons?.forEach((btn) => {
+        btn.classList.remove("hover");
+    });
+    updateStarsDisplay(selectedRating);
+}
+
+// Star buttons event listeners
+starRatingGroup?.querySelectorAll<HTMLButtonElement>(".star-btn").forEach((btn) => {
+    btn.addEventListener("mouseenter", () => {
+        const r = Number(btn.getAttribute("data-rating")) || 5;
+        highlightStarsOnHover(r);
+    });
+
+    btn.addEventListener("click", () => {
+        selectedRating = Number(btn.getAttribute("data-rating")) || 5;
+        updateStarsDisplay(selectedRating);
+    });
+});
+
+starRatingGroup?.addEventListener("mouseleave", () => {
+    clearStarsHover();
+});
+
+// Live character counter for comment
+testimonialComment?.addEventListener("input", () => {
+    const length = testimonialComment.value.length;
+    if (testimonialCharCount) {
+        testimonialCharCount.textContent = `${length} / 500`;
+    }
+});
+
+function showTestimonialAlert(msg: string, isSuccess: boolean = false): void {
+    if (!testimonialAlert) return;
+    testimonialAlert.textContent = msg;
+    testimonialAlert.className = `form-alert ${isSuccess ? "success" : "error"}`;
+    testimonialAlert.classList.remove("hidden");
+}
+
+function hideTestimonialAlert(): void {
+    if (!testimonialAlert) return;
+    testimonialAlert.classList.add("hidden");
+}
+
+function openTestimonialModal(destId: string, destName: string, existingReview?: TestimonialItem): void {
+    if (testimonialDestId) testimonialDestId.value = destId;
+    if (testimonialDestName) testimonialDestName.textContent = destName;
+
+    hideTestimonialAlert();
+
+    if (existingReview) {
+        selectedRating = Number(existingReview.ratings) || 5;
+        if (testimonialComment) testimonialComment.value = existingReview.comment || "";
+        if (btnSubmitTestimonial) {
+            btnSubmitTestimonial.innerHTML = `<i class="fa-solid fa-check"></i> <span>Update Testimonial</span>`;
+        }
+    } else {
+        selectedRating = 5;
+        if (testimonialComment) testimonialComment.value = "";
+        if (btnSubmitTestimonial) {
+            btnSubmitTestimonial.innerHTML = `<i class="fa-solid fa-paper-plane"></i> <span>Submit Testimonial</span>`;
+        }
+    }
+
+    updateStarsDisplay(selectedRating);
+
+    const length = testimonialComment?.value.length || 0;
+    if (testimonialCharCount) {
+        testimonialCharCount.textContent = `${length} / 500`;
+    }
+
+    if (btnSubmitTestimonial) btnSubmitTestimonial.disabled = false;
+
+    testimonialModal?.classList.remove("hidden");
+    testimonialComment?.focus();
+}
+
+function closeTestimonialModal(): void {
+    testimonialModal?.classList.add("hidden");
+    hideTestimonialAlert();
+}
+
+btnCloseTestimonialModal?.addEventListener("click", closeTestimonialModal);
+btnCancelTestimonial?.addEventListener("click", closeTestimonialModal);
+
+// Testimonial Form Submit Handler
+testimonialForm?.addEventListener("submit", async (e: SubmitEvent) => {
+    e.preventDefault();
+    hideTestimonialAlert();
+
+    const destId = testimonialDestId?.value.trim() || "";
+    const comment = testimonialComment?.value.trim() || "";
+
+    if (!destId) {
+        showTestimonialAlert("Destination reference is missing.");
+        return;
+    }
+
+    if (selectedRating < 1 || selectedRating > 5) {
+        showTestimonialAlert("Please select a star rating between 1 and 5.");
+        return;
+    }
+
+    if (!comment || comment.length < 5) {
+        showTestimonialAlert("Please enter at least 5 characters for your testimonial.");
+        return;
+    }
+
+    if (btnSubmitTestimonial) {
+        btnSubmitTestimonial.disabled = true;
+        btnSubmitTestimonial.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Submitting...`;
+    }
+
+    try {
+        const response = await fetch("http://localhost:3000/testimonial", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                destination_id: destId,
+                ratings: selectedRating,
+                comment: comment
+            })
+        });
+
+        const data = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+            showTestimonialAlert(data.message || "Failed to submit testimonial. Please try again.");
+            if (btnSubmitTestimonial) {
+                btnSubmitTestimonial.disabled = false;
+                btnSubmitTestimonial.innerHTML = `<i class="fa-solid fa-paper-plane"></i> <span>Submit Testimonial</span>`;
+            }
+            return;
+        }
+
+        closeTestimonialModal();
+        showToast("Thank you! Your testimonial has been submitted successfully.");
+        fetchMyBookings();
+    } catch (err) {
+        console.error("Testimonial submit error:", err);
+        showTestimonialAlert("Unable to reach the server. Please try again.");
+        if (btnSubmitTestimonial) {
+            btnSubmitTestimonial.disabled = false;
+            btnSubmitTestimonial.innerHTML = `<i class="fa-solid fa-paper-plane"></i> <span>Submit Testimonial</span>`;
+        }
+    }
+});
+
+// Backdrop click and Escape key listeners for modals
+window.addEventListener("click", (e: MouseEvent) => {
+    if (e.target === testimonialModal) {
+        closeTestimonialModal();
+    }
+    if (e.target === cancelBookingModal) {
+        closeCancelModal();
+    }
+});
+
+window.addEventListener("keydown", (e: KeyboardEvent) => {
+    if (e.key === "Escape") {
+        if (testimonialModal && !testimonialModal.classList.contains("hidden")) {
+            closeTestimonialModal();
+        }
+        if (cancelBookingModal && !cancelBookingModal.classList.contains("hidden")) {
+            closeCancelModal();
+        }
+    }
+});
+
+// ============================================================
+// Password Change Handlers
+// ============================================================
 function showPasswordAlert(msg: string, isSuccess: boolean): void {
     if (!passwordAlert) return;
     passwordAlert.textContent = msg;
@@ -226,7 +695,6 @@ function hidePasswordAlert(): void {
     passwordAlert.classList.add("hidden");
 }
 
-// Change password submit handler
 changePasswordForm?.addEventListener("submit", async (e: SubmitEvent) => {
     e.preventDefault();
     hidePasswordAlert();
@@ -282,6 +750,7 @@ changePasswordForm?.addEventListener("submit", async (e: SubmitEvent) => {
         }
 
         showPasswordAlert("Password updated successfully!", true);
+        showToast("Password updated successfully!");
         changePasswordForm.reset();
     } catch (err) {
         console.error("Change password request error:", err);
