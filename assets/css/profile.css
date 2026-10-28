@@ -492,9 +492,9 @@ body {
     }
 }
 
-/* ============================================================
-   Booking Actions (Cancel Booking & Testimonial)
-============================================================ */
+
+/* Booking Actions (Cancel Booking & Testimonial) */
+
 .booking-item-actions {
     display: flex;
     align-items: center;
@@ -581,9 +581,9 @@ body {
     box-shadow: 0 4px 12px rgba(4, 120, 87, 0.25);
 }
 
-/* ============================================================
-   Modals (Testimonial & Cancel Confirmation)
-============================================================ */
+
+/* Modals (Testimonial & Cancel Confirmation) */
+
 .modal-overlay {
     position: fixed;
     inset: 0;

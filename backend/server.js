@@ -304,21 +304,6 @@ app.delete('/cancel-booking/:id', authenticateToken, async (req, res) => {
     }
 });
 
-// Helper to detect customer foreign key column name in testimonials ('customer_id' vs 'costumer_id')
-async function getTestimonialCustomerCol() {
-    try {
-        const colCheck = await db.query(`
-            SELECT column_name 
-            FROM information_schema.columns 
-            WHERE table_name = 'testimonials' 
-            AND column_name IN ('customer_id', 'costumer_id')
-        `);
-        return colCheck.rows[0]?.column_name || 'costumer_id';
-    } catch (e) {
-        return 'costumer_id';
-    }
-}
-
 // Add or update testimonial for a destination
 app.post('/testimonial', authenticateToken, async (req, res) => {
     try {
@@ -339,11 +324,9 @@ app.post('/testimonial', authenticateToken, async (req, res) => {
             return res.status(400).json({ message: 'Comment cannot be empty' });
         }
 
-        const customerCol = await getTestimonialCustomerCol();
-
         // Check if customer already submitted a testimonial for this destination
         const existingCheck = await db.query(
-            `SELECT id FROM testimonials WHERE ${customerCol} = $1 AND destination_id = $2`,
+            `SELECT id FROM testimonials WHERE customer_id = $1 AND destination_id = $2`,
             [customerId, destination_id]
         );
 
@@ -354,7 +337,7 @@ app.post('/testimonial', authenticateToken, async (req, res) => {
                 UPDATE testimonials 
                 SET ratings = $1, comment = $2, updated_at = NOW() 
                 WHERE id = $3 
-                RETURNING id, ratings, comment, created_at, updated_at, ${customerCol} AS customer_id, destination_id
+                RETURNING id, ratings, comment, created_at, updated_at, customer_id AS customer_id, destination_id
             `;
             const updateResult = await db.query(updateQuery, [numericRating, cleanComment, testimonialId]);
             return res.status(200).json({
@@ -393,7 +376,6 @@ app.post('/testimonial', authenticateToken, async (req, res) => {
 app.get('/my-testimonials', authenticateToken, async (req, res) => {
     try {
         const customerId = req.user.customerId;
-        const customerCol = await getTestimonialCustomerCol();
 
         const query = `
             SELECT 
@@ -406,7 +388,7 @@ app.get('/my-testimonials', authenticateToken, async (req, res) => {
                 d.name AS destination_name
             FROM testimonials t
             LEFT JOIN destination d ON t.destination_id = d.id
-            WHERE t.${customerCol} = $1
+            WHERE t.customer_id = $1
             ORDER BY t.created_at DESC
         `;
         const result = await db.query(query, [customerId]);
@@ -422,10 +404,9 @@ app.get('/my-testimonials', authenticateToken, async (req, res) => {
     }
 });
 
-// Fetch all testimonials from database (Public endpoint for homepage / landing page testimonials section)
+// Fetch all testimonials from database
 app.get('/api/testimonials', async (req, res) => {
     try {
-        const customerCol = await getTestimonialCustomerCol();
         const query = `
             SELECT 
                 t.id,
@@ -438,7 +419,7 @@ app.get('/api/testimonials', async (req, res) => {
                 c.last_name,
                 d.name AS destination_name
             FROM testimonials t
-            LEFT JOIN customer c ON t.${customerCol} = c.id
+            LEFT JOIN customer c ON t.customer_id = c.id
             LEFT JOIN destination d ON t.destination_id = d.id
             ORDER BY t.created_at DESC
         `;

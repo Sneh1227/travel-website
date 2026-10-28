@@ -339,9 +339,7 @@ async function fetchMyBookings() {
         });
     }
 }
-// ============================================================
 // Cancel Booking Modal Logic
-// ============================================================
 function openCancelModal(bookingId, destName, travelDate, ref) {
     activeCancelBookingId = bookingId;
     activeCancelDestName = destName;
@@ -409,9 +407,7 @@ btnConfirmCancelAction?.addEventListener("click", async () => {
         btnConfirmCancelAction.innerHTML = `<i class="fa-solid fa-ban"></i> <span>Yes, Cancel Booking</span>`;
     }
 });
-// ============================================================
 // Testimonial Modal Logic
-// ============================================================
 function updateStarsDisplay(rating) {
     const starButtons = starRatingGroup?.querySelectorAll(".star-btn");
     starButtons?.forEach((btn) => {

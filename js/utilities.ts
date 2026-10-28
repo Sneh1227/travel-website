@@ -146,9 +146,8 @@ logoutt.forEach(btn => {
 })
 
 
-// ============================================================
+
 // Dynamic Testimonials from Database
-// ============================================================
 interface PublicTestimonial {
     id: string;
     ratings: number | string;
@@ -285,27 +284,12 @@ async function initDynamicTestimonials(): Promise<void> {
             currentIndex = idx;
         }
 
-        function startAutoSlide(): void {
-            if (list.length <= 1) return;
-            if (autoSlideTimer) clearInterval(autoSlideTimer);
-            autoSlideTimer = setInterval(() => {
-                const nextIdx = (currentIndex + 1) % cardElements.length;
-                showCard(nextIdx);
-            }, 6000);
-        }
-
-        function resetAutoSlide(): void {
-            if (autoSlideTimer) clearInterval(autoSlideTimer);
-            if (list.length > 1) {
-                startAutoSlide();
-            }
-        }
+        
 
         // Attach dot click listeners
         dotElements.forEach((dot, idx) => {
             dot.addEventListener("click", () => {
                 showCard(idx);
-                resetAutoSlide();
             });
         });
 
@@ -318,24 +302,14 @@ async function initDynamicTestimonials(): Promise<void> {
             nextBtn?.addEventListener("click", () => {
                 const nextIdx = (currentIndex + 1) % cardElements.length;
                 showCard(nextIdx);
-                resetAutoSlide();
             });
 
             prevBtn?.addEventListener("click", () => {
                 const prevIdx = (currentIndex - 1 + cardElements.length) % cardElements.length;
                 showCard(prevIdx);
-                resetAutoSlide();
             });
 
-            startAutoSlide();
 
-            // Pause on hover
-            container.addEventListener("mouseenter", () => {
-                if (autoSlideTimer) clearInterval(autoSlideTimer);
-            });
-            container.addEventListener("mouseleave", () => {
-                startAutoSlide();
-            });
         }
     } catch (err) {
         console.error("Error loading testimonials from database:", err);

@@ -390,9 +390,7 @@ async function fetchMyBookings(): Promise<void> {
     }
 }
 
-// ============================================================
 // Cancel Booking Modal Logic
-// ============================================================
 function openCancelModal(bookingId: string, destName: string, travelDate: string, ref: string): void {
     activeCancelBookingId = bookingId;
     activeCancelDestName = destName;
@@ -469,9 +467,7 @@ btnConfirmCancelAction?.addEventListener("click", async () => {
     }
 });
 
-// ============================================================
 // Testimonial Modal Logic
-// ============================================================
 function updateStarsDisplay(rating: number): void {
     const starButtons = starRatingGroup?.querySelectorAll<HTMLButtonElement>(".star-btn");
     starButtons?.forEach((btn) => {

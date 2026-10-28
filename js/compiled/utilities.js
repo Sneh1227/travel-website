@@ -244,28 +244,10 @@ async function initDynamicTestimonials() {
             }
             currentIndex = idx;
         }
-        function startAutoSlide() {
-            if (list.length <= 1)
-                return;
-            if (autoSlideTimer)
-                clearInterval(autoSlideTimer);
-            autoSlideTimer = setInterval(() => {
-                const nextIdx = (currentIndex + 1) % cardElements.length;
-                showCard(nextIdx);
-            }, 6000);
-        }
-        function resetAutoSlide() {
-            if (autoSlideTimer)
-                clearInterval(autoSlideTimer);
-            if (list.length > 1) {
-                startAutoSlide();
-            }
-        }
         // Attach dot click listeners
         dotElements.forEach((dot, idx) => {
             dot.addEventListener("click", () => {
                 showCard(idx);
-                resetAutoSlide();
             });
         });
         // Manage arrows visibility
@@ -279,21 +261,10 @@ async function initDynamicTestimonials() {
             nextBtn?.addEventListener("click", () => {
                 const nextIdx = (currentIndex + 1) % cardElements.length;
                 showCard(nextIdx);
-                resetAutoSlide();
             });
             prevBtn?.addEventListener("click", () => {
                 const prevIdx = (currentIndex - 1 + cardElements.length) % cardElements.length;
                 showCard(prevIdx);
-                resetAutoSlide();
-            });
-            startAutoSlide();
-            // Pause on hover
-            container.addEventListener("mouseenter", () => {
-                if (autoSlideTimer)
-                    clearInterval(autoSlideTimer);
-            });
-            container.addEventListener("mouseleave", () => {
-                startAutoSlide();
             });
         }
     }
