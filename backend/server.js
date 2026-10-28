@@ -246,6 +246,7 @@ app.get('/mybookings', authenticateToken, async (req, res) => {
                 b.total_person,
                 b.total_cost,
                 b.created_at,
+                b.destination_id,
                 d.name AS destination_name,
                 d.price AS destination_price,
                 d.days AS destination_days
@@ -265,6 +266,197 @@ app.get('/mybookings', authenticateToken, async (req, res) => {
             message: 'Failed to fetch bookings'
         });
     }
+});
+
+// Cancel a booking
+app.delete('/cancel-booking/:id', authenticateToken, async (req, res) => {
+    try {
+        const customerId = req.user.customerId;
+        const bookingId = req.params.id;
+
+        if (!bookingId) {
+            return res.status(400).json({ message: 'Booking ID is required' });
+        }
+
+        const deleteQuery = `
+            DELETE FROM booking 
+            WHERE id = $1 AND customer_id = $2 
+            RETURNING id
+        `;
+        const result = await db.query(deleteQuery, [bookingId, customerId]);
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({
+                message: 'Booking not found or not authorized to cancel'
+            });
+        }
+
+        console.log(`Booking ${bookingId} cancelled by customer ${customerId}`);
+        return res.status(200).json({
+            message: 'Booking cancelled successfully',
+            cancelledId: result.rows[0].id
+        });
+    } catch (error) {
+        console.error('Error cancelling booking:', error);
+        return res.status(500).json({
+            message: 'Failed to cancel booking'
+        });
+    }
+});
+
+// Helper to detect customer foreign key column name in testimonials ('customer_id' vs 'costumer_id')
+async function getTestimonialCustomerCol() {
+    try {
+        const colCheck = await db.query(`
+            SELECT column_name 
+            FROM information_schema.columns 
+            WHERE table_name = 'testimonials' 
+            AND column_name IN ('customer_id', 'costumer_id')
+        `);
+        return colCheck.rows[0]?.column_name || 'costumer_id';
+    } catch (e) {
+        return 'costumer_id';
+    }
+}
+
+// Add or update testimonial for a destination
+app.post('/testimonial', authenticateToken, async (req, res) => {
+    try {
+        const customerId = req.user.customerId;
+        const { destination_id, ratings, comment } = req.body;
+
+        if (!destination_id) {
+            return res.status(400).json({ message: 'Destination ID is required' });
+        }
+
+        const numericRating = Number(ratings);
+        if (isNaN(numericRating) || numericRating < 1 || numericRating > 5) {
+            return res.status(400).json({ message: 'Rating must be a number between 1 and 5' });
+        }
+
+        const cleanComment = (comment || '').trim();
+        if (!cleanComment) {
+            return res.status(400).json({ message: 'Comment cannot be empty' });
+        }
+
+        const customerCol = await getTestimonialCustomerCol();
+
+        // Check if customer already submitted a testimonial for this destination
+        const existingCheck = await db.query(
+            `SELECT id FROM testimonials WHERE ${customerCol} = $1 AND destination_id = $2`,
+            [customerId, destination_id]
+        );
+
+        let testimonialId;
+        if (existingCheck.rows.length > 0) {
+            testimonialId = existingCheck.rows[0].id;
+            const updateQuery = `
+                UPDATE testimonials 
+                SET ratings = $1, comment = $2, updated_at = NOW() 
+                WHERE id = $3 
+                RETURNING id, ratings, comment, created_at, updated_at, ${customerCol} AS customer_id, destination_id
+            `;
+            const updateResult = await db.query(updateQuery, [numericRating, cleanComment, testimonialId]);
+            return res.status(200).json({
+                message: 'Testimonial updated successfully',
+                testimonial: updateResult.rows[0]
+            });
+        } else {
+            testimonialId = randomUUID();
+            const insertQuery = `
+                INSERT INTO testimonials 
+                    (id, ratings, comment, created_at, updated_at, ${customerCol}, destination_id)
+                VALUES ($1, $2, $3, NOW(), NOW(), $4, $5)
+                RETURNING id, ratings, comment, created_at, updated_at, ${customerCol} AS customer_id, destination_id
+            `;
+            const insertResult = await db.query(insertQuery, [
+                testimonialId,
+                numericRating,
+                cleanComment,
+                customerId,
+                destination_id
+            ]);
+            return res.status(201).json({
+                message: 'Testimonial submitted successfully',
+                testimonial: insertResult.rows[0]
+            });
+        }
+    } catch (error) {
+        console.error('Error submitting testimonial:', error);
+        return res.status(500).json({
+            message: 'Failed to submit testimonial: ' + (error.message || 'Database error')
+        });
+    }
+});
+
+// Fetch all testimonials for the logged-in customer
+app.get('/my-testimonials', authenticateToken, async (req, res) => {
+    try {
+        const customerId = req.user.customerId;
+        const customerCol = await getTestimonialCustomerCol();
+
+        const query = `
+            SELECT 
+                t.id,
+                t.ratings,
+                t.comment,
+                t.created_at,
+                t.updated_at,
+                t.destination_id,
+                d.name AS destination_name
+            FROM testimonials t
+            LEFT JOIN destination d ON t.destination_id = d.id
+            WHERE t.${customerCol} = $1
+            ORDER BY t.created_at DESC
+        `;
+        const result = await db.query(query, [customerId]);
+        return res.status(200).json({
+            message: 'Testimonials fetched successfully',
+            testimonials: result.rows
+        });
+    } catch (error) {
+        console.error('Error fetching testimonials:', error);
+        return res.status(500).json({
+            message: 'Failed to fetch testimonials'
+        });
+    }
+});
+
+// Fetch all testimonials from database (Public endpoint for homepage / landing page testimonials section)
+app.get('/api/testimonials', async (req, res) => {
+    try {
+        const customerCol = await getTestimonialCustomerCol();
+        const query = `
+            SELECT 
+                t.id,
+                t.ratings,
+                t.comment,
+                t.created_at,
+                t.updated_at,
+                t.destination_id,
+                c.first_name,
+                c.last_name,
+                d.name AS destination_name
+            FROM testimonials t
+            LEFT JOIN customer c ON t.${customerCol} = c.id
+            LEFT JOIN destination d ON t.destination_id = d.id
+            ORDER BY t.created_at DESC
+        `;
+        const result = await db.query(query);
+        return res.status(200).json({
+            message: 'Testimonials fetched successfully',
+            testimonials: result.rows
+        });
+    } catch (error) {
+        console.error('Error fetching public testimonials:', error);
+        return res.status(500).json({
+            message: 'Failed to fetch testimonials'
+        });
+    }
+});
+
+app.get('/testimonials', (req, res) => {
+    res.redirect('/api/testimonials');
 });
 
 // Change user password

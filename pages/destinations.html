@@ -17,9 +17,11 @@
 </head>
 
 <body>
-    <!-- Ambient glowing backgrounds for modern depth -->
-    <div class="ambient-glow glow-top-right"></div>
-    <div class="ambient-glow glow-bottom-left"></div>
+    <!-- Ambient glowing backgrounds for modern depth (wrapped to prevent viewport overflow) -->
+    <div class="ambient-glow-wrapper" aria-hidden="true">
+        <div class="ambient-glow glow-top-right"></div>
+        <div class="ambient-glow glow-bottom-left"></div>
+    </div>
 
     <!-- Top Navigation Bar with Back Button -->
     <nav class="top-nav">
