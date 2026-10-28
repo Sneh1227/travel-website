@@ -348,9 +348,9 @@ app.post('/testimonial', authenticateToken, async (req, res) => {
             testimonialId = randomUUID();
             const insertQuery = `
                 INSERT INTO testimonials 
-                    (id, ratings, comment, created_at, updated_at, ${customerCol}, destination_id)
+                    (id, ratings, comment, created_at, updated_at, customer_id, destination_id)
                 VALUES ($1, $2, $3, NOW(), NOW(), $4, $5)
-                RETURNING id, ratings, comment, created_at, updated_at, ${customerCol} AS customer_id, destination_id
+                RETURNING id, ratings, comment, created_at, updated_at, customer_id AS customer_id, destination_id
             `;
             const insertResult = await db.query(insertQuery, [
                 testimonialId,
@@ -420,7 +420,7 @@ app.get('/api/testimonials', async (req, res) => {
                 d.name AS destination_name
             FROM testimonials t
             LEFT JOIN customer c ON t.customer_id = c.id
-            LEFT JOIN destination d ON t.destination_id = d.id
+            LEFT JOIN destination d ON t.destination_id = d.id where t.ratings >4
             ORDER BY t.created_at DESC
         `;
         const result = await db.query(query);
@@ -453,9 +453,9 @@ app.post('/change-password', authenticateToken, async (req, res) => {
             });
         }
 
-        if (newPassword.length < 6) {
+        if (newPassword.length < 8) {
             return res.status(400).json({
-                message: 'New password must be at least 6 characters long'
+                message: 'New password must be at least 8 characters long'
             });
         }
 
