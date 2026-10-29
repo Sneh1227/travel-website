@@ -1,4 +1,12 @@
 import { eyepass } from "./utilities.js";
+function escapeHtml(str) {
+    return str
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
 // User Summary Elements
 const userAvatar = document.getElementById("userAvatar");
 const userName = document.getElementById("userName");
@@ -53,6 +61,8 @@ let toastTimeout = null;
 let userTestimonialsMap = new Map();
 let activeCancelBookingId = null;
 let activeCancelDestName = "";
+let activeTestimonialBookingId = null;
+let activeTestimonialIsEdit = false;
 let selectedRating = 5;
 const RATING_DESCRIPTIONS = {
     1: "Poor (1/5)",
@@ -204,8 +214,8 @@ async function fetchUserTestimonials() {
             const testimonials = data.testimonials || [];
             userTestimonialsMap.clear();
             testimonials.forEach((t) => {
-                if (t.destination_id) {
-                    userTestimonialsMap.set(t.destination_id, t);
+                if (t.booking_id) {
+                    userTestimonialsMap.set(t.booking_id, t);
                 }
             });
         }
@@ -254,8 +264,9 @@ async function fetchMyBookings() {
             const cost = Number(b.total_cost || 0).toLocaleString();
             const ref = b.id ? (b.id.length > 8 ? b.id.slice(0, 8).toUpperCase() : b.id.toUpperCase()) : "N/A";
             const destId = b.destination_id || "";
-            // Check if user has already submitted a testimonial for this destination
-            const existingReview = destId ? userTestimonialsMap.get(destId) : undefined;
+            // Retrieve testimonial strictly associated with this specific booking_id
+            const bookingId = b.id;
+            const existingReview = bookingId ? userTestimonialsMap.get(bookingId) : undefined;
             const hasReviewed = !!existingReview;
             const reviewRating = existingReview ? Number(existingReview.ratings) : 0;
             item.innerHTML = `
@@ -283,7 +294,7 @@ async function fetchMyBookings() {
                 </div>
                 <div class="booking-item-actions">
                     ${hasReviewed ? `
-                        <span class="reviewed-tag" title="You rated this destination ${reviewRating} out of 5 stars">
+                        <span class="reviewed-tag" title="You rated this booking ${reviewRating} out of 5 stars">
                             <i class="fa-solid fa-star"></i> Testimonial Given (${reviewRating}★)
                         </span>
                     ` : ""}
@@ -297,9 +308,10 @@ async function fetchMyBookings() {
                         <span>Cancel Booking</span>
                     </button>
                     <button type="button" class="btn-booking-action btn-booking-testimonial ${hasReviewed ? "has-reviewed" : ""}" 
+                        data-booking-id="${b.id}"
                         data-dest-id="${destId}"
                         data-dest-name="${destName}"
-                        title="${hasReviewed ? "Update your testimonial" : "Share a testimonial for this destination"}">
+                        title="${hasReviewed ? "Update your testimonial" : "Share a testimonial for this booking"}">
                         <i class="fa-solid ${hasReviewed ? "fa-pen-to-square" : "fa-star"}"></i>
                         <span>${hasReviewed ? "Edit Testimonial" : "Testimonial"}</span>
                     </button>
@@ -313,11 +325,7 @@ async function fetchMyBookings() {
             // Attach Testimonial Click Handler
             const testimonialBtn = item.querySelector(".btn-booking-testimonial");
             testimonialBtn?.addEventListener("click", () => {
-                if (!destId) {
-                    showToast("Destination identifier is missing for this booking.", true);
-                    return;
-                }
-                openTestimonialModal(destId, destName, existingReview);
+                openTestimonialModal(b.id, destId, destName, existingReview);
             });
             bookingsList.appendChild(item);
         });
@@ -485,13 +493,18 @@ function hideTestimonialAlert() {
         return;
     testimonialAlert.classList.add("hidden");
 }
-function openTestimonialModal(destId, destName, existingReview) {
+function openTestimonialModal(bookingId, destId, destName, existingReview) {
+    activeTestimonialBookingId = bookingId;
+    activeTestimonialIsEdit = !!existingReview;
     if (testimonialDestId)
         testimonialDestId.value = destId;
     if (testimonialDestName)
         testimonialDestName.textContent = destName;
+    const modalTitle = document.getElementById("testimonialModalTitle");
     hideTestimonialAlert();
     if (existingReview) {
+        if (modalTitle)
+            modalTitle.textContent = "Edit Your Testimonial";
         selectedRating = Number(existingReview.ratings) || 5;
         if (testimonialComment)
             testimonialComment.value = existingReview.comment || "";
@@ -500,6 +513,8 @@ function openTestimonialModal(destId, destName, existingReview) {
         }
     }
     else {
+        if (modalTitle)
+            modalTitle.textContent = "Share Your Experience";
         selectedRating = 5;
         if (testimonialComment)
             testimonialComment.value = "";
@@ -518,6 +533,8 @@ function openTestimonialModal(destId, destName, existingReview) {
     testimonialComment?.focus();
 }
 function closeTestimonialModal() {
+    activeTestimonialBookingId = null;
+    activeTestimonialIsEdit = false;
     testimonialModal?.classList.add("hidden");
     hideTestimonialAlert();
 }
@@ -527,12 +544,11 @@ btnCancelTestimonial?.addEventListener("click", closeTestimonialModal);
 testimonialForm?.addEventListener("submit", async (e) => {
     e.preventDefault();
     hideTestimonialAlert();
-    const destId = testimonialDestId?.value.trim() || "";
-    const comment = testimonialComment?.value.trim() || "";
-    if (!destId) {
-        showTestimonialAlert("Destination reference is missing.");
+    if (!activeTestimonialBookingId) {
+        showTestimonialAlert("Booking reference is missing. Please select a booking.");
         return;
     }
+    const comment = testimonialComment?.value.trim() || "";
     if (selectedRating < 1 || selectedRating > 5) {
         showTestimonialAlert("Please select a star rating between 1 and 5.");
         return;
@@ -553,9 +569,10 @@ testimonialForm?.addEventListener("submit", async (e) => {
                 "Authorization": `Bearer ${token}`
             },
             body: JSON.stringify({
-                destination_id: destId,
+                booking_id: activeTestimonialBookingId,
                 ratings: selectedRating,
-                comment: comment
+                comment: comment,
+                is_edit: activeTestimonialIsEdit
             })
         });
         const data = await response.json().catch(() => ({}));
@@ -563,20 +580,24 @@ testimonialForm?.addEventListener("submit", async (e) => {
             showTestimonialAlert(data.message || "Failed to submit testimonial. Please try again.");
             if (btnSubmitTestimonial) {
                 btnSubmitTestimonial.disabled = false;
-                btnSubmitTestimonial.innerHTML = `<i class="fa-solid fa-paper-plane"></i> <span>Submit Testimonial</span>`;
+                btnSubmitTestimonial.innerHTML = activeTestimonialIsEdit
+                    ? `<i class="fa-solid fa-check"></i> <span>Update Testimonial</span>`
+                    : `<i class="fa-solid fa-paper-plane"></i> <span>Submit Testimonial</span>`;
             }
             return;
         }
         closeTestimonialModal();
-        showToast("Thank you! Your testimonial has been submitted successfully.");
-        fetchMyBookings();
+        showToast(data.message || "Thank you! Your testimonial has been saved successfully.");
+        await fetchMyBookings();
     }
     catch (err) {
         console.error("Testimonial submit error:", err);
         showTestimonialAlert("Unable to reach the server. Please try again.");
         if (btnSubmitTestimonial) {
             btnSubmitTestimonial.disabled = false;
-            btnSubmitTestimonial.innerHTML = `<i class="fa-solid fa-paper-plane"></i> <span>Submit Testimonial</span>`;
+            btnSubmitTestimonial.innerHTML = activeTestimonialIsEdit
+                ? `<i class="fa-solid fa-check"></i> <span>Update Testimonial</span>`
+                : `<i class="fa-solid fa-paper-plane"></i> <span>Submit Testimonial</span>`;
         }
     }
 });

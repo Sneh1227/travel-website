@@ -155,6 +155,7 @@ interface PublicTestimonial {
     created_at: string;
     updated_at?: string;
     destination_id?: string;
+    booking_id?: string;
     first_name?: string;
     last_name?: string;
     destination_name?: string;
