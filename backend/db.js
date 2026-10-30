@@ -1,18 +1,17 @@
-require('dotenv').config();
-const { Client } = require('pg');
-const express = require('express');
-const app = express();
 
-const con = new Client({
-    host: "localhost",
-    user: "postgres",
-    port: process.env.DB_port,
-    password: process.env.DB_pass,
-    database: "travel-website-DB"
+require("dotenv").config();
+
+const { Pool } = require("pg");
+
+const db = new Pool({
+    connectionString: process.env.CONNECTION_STRING,
+    ssl: process.env.NODE_ENV === "production"
+        ? { rejectUnauthorized: false }
+        : false
 });
 
-con.connect()
-    .then(() => console.log("connected"))
-    .catch((err) => console.log(err));
+db.on("error", (err) => {
+    console.error("Unexpected database error:", err);
+});
 
-module.exports = con;
+module.exports = db;
