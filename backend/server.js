@@ -278,6 +278,12 @@ app.delete('/cancel-booking/:id', authenticateToken, async (req, res) => {
             return res.status(400).json({ message: 'Booking ID is required' });
         }
 
+        // Delete any testimonial linked to this booking first to prevent foreign key constraint violation
+        await db.query(
+            `DELETE FROM testimonials WHERE booking_id = $1 AND customer_id = $2`,
+            [bookingId, customerId]
+        );
+
         const deleteQuery = `
             DELETE FROM booking 
             WHERE id = $1 AND customer_id = $2 
@@ -304,61 +310,111 @@ app.delete('/cancel-booking/:id', authenticateToken, async (req, res) => {
     }
 });
 
-// Add or update testimonial for a destination
+// Add or update testimonial for a booking
 app.post('/testimonial', authenticateToken, async (req, res) => {
     try {
         const customerId = req.user.customerId;
-        const { destination_id, ratings, comment } = req.body;
+        const { booking_id, ratings, comment, is_edit } = req.body;
 
-        if (!destination_id) {
-            return res.status(400).json({ message: 'Destination ID is required' });
+        // 1. Validate booking_id presence
+        if (!booking_id || typeof booking_id !== 'string' || booking_id.trim() === '') {
+            return res.status(400).json({
+                message: 'Booking ID is required'
+            });
         }
 
-        const numericRating = Number(ratings);
-        if (isNaN(numericRating) || numericRating < 1 || numericRating > 5) {
-            return res.status(400).json({ message: 'Rating must be a number between 1 and 5' });
-        }
+        const cleanBookingId = booking_id.trim();
 
-        const cleanComment = (comment || '').trim();
-        if (!cleanComment) {
-            return res.status(400).json({ message: 'Comment cannot be empty' });
-        }
-
-        // Check if customer already submitted a testimonial for this destination
-        const existingCheck = await db.query(
-            `SELECT id FROM testimonials WHERE customer_id = $1 AND destination_id = $2`,
-            [customerId, destination_id]
+        // 2. Validate that the specified booking exists and belongs to the authenticated customer
+        const bookingResult = await db.query(
+            `SELECT id, customer_id, destination_id FROM booking WHERE id = $1`,
+            [cleanBookingId]
         );
 
-        let testimonialId;
+        if (bookingResult.rows.length === 0) {
+            return res.status(404).json({
+                message: 'Booking not found'
+            });
+        }
+
+        const booking = bookingResult.rows[0];
+        if (booking.customer_id !== customerId) {
+            return res.status(403).json({
+                message: 'Unauthorized: You can only submit testimonials for your own bookings'
+            });
+        }
+
+        // Authoritative destination_id derived directly from the verified booking
+        const destinationId = booking.destination_id;
+
+        // 3. Validate ratings
+        const numericRating = Number(ratings);
+        if (isNaN(numericRating) || numericRating < 1 || numericRating > 5) {
+            return res.status(400).json({
+                message: 'Rating must be a number between 1 and 5'
+            });
+        }
+
+        // 4. Validate comment
+        const cleanComment = (comment || '').trim();
+        if (!cleanComment) {
+            return res.status(400).json({
+                message: 'Comment cannot be empty'
+            });
+        }
+
+        // 5. Check if testimonial already exists for this booking_id
+        const existingCheck = await db.query(
+            `SELECT id, ratings, comment, customer_id, destination_id, booking_id FROM testimonials WHERE booking_id = $1`,
+            [cleanBookingId]
+        );
+
         if (existingCheck.rows.length > 0) {
-            testimonialId = existingCheck.rows[0].id;
+            // One testimonial per booking rule: if not an edit, reject duplicate submission
+            if (is_edit === false) {
+                return res.status(409).json({
+                    message: 'A testimonial for this booking already exists'
+                });
+            }
+
+            // Update existing testimonial for this booking
+            const testimonialId = existingCheck.rows[0].id;
             const updateQuery = `
                 UPDATE testimonials 
-                SET ratings = $1, comment = $2, updated_at = NOW() 
+                SET ratings = $1, comment = $2, updated_at = NOW(), destination_id = $4, customer_id = $5 
                 WHERE id = $3 
-                RETURNING id, ratings, comment, created_at, updated_at, customer_id AS customer_id, destination_id
+                RETURNING id, ratings, comment, created_at, updated_at, customer_id, destination_id, booking_id
             `;
-            const updateResult = await db.query(updateQuery, [numericRating, cleanComment, testimonialId]);
+            const updateResult = await db.query(updateQuery, [
+                numericRating,
+                cleanComment,
+                testimonialId,
+                destinationId,
+                customerId
+            ]);
+
             return res.status(200).json({
                 message: 'Testimonial updated successfully',
                 testimonial: updateResult.rows[0]
             });
         } else {
-            testimonialId = randomUUID();
+            // Insert new testimonial linked to the validated booking
+            const testimonialId = randomUUID();
             const insertQuery = `
                 INSERT INTO testimonials 
-                    (id, ratings, comment, created_at, updated_at, customer_id, destination_id)
-                VALUES ($1, $2, $3, NOW(), NOW(), $4, $5)
-                RETURNING id, ratings, comment, created_at, updated_at, customer_id AS customer_id, destination_id
+                    (id, ratings, comment, created_at, updated_at, customer_id, destination_id, booking_id)
+                VALUES ($1, $2, $3, NOW(), NOW(), $4, $5, $6)
+                RETURNING id, ratings, comment, created_at, updated_at, customer_id, destination_id, booking_id
             `;
             const insertResult = await db.query(insertQuery, [
                 testimonialId,
                 numericRating,
                 cleanComment,
                 customerId,
-                destination_id
+                destinationId,
+                cleanBookingId
             ]);
+
             return res.status(201).json({
                 message: 'Testimonial submitted successfully',
                 testimonial: insertResult.rows[0]
@@ -385,9 +441,13 @@ app.get('/my-testimonials', authenticateToken, async (req, res) => {
                 t.created_at,
                 t.updated_at,
                 t.destination_id,
-                d.name AS destination_name
+                t.booking_id,
+                b.travel_date,
+                COALESCE(d.name, bd.name) AS destination_name
             FROM testimonials t
+            LEFT JOIN booking b ON t.booking_id = b.id
             LEFT JOIN destination d ON t.destination_id = d.id
+            LEFT JOIN destination bd ON b.destination_id = bd.id
             WHERE t.customer_id = $1
             ORDER BY t.created_at DESC
         `;
@@ -415,12 +475,16 @@ app.get('/api/testimonials', async (req, res) => {
                 t.created_at,
                 t.updated_at,
                 t.destination_id,
+                t.booking_id,
                 c.first_name,
                 c.last_name,
-                d.name AS destination_name
+                COALESCE(d.name, bd.name) AS destination_name
             FROM testimonials t
             LEFT JOIN customer c ON t.customer_id = c.id
-            LEFT JOIN destination d ON t.destination_id = d.id where t.ratings >4
+            LEFT JOIN booking b ON t.booking_id = b.id
+            LEFT JOIN destination d ON t.destination_id = d.id
+            LEFT JOIN destination bd ON b.destination_id = bd.id
+            WHERE t.ratings > 4
             ORDER BY t.created_at DESC
         `;
         const result = await db.query(query);
