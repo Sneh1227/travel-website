@@ -150,7 +150,7 @@ async function initDynamicTestimonials() {
     if (!container)
         return;
     try {
-        const response = await fetch("http://localhost:3000/api/testimonials");
+        const response = await fetch("https://travel-website-mkqj.onrender.com/api/testimonials");
         if (!response.ok) {
             throw new Error(`Failed to load testimonials: ${response.statusText}`);
         }

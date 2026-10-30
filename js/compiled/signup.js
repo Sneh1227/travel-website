@@ -58,7 +58,7 @@ signupForm.addEventListener("submit", function (event) {
         };
         async function signup(values) {
             try {
-                const response = await fetch("http://localhost:3000/signup", {
+                const response = await fetch("https://travel-website-mkqj.onrender.com/signup", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"

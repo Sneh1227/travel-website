@@ -340,7 +340,7 @@ document.addEventListener("keydown", (e) => {
 });
 async function getData(value) {
     status.textContent = `Searching for "${value}"...`;
-    const api = `http://localhost:3000/api/destination?query=${encodeURIComponent(value)}`;
+    const api = `https://travel-website-mkqj.onrender.com/api/destination?query=${encodeURIComponent(value)}`;
     try {
         const response = await fetch(api);
         if (!response.ok) {
@@ -431,7 +431,7 @@ async function loadPopularDestinations() {
         return;
     popularContainer.textContent = "Loading destinations...";
     const requests = popularPlaces.map(async (place) => {
-        const response = await fetch(`http://localhost:3000/api/destination?query=${encodeURIComponent(place)}`);
+        const response = await fetch(`https://travel-website-mkqj.onrender.com/api/destination?query=${encodeURIComponent(place)}`);
         if (!response.ok) {
             throw new Error(`Failed to fetch ${place}`);
         }
@@ -536,7 +536,7 @@ async function bookTrip(id, name, date, totalPerson, totalCost) {
         return { success: false, message: "Please log in first" };
     }
     try {
-        const response = await fetch("http://localhost:3000/bookatrip", {
+        const response = await fetch("https://travel-website-mkqj.onrender.com/bookatrip", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

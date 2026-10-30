@@ -371,7 +371,7 @@ document.addEventListener("keydown", (e) => {
 async function getData(value: string): Promise<void> {
     status.textContent = `Searching for "${value}"...`;
     const api =
-        `http://localhost:3000/api/destination?query=${encodeURIComponent(value)}`;
+        `https://travel-website-mkqj.onrender.com/api/destination?query=${encodeURIComponent(value)}`;
 
     try {
         const response = await fetch(api);
@@ -488,7 +488,7 @@ async function loadPopularDestinations(): Promise<void> {
 
     const requests = popularPlaces.map(async (place) => {
         const response = await fetch(
-            `http://localhost:3000/api/destination?query=${encodeURIComponent(place)}`
+            `https://travel-website-mkqj.onrender.com/api/destination?query=${encodeURIComponent(place)}`
         );
 
         if (!response.ok) {
@@ -636,7 +636,7 @@ async function bookTrip(
     }
 
     try {
-        const response = await fetch("http://localhost:3000/bookatrip", {
+        const response = await fetch("https://travel-website-mkqj.onrender.com/bookatrip", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

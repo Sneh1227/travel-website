@@ -66,7 +66,7 @@ signupForm.addEventListener("submit", function (event) {
         async function signup(values: object): Promise<void> {
             try {
                 const response = await fetch(
-                    "http://localhost:3000/signup",
+                    "https://travel-website-mkqj.onrender.com/signup",
                     {
                         method: "POST",
                         headers: {

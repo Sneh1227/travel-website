@@ -44,7 +44,7 @@ loginForm.addEventListener("submit", function (event) {
         async function login(values: object): Promise<void> {
             try {
                 const response = await fetch(
-                    'http://localhost:3000/login',
+                    'https://travel-website-mkqj.onrender.com/login',
                     {
                         method: "POST",
                         headers: {

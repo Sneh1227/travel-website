@@ -167,7 +167,7 @@ async function fetchUserProfile() {
     if (!token)
         return;
     try {
-        const response = await fetch("http://localhost:3000/profile", {
+        const response = await fetch("https://travel-website-mkqj.onrender.com/profile", {
             method: "GET",
             headers: {
                 "Authorization": `Bearer ${token}`
@@ -203,7 +203,7 @@ async function fetchUserTestimonials() {
     if (!token)
         return;
     try {
-        const response = await fetch("http://localhost:3000/my-testimonials", {
+        const response = await fetch("https://travel-website-mkqj.onrender.com/my-testimonials", {
             method: "GET",
             headers: {
                 "Authorization": `Bearer ${token}`
@@ -232,7 +232,7 @@ async function fetchMyBookings() {
     try {
         // Fetch testimonials and bookings in parallel
         await fetchUserTestimonials();
-        const response = await fetch("http://localhost:3000/mybookings", {
+        const response = await fetch("https://travel-website-mkqj.onrender.com/mybookings", {
             method: "GET",
             headers: {
                 "Authorization": `Bearer ${token}`
@@ -391,7 +391,7 @@ btnConfirmCancelAction?.addEventListener("click", async () => {
     btnConfirmCancelAction.disabled = true;
     btnConfirmCancelAction.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Cancelling...`;
     try {
-        const response = await fetch(`http://localhost:3000/cancel-booking/${activeCancelBookingId}`, {
+        const response = await fetch(`https://travel-website-mkqj.onrender.com/cancel-booking/${activeCancelBookingId}`, {
             method: "DELETE",
             headers: {
                 "Authorization": `Bearer ${token}`
@@ -562,7 +562,7 @@ testimonialForm?.addEventListener("submit", async (e) => {
         btnSubmitTestimonial.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Submitting...`;
     }
     try {
-        const response = await fetch("http://localhost:3000/testimonial", {
+        const response = await fetch("https://travel-website-mkqj.onrender.com/testimonial", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -663,7 +663,7 @@ changePasswordForm?.addEventListener("submit", async (e) => {
         btnChangePassword.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Updating...`;
     }
     try {
-        const response = await fetch("http://localhost:3000/change-password", {
+        const response = await fetch("https://travel-website-mkqj.onrender.com/change-password", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
