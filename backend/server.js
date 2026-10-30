@@ -9,7 +9,17 @@ const { timeEnd, timeLog } = require('console');
 const { use } = require('bcrypt/promises');
 const { json } = require('stream/consumers');
 const app = express();
-app.use(cors());
+const allowedOrigins = [
+    'https://travel-website-sp-netlify.netlify.app',
+    'http://127.0.0.1:5500',
+    'http://localhost:5500'
+];
+
+app.use(cors({
+    origin: allowedOrigins,
+    methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.json());
 
 // Destination API
