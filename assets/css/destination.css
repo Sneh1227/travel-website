@@ -861,9 +861,8 @@ body {
     transform: translateX(4px);
 }
 
-/* ==========================================================================
-   BOOKING MODAL STYLES
-   ========================================================================== */
+/* BOOKING MODAL STYLES */
+
 .booking-modal-backdrop {
     position: fixed;
     inset: 0;
@@ -1844,10 +1843,8 @@ footer .copyright {
     }
 }
 
-/* ==========================================================================
-   RESPONSIVE DESIGN SYSTEM (Desktop, Tablet, Mobile)
-   ========================================================================== */
 
+/* RESPONSIVE DESIGN SYSTEM (Desktop, Tablet, Mobile) */
 /* --- Standard Desktops & Laptops (1024px to 1280px) --- */
 @media (max-width: 1200px) {
     #popular-destinations {
@@ -2072,42 +2069,54 @@ footer .copyright {
     }
 
     footer .above {
-        margin: 40px auto 20px;
+        margin: 30px auto 10px;
         padding: 0 16px;
-        gap: 32px;
+        gap: 36px;
         flex-direction: column;
         align-items: center;
         text-align: center;
         width: 100%;
-        max-width: 100%;
+        max-width: 500px;
         box-sizing: border-box;
     }
 
     footer .companydesc {
-        max-width: 100%;
+        max-width: 320px;
         text-align: center;
         margin: 0 auto;
     }
 
     footer .companydesc h2 {
+        font-size: 2.3rem;
+        font-weight: 700;
         text-align: center;
         margin-left: auto;
         margin-right: auto;
+        margin-bottom: 8px;
+        color: var(--darkblue);
     }
 
     footer .companydesc p {
         text-align: center;
         margin-left: auto;
         margin-right: auto;
-        max-width: 340px;
+        max-width: 260px;
+        font-size: 0.85rem;
+        line-height: 1.6;
+        color: var(--text-body);
     }
 
     footer .navbar {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        gap: 28px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
         width: 100%;
+        max-width: 480px;
+        gap: 12px;
+        margin: 0 auto;
+        padding: 0;
+        box-sizing: border-box;
     }
 
     footer .navbar .col {
@@ -2115,29 +2124,73 @@ footer .copyright {
         flex-direction: column;
         align-items: center;
         text-align: center;
-        width: 100%;
+        margin: 0;
+        flex: 1;
+        min-width: 0;
     }
 
     footer .navbar .col .fch {
+        font-family: var(--font-body);
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--darkblue);
+        margin-bottom: 14px;
+        white-space: nowrap;
         text-align: center;
-        margin-bottom: 10px;
     }
 
     footer .navbar .col .fci {
+        font-family: var(--font-body);
+        font-size: 0.82rem;
+        font-weight: 500;
+        color: var(--text-body);
+        margin: 6px 0;
+        cursor: pointer;
+        transition: color 0.2s ease, transform 0.2s ease;
+        line-height: 1.35;
         text-align: center;
-        margin: 4px 0;
-        display: inline-block;
+        display: block;
+    }
+
+    footer .navbar .col .fci:hover {
+        color: var(--red);
+        transform: translateY(-1px);
     }
 
     footer .outbound {
+        display: flex;
+        flex-direction: column;
         align-items: center;
         text-align: center;
         width: 100%;
+        margin-top: 5px;
+        gap: 20px;
     }
 
     footer .outbound .social {
+        display: flex;
         justify-content: center;
+        align-items: center;
+        gap: 16px;
         width: 100%;
+        margin: 0 auto;
+    }
+
+    footer .outbound .social .fa-brands {
+        width: 42px;
+        height: 42px;
+        font-size: 1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    footer .outbound .social .fa-brands:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(223, 105, 81, 0.25);
     }
 
     footer .outbound .discover {
@@ -2149,18 +2202,69 @@ footer .copyright {
     }
 
     footer .outbound .discover h4 {
+        font-family: var(--font-body);
+        color: var(--text-body);
+        font-size: 0.95rem;
+        font-weight: 600;
+        margin: 0 0 12px 0;
         text-align: center;
+        letter-spacing: 0.2px;
     }
 
     footer .outbound .discover .downplace {
+        display: flex;
+        flex-direction: row;
+        gap: 12px;
         justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
         width: 100%;
     }
 
+    footer .outbound .discover .downplace .play,
+    footer .outbound .discover .downplace .apple {
+        width: 124px;
+        height: 40px;
+        padding: 6px 12px;
+        border-radius: 12px;
+        box-sizing: border-box;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+    }
+
+    footer .outbound .discover .downplace .play:hover,
+    footer .outbound .discover .downplace .apple:hover {
+        transform: translateY(-2px);
+    }
+
     footer .copyright {
-        padding: 20px 16px 40px;
+        margin-top: 30px;
+        margin-bottom: 20px;
+        padding: 20px 16px;
         font-size: 0.82rem;
+        color: var(--text-body);
         text-align: center;
+        border-top: 1px solid rgba(24, 30, 75, 0.06);
+        width: 100%;
+        max-width: 480px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    @media (max-width: 350px) {
+        footer .navbar {
+            gap: 6px;
+        }
+
+        footer .navbar .col .fch {
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        footer .navbar .col .fci {
+            font-size: 0.75rem;
+            margin: 4px 0;
+        }
     }
 
     /* Modal & Booking UI Responsive (Tablet & Medium Screens) */
@@ -2560,14 +2664,16 @@ footer .copyright {
     }
 
     footer .outbound .discover .downplace {
-        flex-direction: column;
+        flex-direction: row;
+        justify-content: center;
         gap: 10px;
         width: 100%;
     }
 
     footer .outbound .discover .downplace .play,
     footer .outbound .discover .downplace .apple {
-        width: 180px;
+        width: 120px;
+        height: 38px;
         justify-content: center;
     }
 }

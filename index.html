@@ -221,7 +221,10 @@
                     </div>
                 </a>
             </div>
-            <a href="pages/destinations.html" class="view-more-btn">View More</a>
+            <a href="pages/destinations.html" class="view-more-btn">
+                <span>View More Destinations</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
         </section>
         <!-- book a trip -->
         <section id="bookatrip" class="bookatrip">
@@ -431,6 +434,33 @@
             </div>
         </footer>
     </div>
+        <!-- Logout Confirmation Modal -->
+        <div id="logoutModal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="logoutModalTitle">
+            <div class="modal-card modal-card-sm">
+                <div class="modal-header">
+                    <div class="modal-header-icon danger">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </div>
+                    <div>
+                        <h3 id="logoutModalTitle" class="modal-title">Are you sure?</h3>
+                        <p class="modal-subtitle">You are about to log out.</p>
+                    </div>
+                    <button type="button" class="btn-modal-close" id="btnCloseLogoutModal" aria-label="Close modal">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p style="font-size: 0.95rem; color: #475569; margin: 6px 0 16px; line-height: 1.5;">Are you sure you want to log out of your account?</p>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" id="btnCancelLogout">No, Cancel</button>
+                    <button type="button" class="btn-danger" id="btnConfirmLogout">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <span>Yes, Log Out</span>
+                    </button>
+                </div>
+            </div>
+        </div>
     <script type="module" src="js/compiled/utilities.js"></script>
 </body>
 
