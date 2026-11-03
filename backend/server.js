@@ -12,6 +12,7 @@ const { json } = require('stream/consumers');
 const app = express();
 const allowedOrigins = [
     'https://travel-website-sp-netlify.netlify.app',
+    'https://travel-website-frontend-2ckq.onrender.com',
     'http://127.0.0.1:5500',
     'http://localhost:5500'
 ];
