@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 require('dotenv').config();
 const { randomUUID } = require('crypto');
 const db = require('./db');
+const transporter = require("./mailer");
 const jwt = require("jsonwebtoken");
 const express = require('express');
 const { timeEnd, timeLog } = require('console');
@@ -205,7 +206,7 @@ app.post('/login', async (req, res) => {
         });
     } catch (error) {
         console.log("Error", error);
-        res.status(500). json({
+        res.status(500).json({
             message: 'something went wrong'
         });
     }
@@ -594,6 +595,68 @@ app.get('/profile', authenticateToken, async (req, res) => {
         });
     }
 });
+
+// subscribe || nodemailer
+
+app.post("/subscribe", async (req, res) => {
+    try {
+        const { email } = req.body;
+
+        // Validate the submitted email
+        if (
+            typeof email !== "string" ||
+            !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())
+        ) {
+            return res.status(400).json({
+                success: false,
+                message: "Please enter a valid email address."
+            });
+        }
+
+        const subscriberEmail = email.trim();
+
+        // Send the welcome email
+        await transporter.sendMail({
+            from: `"Travel Website" <${process.env.EMAIL_USER}>`,
+            to: subscriberEmail,
+            subject: "Welcome to Travel Website!",
+            text: `Thank you for subscribing to Travel Website!
+
+We're excited to help you discover your next adventure.
+
+Stay tuned for travel inspiration and updates!
+
+Happy travels,
+The Travel Website Team`,
+            html: `
+                <div style="font-family: Arial, sans-serif;
+                            max-width: 600px; margin: auto;
+                            padding: 24px; color: #333;">
+                    <h2>Welcome to Travel Website!</h2>
+                    <p>Thank you for subscribing to our travel updates.</p>
+                    <p>We're excited to help you discover your next adventure.</p>
+                    <p>Stay tuned for travel inspiration and updates!</p>
+                    <p>Happy travels,<br>
+                    <strong>The Travel Website Team</strong></p>
+                </div>
+            `
+        });
+
+        return res.status(200).json({
+            success: true,
+            message: "Welcome email sent successfully!"
+        });
+
+    } catch (error) {
+        console.error("Subscription email error:", error);
+
+        return res.status(500).json({
+            success: false,
+            message: "Unable to send the welcome email. Please try again later."
+        });
+    }
+});
+
 
 const PORT = process.env.PORT || 3000;
 
