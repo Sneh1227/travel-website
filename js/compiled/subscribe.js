@@ -38,7 +38,16 @@ function validateEmail() {
     clearError();
     return true;
 }
-// NOTE: Real-time validation on input is intentionally removed.
+// Helper to determine appropriate backend endpoint (local server vs Render)
+function getSubscribeEndpoint() {
+    const hostname = window.location.hostname;
+    // When running locally (Live Server on port 5500, localhost, or 127.0.0.1)
+    if (hostname === "localhost" || hostname === "127.0.0.1" || hostname === "") {
+        return "http://localhost:3000/subscribe";
+    }
+    // Remote / Deployed environment
+    return "https://travel-website-mkqj.onrender.com/subscribe"
+}
 // Validation runs strictly when the user clicks Subscribe.
 form?.addEventListener("submit", async function (event) {
     event.preventDefault();
@@ -52,11 +61,9 @@ form?.addEventListener("submit", async function (event) {
     const originalBtnText = btn.innerText;
     btn.disabled = true;
     btn.innerText = "Subscribing...";
-    const API_URL = (window.location.hostname === "localhost" && window.location.port === "3000")
-        ? "/subscribe"
-        : "https://travel-website-mkqj.onrender.com/subscribe";
+    const apiUrl = getSubscribeEndpoint();
     try {
-        const response = await fetch(API_URL, {
+        const response = await fetch(apiUrl, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -72,7 +79,7 @@ form?.addEventListener("submit", async function (event) {
             alert(errorMsg);
             return;
         }
-        alert(data.message || "Subscribed successfully!");
+        alert(data.message || "Subscribed successfully! Please check your inbox.");
         mail.value = "";
         clearError();
     }

@@ -614,10 +614,19 @@ app.post("/subscribe", async (req, res) => {
         }
 
         const subscriberEmail = email.trim();
+        const senderEmail = (process.env.EMAIL_USER || "").replace(/^["']|["']$/g, "").trim();
+
+        if (!senderEmail || !process.env.EMAIL_PASS) {
+            console.error("Subscription email error: EMAIL_USER or EMAIL_PASS not configured in environment variables.");
+            return res.status(500).json({
+                success: false,
+                message: "Email service is not configured on the server. Please check environment variables."
+            });
+        }
 
         // Send the welcome email
         await transporter.sendMail({
-            from: `"Travel Website" <${process.env.EMAIL_USER}>`,
+            from: `"Travel Website" <${senderEmail}>`,
             to: subscriberEmail,
             subject: "Welcome to Travel Website!",
             text: `Thank you for subscribing to Travel Website!
@@ -631,11 +640,12 @@ The Travel Website Team`,
             html: `
                 <div style="font-family: Arial, sans-serif;
                             max-width: 600px; margin: auto;
-                            padding: 24px; color: #333;">
-                    <h2>Welcome to Travel Website!</h2>
+                            padding: 24px; color: #333; line-height: 1.6;">
+                    <h2 style="color: #14183e;">Welcome to Travel Website!</h2>
                     <p>Thank you for subscribing to our travel updates.</p>
-                    <p>We're excited to help you discover your next adventure.</p>
+                    <p>We're excited to help you discover your next adventure with great offers.</p>
                     <p>Stay tuned for travel inspiration and updates!</p>
+                    <br>
                     <p>Happy travels,<br>
                     <strong>The Travel Website Team</strong></p>
                 </div>
@@ -644,7 +654,7 @@ The Travel Website Team`,
 
         return res.status(200).json({
             success: true,
-            message: "Welcome email sent successfully!"
+            message: "Welcome email sent successfully! Please check your inbox."
         });
 
     } catch (error) {
@@ -652,11 +662,10 @@ The Travel Website Team`,
 
         return res.status(500).json({
             success: false,
-            message: "Unable to send the welcome email. Please try again later."
+            message: error.message || "Unable to send the welcome email. Please try again later."
         });
     }
 });
-
 
 const PORT = process.env.PORT || 3000;
 
