@@ -55,9 +55,6 @@ function getSubscribeEndpoint(): string {
     return "https://travel-website-mkqj.onrender.com/subscribe";
 }
 
-// NOTE: Real-time validation on input is intentionally removed.
-// Validation runs strictly when the user clicks Subscribe.
-
 form?.addEventListener("submit", async function (event: Event) {
     event.preventDefault();
 
