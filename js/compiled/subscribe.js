@@ -29,7 +29,7 @@ form.addEventListener("submit", async function (event) {
     btn.disabled = true;
     if (isMailValid) {
         try {
-            const response = await fetch("http://travel-website-mkqj.onrender.com/subscribe", {
+            const response = await fetch("https://travel-website-mkqj.onrender.com/subscribe", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

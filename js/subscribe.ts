@@ -40,7 +40,7 @@ form.addEventListener("submit", async function (event) {
     if (isMailValid) {
         try {
             const response = await fetch(
-                "http://travel-website-mkqj.onrender.com/subscribe",
+                "https://travel-website-mkqj.onrender.com/subscribe",
                 {
                     method: "POST",
                     headers: {
