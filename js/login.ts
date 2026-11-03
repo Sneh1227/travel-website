@@ -56,7 +56,6 @@ loginForm.addEventListener("submit", function (event) {
 
                 const data = await response.json();
 
-                // console.log(data);
                 if (!response.ok) {
                     alert("Invalid email or password");
                 } else {

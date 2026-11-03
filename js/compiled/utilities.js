@@ -122,17 +122,92 @@ function updateUI() {
     }
 }
 document.addEventListener("DOMContentLoaded", updateUI);
-// logout
-const logoutt = document.querySelectorAll(".logout");
-logoutt.forEach(btn => {
-    btn.addEventListener("click", function () {
+// Logout Confirmation Modal
+function setupLogoutConfirmation() {
+    const logoutBtns = document.querySelectorAll(".logout");
+    if (!logoutBtns.length)
+        return;
+    let logoutModal = document.getElementById("logoutModal");
+    // Dynamically inject modal if not present
+    if (!logoutModal) {
+        logoutModal = document.createElement("div");
+        logoutModal.id = "logoutModal";
+        logoutModal.className = "modal-overlay hidden";
+        logoutModal.setAttribute("role", "dialog");
+        logoutModal.setAttribute("aria-modal", "true");
+        logoutModal.setAttribute("aria-labelledby", "logoutModalTitle");
+        logoutModal.innerHTML = `
+            <div class="modal-card modal-card-sm">
+                <div class="modal-header">
+                    <div class="modal-header-icon danger">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </div>
+                    <div>
+                        <h3 id="logoutModalTitle" class="modal-title">Are you sure?</h3>
+                        <p class="modal-subtitle">You are about to log out.</p>
+                    </div>
+                    <button type="button" class="btn-modal-close" id="btnCloseLogoutModal" aria-label="Close modal">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p style="font-size: 0.95rem; color: #475569; margin: 6px 0 16px; line-height: 1.5;">Are you sure you want to log out of your account?</p>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" id="btnCancelLogout">No, Cancel</button>
+                    <button type="button" class="btn-danger" id="btnConfirmLogout">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <span>Yes, Log Out</span>
+                    </button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(logoutModal);
+    }
+    const btnClose = logoutModal.querySelector("#btnCloseLogoutModal");
+    const btnCancel = logoutModal.querySelector("#btnCancelLogout");
+    const btnConfirm = logoutModal.querySelector("#btnConfirmLogout");
+    const openLogoutModal = () => {
+        if (!logoutModal)
+            return;
+        logoutModal.classList.remove("hidden");
+        document.body.style.overflow = "hidden";
+        btnCancel?.focus();
+    };
+    const closeLogoutModal = () => {
+        if (!logoutModal)
+            return;
+        logoutModal.classList.add("hidden");
+        document.body.style.overflow = "";
+    };
+    logoutBtns.forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            e.preventDefault();
+            openLogoutModal();
+        });
+    });
+    btnClose?.addEventListener("click", closeLogoutModal);
+    btnCancel?.addEventListener("click", closeLogoutModal);
+    logoutModal.addEventListener("click", (e) => {
+        if (e.target === logoutModal) {
+            closeLogoutModal();
+        }
+    });
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && logoutModal && !logoutModal.classList.contains("hidden")) {
+            closeLogoutModal();
+        }
+    });
+    btnConfirm?.addEventListener("click", () => {
+        closeLogoutModal();
         localStorage.removeItem("isloggedin");
         localStorage.removeItem("user");
         localStorage.removeItem("token");
-        alert("Log out successfully");
         updateUI();
+        alert("Logged out successfully");
     });
-});
+}
+document.addEventListener("DOMContentLoaded", setupLogoutConfirmation);
 function escapeHtml(str) {
     return str
         .replace(/&/g, "&amp;")

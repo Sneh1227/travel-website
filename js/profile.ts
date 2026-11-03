@@ -816,15 +816,51 @@ btnRefreshBookings?.addEventListener("click", () => {
     fetchMyBookings();
 });
 
-// Logout logic
-btnLogout?.addEventListener("click", () => {
-    if (confirm("Are you sure you want to log out?")) {
-        localStorage.removeItem("isloggedin");
-        localStorage.removeItem("user");
-        localStorage.removeItem("token");
-        alert("Logged out successfully.");
-        window.location.href = "/index.html";
+// Logout Confirmation Modal
+const logoutModal = document.getElementById("logoutModal") as HTMLElement | null;
+const btnCloseLogoutModal = document.getElementById("btnCloseLogoutModal") as HTMLButtonElement | null;
+const btnCancelLogout = document.getElementById("btnCancelLogout") as HTMLButtonElement | null;
+const btnConfirmLogout = document.getElementById("btnConfirmLogout") as HTMLButtonElement | null;
+
+function openLogoutModal(): void {
+    if (!logoutModal) return;
+    logoutModal.classList.remove("hidden");
+    document.body.style.overflow = "hidden";
+    btnCancelLogout?.focus();
+}
+
+function closeLogoutModal(): void {
+    if (!logoutModal) return;
+    logoutModal.classList.add("hidden");
+    document.body.style.overflow = "";
+}
+
+btnLogout?.addEventListener("click", (e) => {
+    e.preventDefault();
+    openLogoutModal();
+});
+
+btnCloseLogoutModal?.addEventListener("click", closeLogoutModal);
+btnCancelLogout?.addEventListener("click", closeLogoutModal);
+
+logoutModal?.addEventListener("click", (e) => {
+    if (e.target === logoutModal) {
+        closeLogoutModal();
     }
+});
+
+document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && logoutModal && !logoutModal.classList.contains("hidden")) {
+        closeLogoutModal();
+    }
+});
+
+btnConfirmLogout?.addEventListener("click", () => {
+    closeLogoutModal();
+    localStorage.removeItem("isloggedin");
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    window.location.href = "/index.html";
 });
 
 // Initialization

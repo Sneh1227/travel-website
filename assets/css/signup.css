@@ -319,3 +319,13 @@ form {
         padding: 28px 22px;
     }
 }
+/* Real-time validation visual feedback */
+.input-group input.input-invalid {
+    border-color: #e63946 !important;
+    box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.25) !important;
+}
+
+.input-group input.input-valid {
+    border-color: #2a9d8f !important;
+    box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.2) !important;
+}
