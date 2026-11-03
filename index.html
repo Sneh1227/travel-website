@@ -356,10 +356,12 @@
                     <p>Subscribe to get information, latest news and other
                         interesting offers about Jadoo</p>
                     <div class="input-section">
-                        <form id="formSubscribe">
-                            <input id="emailInput" type="email" placeholder="Your Email" />
+                        <form id="formSubscribe" novalidate>
+                            <div class="input-wrapper">
+                                <input id="emailInput" type="email" placeholder="Your Email" />
+                                <span id="emailError"></span>
+                            </div>
                             <button id="subscribeBtn" type="submit">Subscribe</button>
-                            <span id="emailError"></span>
                         </form>
                     </div>
                 </div>

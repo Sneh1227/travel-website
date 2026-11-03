@@ -385,7 +385,8 @@
         margin-bottom: 36px;
     }
 
-    .subscription .input-section {
+    .subscription .input-section,
+    .subscription #formSubscribe {
         gap: 16px;
         max-width: 520px;
     }
@@ -394,6 +395,12 @@
         height: 56px;
         font-size: 14px;
         padding-left: 52px;
+    }
+
+    .subscription #emailError {
+        font-size: 12px;
+        margin-top: 6px;
+        padding-left: 10px;
     }
 
     .subscription .details button {

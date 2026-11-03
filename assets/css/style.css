@@ -1465,29 +1465,73 @@ a {
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100%;
+    max-width: 620px;
+    margin: 0 auto;
+}
+
+.subscription #formSubscribe {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
     gap: 24px;
     width: 100%;
     max-width: 620px;
 }
 
-.subscription .details input {
-    height: 68px;
+.subscription .input-wrapper {
     flex: 1;
     min-width: 260px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    position: relative;
+    width: 100%;
+}
+
+.subscription .details input {
+    height: 68px;
+    width: 100%;
     background: #FFFFFF url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%2339425D' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z'/><polyline points='22,6 12,13 2,6'/></svg>") no-repeat 24px center;
     border-radius: 10px;
-    border: none;
+    border: 2px solid transparent;
     outline: none;
     padding: 0 24px 0 60px;
     font-family: 'Montserrat', sans-serif;
     font-size: 15px;
     color: var(--black);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.02);
+    box-sizing: border-box;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .subscription .details input::placeholder {
     color: #39425D;
     opacity: 0.6;
+}
+
+.subscription .details input.input-invalid {
+    border-color: #e63946 !important;
+    box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.25) !important;
+}
+
+.subscription #emailError {
+    display: block;
+    color: #e63946;
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    text-align: left;
+    margin-top: 8px;
+    padding-left: 14px;
+    line-height: 1.4;
+    word-break: break-word;
+}
+
+.subscription #emailError:empty {
+    display: none;
+    margin-top: 0;
 }
 
 .subscription .details button {
@@ -1503,12 +1547,17 @@ a {
     font-weight: 600;
     cursor: pointer;
     box-shadow: 0 10px 20px rgba(255, 125, 104, 0.3);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
 }
 
-.subscription .details button:hover {
+.subscription .details button:hover:not(:disabled) {
     transform: translateY(-2px);
     box-shadow: 0 14px 25px rgba(255, 125, 104, 0.4);
+}
+
+.subscription .details button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
 }
 
 
